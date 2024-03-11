@@ -16,6 +16,9 @@
     <Filter Include="Source Files\Data">
       <UniqueIdentifier>{26ece48d-2d50-4566-9477-196cf92b594a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Assets">
+      <UniqueIdentifier>{2b52d9b7-7dc9-483a-b8b6-c53c5bf57407}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -28,6 +31,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Teacher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LinkList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,6 +56,12 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkList.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SFML.rc">
@@ -57,5 +72,10 @@
     <Text Include="User.txt">
       <Filter>Source Files\Data</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Login.png">
+      <Filter>Source Files\Assets</Filter>
+    </Image>
   </ItemGroup>
 </Project>

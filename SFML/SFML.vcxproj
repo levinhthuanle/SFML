@@ -133,22 +133,29 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Drawio.cpp" />
+    <ClCompile Include="LinkList.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Student.cpp" />
     <ClCompile Include="Teacher.cpp" />
+    <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Drawio.h" />
+    <ClInclude Include="LinkList.h" />
     <ClInclude Include="Requirement.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="Teacher.h" />
+    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SFML.rc" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="User.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Login.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

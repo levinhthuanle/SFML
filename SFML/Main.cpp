@@ -2,15 +2,16 @@
 int main()
 {
     Drawio drawio;
-    sf::RenderWindow window(sf::VideoMode(1700, 950), "SFML Tutorial", sf::Style::Close | sf::Style::Titlebar);
 
+    // Generate the main window
+    sf::RenderWindow window(sf::VideoMode(1700, 950), "SFML Tutorial", sf::Style::Close | sf::Style::Titlebar);
     std::cout << "Generate the main window success" << std::endl;
 
+    // Main loop
     while (window.isOpen()) {
         sf::Event event;
-        sf::RectangleShape header = drawio.Rectangle(100.0f, 100.0f, 50, 50, sf::Color::Red);
 
-        while (window.pollEvent(event)) 
+        while (window.pollEvent(event))
         {
             switch (event.type)
             {
@@ -27,10 +28,8 @@ int main()
             }
         }
 
-        
-        window.draw(header);
-        window.display();
-        window.clear();
+        window.clear(); // Clear the window first
+        window.display(); // Display the window
     }
 
     return 0;
