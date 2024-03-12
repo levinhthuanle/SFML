@@ -4,4 +4,7 @@
 #include <fstream>
 #include <string>
 #include "Drawio.h"
-
+#include "Activity.h"
+#include "LinkList.h"
+#include "Teacher.h"
+#include "Student.h"

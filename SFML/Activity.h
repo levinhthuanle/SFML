@@ -1,7 +1,7 @@
 #pragma once
 #include "Requirement.h"
 
-class Window {
+class Activity {
 public:
 	int x = 1700;
 	int y = 950;

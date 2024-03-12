@@ -1,9 +1,9 @@
-#include "Window.h"
+#include "Activity.h"
 
-void Window::initLoginWindow()
+void Activity::initLoginWindow()
 {    
     // Generate the main window
-    sf::RenderWindow window(sf::VideoMode(1700, 950), "SFML Tutorial", sf::Style::Close | sf::Style::Titlebar);
+    sf::RenderWindow window(sf::VideoMode(x, y), "SFML Tutorial", sf::Style::Close | sf::Style::Titlebar);
     std::cout << "Generate the main window success" << std::endl;
 
     // Main loop
@@ -28,8 +28,11 @@ void Window::initLoginWindow()
                 break;
             }
         }
-
+        
         window.clear(); // Clear the window first
+
+        Drawio::addImage(window, "Login.png", 0, 0);
+
         window.display(); // Display the window
     }
 }

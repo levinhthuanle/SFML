@@ -1,8 +1,9 @@
 #include "Requirement.h"
 int main()
 {
-    Drawio drawio;
+    Activity activity;
 
+    activity.initLoginWindow();
 
     return 0;
 }
