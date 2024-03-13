@@ -8,16 +8,18 @@ sf::RectangleShape Drawio::Rectangle(float width, float height, int posX, int po
 	return shape;
 }
 
-void Drawio::addImage(sf::RenderWindow &window, std::string url, int x, int y)
+sf::Sprite Drawio::addImage(sf::RenderWindow &window, std::string url, int x, int y)
 {
     sf::Texture texture;
 
-    if (!texture.loadFromFile("Login.png")) {
+    if (!texture.loadFromFile(url)) {
         // Handle error if the image file cannot be loaded
         std::cout << "Can not load image";
     }
 
     sf::Sprite sprite(texture);
+    sprite.setPosition(x, y);
 
     window.draw(sprite);
+    return sprite;
 }

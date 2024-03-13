@@ -8,3 +8,4 @@
 #include "LinkList.h"
 #include "Teacher.h"
 #include "Student.h"
+#include "Components.h"
