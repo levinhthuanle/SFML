@@ -117,7 +117,7 @@ public:
     TextBox(float x, float y, int charSize, sf::Color color, sf::Font& font) {
         text.setPosition(x, y);
         text.setCharacterSize(charSize);
-        text.setColor(color);
+        text.setFillColor(color);
         text.setFont(font);
     }
 
@@ -131,5 +131,115 @@ public:
 
     void draw(sf::RenderWindow& window) {
         window.draw(text);
+    }
+};
+
+//define namespace to work with files
+#define fsys std::filesystem
+
+class File {//This class has only worked with CSV files
+private: 
+    std::fstream file;
+    std::vector<std::string> rowContent; //Path of the "mother" folder
+    std::string fileName;
+    fsys::path folderPath;
+
+public:
+    File(fsys::path folderPath, std::string fileName) {
+        this->fileName = fileName;
+        this->folderPath = folderPath;
+        folderPath /= fileName;
+        std::fstream file(folderPath);
+    }
+
+    void open() {
+        this->file.open(this->folderPath / this->fileName);
+    }
+    
+    void close() {
+        this->file.close();
+    }
+
+    std::vector<std::string> readRow() {//Only store one row per call
+        this->rowContent.clear();
+        std::string row;
+        if (!(this->file >> row)) return this->rowContent;
+        std::getline(this->file, row, '\n');
+        std::stringstream sRow(row);
+        std::string element;
+        while (std::getline(sRow, element, ',')) {
+            this->rowContent.push_back(element);
+        }
+        return this->rowContent;
+    }
+
+    void write(std::string content) {
+        this->file << content << std::endl;
+    }
+
+    void update() {
+
+    }
+};
+
+class Folder {
+private:
+    fsys::path folderPath; //Path of the "mother" folder
+    std::string folderName;
+    int subFolderNum;
+    int subFileNum;
+    bool CreateDirectoryRecursive(fsys::path const& folderDir, std::error_code& err)
+    {
+        err.clear();
+        if (!std::filesystem::create_directories(folderDir, err))
+        {
+            if (std::filesystem::exists(folderDir))
+            {
+                // The folder already exists:
+                err.clear();
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
+
+public:
+    Folder(std::string folderName) {
+        this->folderPath = "D:/UNI/US/CS162/COURSE MANAGEMENT SYSTEM/SFML/Data";
+        this->folderName = folderName;
+        std::error_code err;
+        if (!CreateDirectoryRecursive(this->folderPath / folderName, err))
+        {
+            // Report the error:
+            std::cout << "CreateDirectoryRecursive FAILED, err: " << err.message() << std::endl;
+        }
+        this->subFolderNum = 0;
+        this->subFileNum = 0;
+    }
+
+    Folder(fsys::path folderPath, std::string folderName) {
+        this->folderPath = folderPath;
+        this->folderName = folderName;
+        std::error_code err;
+        if (!CreateDirectoryRecursive(this->folderPath / folderName, err))
+        {
+            // Report the error:
+            std::cout << "CreateDirectoryRecursive FAILED, err: " << err.message() << std::endl;
+        }
+        this->subFolderNum = 0;
+        this->subFileNum = 0;
+    }
+
+    Folder createSubFolder(std::string folderName) {
+        Folder folder(this->folderPath / this -> folderName, folderName);
+        this->subFolderNum++;
+        return folder;
+    }
+
+    File createSubFile(std::string fileName) {
+        File file(this->folderPath / this->folderName, fileName); //remember to use file.close() after
+        this->subFileNum++;
+        return file;
     }
 };

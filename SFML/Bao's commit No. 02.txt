@@ -1,3 +1,7 @@
 Components.h: 
 	L112: Add Textbox component.
-	
+	L137: Add File and Folder component. (Not completed yet)
+
+Project Property:
+	Change additional include and library to relative path
+	Change language to C++17 for <filesystem>
