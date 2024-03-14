@@ -8,4 +8,8 @@ public:
 
 	// Implement the function to display the different windows
 	void initLoginWindow();
+
+	void initHomePageStudentWindow();
+
+	void initInformationWindow();
 };

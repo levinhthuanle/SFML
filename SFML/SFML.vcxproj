@@ -134,21 +134,25 @@
   <ItemGroup>
     <ClCompile Include="Components.cpp" />
     <ClCompile Include="Drawio.cpp" />
+    <ClCompile Include="ExtraFunction.cpp" />
     <ClCompile Include="LinkList.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Student.cpp" />
     <ClCompile Include="Teacher.cpp" />
     <ClCompile Include="Activity.cpp" />
+    <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Components.h" />
     <ClInclude Include="Drawio.h" />
+    <ClInclude Include="ExtraFunction.h" />
     <ClInclude Include="LinkList.h" />
     <ClInclude Include="Requirement.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="Teacher.h" />
     <ClInclude Include="Activity.h" />
+    <ClInclude Include="User.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SFML.rc" />
@@ -157,6 +161,7 @@
     <Text Include="User.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Assets\HomePageStudent.png" />
     <Image Include="Assets\Login.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

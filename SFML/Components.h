@@ -103,3 +103,45 @@ public:
         return shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
     }
 };
+
+class Text {
+private:
+    sf::Text text;
+    sf::Font font;
+
+public:
+    Text(){}
+
+    Text(float x, float y, const std::string& content, sf::Font& font, const sf::Color& color, unsigned int size) {
+        text.setFont(font);
+        text.setCharacterSize(size);
+        text.setFillColor(color);
+        text.setString(content);
+        text.setPosition(x, y);
+    }
+
+    // Set text string
+    void setString(const std::string& str) {
+        text.setString(str);
+    }
+
+    // Set text position
+    void setPosition(float x, float y) {
+        text.setPosition(x, y);
+    }
+
+    // Set text color
+    void setColor(const sf::Color& color) {
+        text.setFillColor(color);
+    }
+
+    // Set text size
+    void setSize(unsigned int size) {
+        text.setCharacterSize(size);
+    }
+
+    // Draw text on SFML window
+    void draw(sf::RenderWindow& window) {
+        window.draw(text);
+    }
+};
