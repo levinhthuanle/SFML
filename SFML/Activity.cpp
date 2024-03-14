@@ -35,7 +35,6 @@ void Activity::initLoginWindow()
                     std::cout << "Password: " << password.getInput() << std::endl;
                 }
             }
-             
             username.processInput(event);
             password.processInput(event);
         }

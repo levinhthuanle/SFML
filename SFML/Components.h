@@ -44,12 +44,17 @@ public:
                     if (!input.empty())
                         input.pop_back();
                 }
+                else if (event.text.unicode == '\r') { //Bao's commit No. 01 // Set unselected for ENTER input
+                    selected = false;
+                }
                 else if (event.text.unicode < 128) {
                     input += static_cast<char>(event.text.unicode);
                 }
-                text.setString(input);
             }
         }
+        if (!selected) text.setString(input); //Bao's commit No. 01 // Remove "_" at the end of unselected inputfield
+        else text.setString(input + "_"); //Bao's commit No. 01 // Set "_" at the end of selected inputfield
+        setSelected(selected);
     }
 
     std::string getInput() const {
