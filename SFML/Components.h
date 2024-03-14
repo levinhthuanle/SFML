@@ -108,3 +108,28 @@ public:
         return shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
     }
 };
+
+class TextBox {
+private:
+    sf::Text text;
+
+public:
+    TextBox(float x, float y, int charSize, sf::Color color, sf::Font& font) {
+        text.setPosition(x, y);
+        text.setCharacterSize(charSize);
+        text.setColor(color);
+        text.setFont(font);
+    }
+
+    void setString(std::string content) {
+        text.setString(content);
+    }
+
+    std::string getString() {
+        return text.getString();
+    }
+
+    void draw(sf::RenderWindow& window) {
+        window.draw(text);
+    }
+};

@@ -1,4 +1,0 @@
-Components.h: 
-	L47-49: Set unselected when pressing ENTER
-	L55: Add "_" to the end of selected inputfield
-	L56: Remove "_" at the end of unselected inputfield

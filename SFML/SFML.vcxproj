@@ -155,7 +155,7 @@
     <ResourceCompile Include="SFML.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Bao%27s commit No. 01.txt" />
+    <Text Include="Bao%27s commit No. 02.txt" />
     <Text Include="User.txt" />
   </ItemGroup>
   <ItemGroup>
