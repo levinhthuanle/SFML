@@ -109,6 +109,7 @@ public:
     }
 };
 
+
 class TextBox {
 private:
     sf::Text text;
@@ -241,5 +242,6 @@ public:
         File file(this->folderPath / this->folderName, fileName); //remember to use file.close() after
         this->subFileNum++;
         return file;
+
     }
 };

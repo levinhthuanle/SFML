@@ -1,16 +1,18 @@
 #include "Requirement.h"
 int main()
 {
-    //Activity activity;
 
-    //activity.initLoginWindow();
-
-    Folder folder("Test");
-    Folder sub = folder.createSubFolder("SubTest");
-    File file = sub.createSubFile("test.txt");
-    file.open();
-    file.write("123");
-    file.close();
-
+    sf::RenderWindow window(sf::VideoMode(1700, 950), "Course management system", sf::Style::Close | sf::Style::Titlebar);
+    Activity activity;
+    while (window.isOpen())
+    {
+        switch (activity.type)
+        {
+        case 0:activity.initLoginWindow(window);
+            break;
+        case 1:activity.initHomePageStudentWindow(window);
+            break;
+        }
+    }
     return 0;
 }

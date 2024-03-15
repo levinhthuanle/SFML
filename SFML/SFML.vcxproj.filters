@@ -42,13 +42,16 @@
     <ClCompile Include="Components.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtraFunction.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Drawio.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Requirement.h">
-      <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="Student.h">
       <Filter>Header Files</Filter>
@@ -68,6 +71,15 @@
     <ClInclude Include="Components.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ExtraFunction.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Requirement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SFML.rc">
@@ -82,6 +94,9 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Login.png">
+      <Filter>Source Files\Assets</Filter>
+    </Image>
+    <Image Include="Assets\HomePageStudent.png">
       <Filter>Source Files\Assets</Filter>
     </Image>
   </ItemGroup>
