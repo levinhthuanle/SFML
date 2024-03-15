@@ -34,12 +34,15 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
                 username.handleMouseClick(mousePos);
                 password.handleMouseClick(mousePos);
                 if (loginBtn.isClicked(mousePos)) {
+                    //login and setup type
                     std::cout << "Username: " << username.getInput() << std::endl;
                     std::cout << "Password: " << password.getInput() << std::endl;
-                    type++;
+                    
                     user.setUsername(username.getInput());
                     user.setPassword(username.getInput());
+                    
                     user.setType("Student");
+                    type++;
                     return; 
                 }
             }
