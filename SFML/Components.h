@@ -163,6 +163,8 @@ private:
     fsys::path folderPath;
 
 public:
+    File() {}
+
     File(fsys::path folderPath, std::string fileName) {
         this->fileName = fileName;
         this->folderPath = folderPath;
@@ -198,20 +200,23 @@ public:
     void update() {
 
     }
+
+    ~File() {
+        if (file.is_open())
+            this->file.close();
+    }
 };
 
 class Folder {
 private:
-    fsys::path folderPath; //Path of the "mother" folder
+    fsys::path folderPath; //Path of this folder
     std::string folderName;
-    int subFolderNum;
-    int subFileNum;
     bool CreateDirectoryRecursive(fsys::path const& folderDir, std::error_code& err)
     {
         err.clear();
-        if (!std::filesystem::create_directories(folderDir, err))
+        if (!fsys::create_directories(folderDir, err))
         {
-            if (std::filesystem::exists(folderDir))
+            if (fsys::exists(folderDir))
             {
                 // The folder already exists:
                 err.clear();
@@ -227,38 +232,37 @@ public:
         this->folderPath = "Data";
         this->folderName = folderName;
         std::error_code err;
-        if (!CreateDirectoryRecursive(this->folderPath / folderName, err))
+        if (!CreateDirectoryRecursive(this->folderPath, err))
         {
             // Report the error:
             std::cout << "CreateDirectoryRecursive FAILED, err: " << err.message() << std::endl;
         }
-        this->subFolderNum = 0;
-        this->subFileNum = 0;
     }
 
     Folder(fsys::path folderPath, std::string folderName) {
         this->folderPath = folderPath;
         this->folderName = folderName;
         std::error_code err;
-        if (!CreateDirectoryRecursive(this->folderPath / folderName, err))
+        if (!CreateDirectoryRecursive(this->folderPath, err))
         {
             // Report the error:
             std::cout << "CreateDirectoryRecursive FAILED, err: " << err.message() << std::endl;
         }
-        this->subFolderNum = 0;
-        this->subFileNum = 0;
     }
 
-    Folder createSubFolder(std::string folderName) {
-        Folder folder(this->folderPath / this -> folderName, folderName);
-        this->subFolderNum++;
-        return folder;
+    void createSubFolder(std::string folderName) {
+        Folder folder(this->folderPath, folderName);
     }
 
-    File createSubFile(std::string fileName) {
-        File file(this->folderPath / this->folderName, fileName); //remember to use file.close() after
-        this->subFileNum++;
-        return file;
+    void createSubFile(std::string fileName) {
+        File file(this->folderPath, fileName); //remember to use file.close() after
+    }
 
+    void ToSubFolder(std::string folderName) {
+        if (!fsys::exists(this->folderPath)) std::cerr << "No such directory " << this->folderPath << std::endl;
+        else {
+            this->folderPath /= this->folderName;
+            this->folderName = folderName;
+        }
     }
 };
