@@ -110,33 +110,50 @@ public:
 };
 
 
-class TextBox {
+class Text {
 private:
     sf::Text text;
+    sf::Font font;
 
 public:
-    TextBox(float x, float y, int charSize, sf::Color color, sf::Font& font) {
-        text.setPosition(x, y);
-        text.setCharacterSize(charSize);
-        text.setFillColor(color);
+    Text() {}
+
+    Text(float x, float y, const std::string& content, sf::Font& font, const sf::Color& color, unsigned int size) {
         text.setFont(font);
-    }
-
-    void setString(std::string content) {
+        text.setCharacterSize(size);
+        text.setFillColor(color);
         text.setString(content);
+        text.setPosition(x, y);
     }
 
-    std::string getString() {
-        return text.getString();
+    // Set text string
+    void setString(const std::string& str) {
+        text.setString(str);
     }
 
+    // Set text position
+    void setPosition(float x, float y) {
+        text.setPosition(x, y);
+    }
+
+    // Set text color
+    void setColor(const sf::Color& color) {
+        text.setFillColor(color);
+    }
+
+    // Set text size
+    void setSize(unsigned int size) {
+        text.setCharacterSize(size);
+    }
+
+    // Draw text on SFML window
     void draw(sf::RenderWindow& window) {
         window.draw(text);
     }
 };
 
 //define namespace to work with files
-#define fsys std::filesystem
+namespace fsys = std::filesystem;
 
 class File {//This class has only worked with CSV files
 private: 
@@ -207,7 +224,7 @@ private:
 
 public:
     Folder(std::string folderName) {
-        this->folderPath = "D:/UNI/US/CS162/COURSE MANAGEMENT SYSTEM/SFML/Data";
+        this->folderPath = "Data";
         this->folderName = folderName;
         std::error_code err;
         if (!CreateDirectoryRecursive(this->folderPath / folderName, err))
