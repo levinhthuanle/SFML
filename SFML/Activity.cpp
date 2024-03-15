@@ -46,7 +46,6 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
                     return; 
                 }
             }
-             
             username.processInput(event);
             password.processInput(event);
         }

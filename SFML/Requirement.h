@@ -5,6 +5,8 @@
 #include <stdexcept>
 #include <fstream>
 #include <string>
+#include <sstream>
+#include <filesystem>
 #include "Drawio.h"
 #include "Activity.h"
 #include "LinkList.h"

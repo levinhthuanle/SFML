@@ -44,12 +44,17 @@ public:
                     if (!input.empty())
                         input.pop_back();
                 }
+                else if (event.text.unicode == '\r') { //Bao's commit No. 01 // Set unselected for ENTER input
+                    selected = false;
+                }
                 else if (event.text.unicode < 128) {
                     input += static_cast<char>(event.text.unicode);
                 }
-                text.setString(input);
             }
         }
+        if (!selected) text.setString(input); //Bao's commit No. 01 // Remove "_" at the end of unselected inputfield
+        else text.setString(input + "_"); //Bao's commit No. 01 // Set "_" at the end of selected inputfield
+        setSelected(selected);
     }
 
     std::string getInput() const {
@@ -104,44 +109,139 @@ public:
     }
 };
 
-class Text {
+
+class TextBox {
 private:
     sf::Text text;
-    sf::Font font;
 
 public:
-    Text(){}
-
-    Text(float x, float y, const std::string& content, sf::Font& font, const sf::Color& color, unsigned int size) {
+    TextBox(float x, float y, int charSize, sf::Color color, sf::Font& font) {
+        text.setPosition(x, y);
+        text.setCharacterSize(charSize);
+        text.setFillColor(color);
         text.setFont(font);
-        text.setCharacterSize(size);
-        text.setFillColor(color);
+    }
+
+    void setString(std::string content) {
         text.setString(content);
-        text.setPosition(x, y);
     }
 
-    // Set text string
-    void setString(const std::string& str) {
-        text.setString(str);
+    std::string getString() {
+        return text.getString();
     }
 
-    // Set text position
-    void setPosition(float x, float y) {
-        text.setPosition(x, y);
-    }
-
-    // Set text color
-    void setColor(const sf::Color& color) {
-        text.setFillColor(color);
-    }
-
-    // Set text size
-    void setSize(unsigned int size) {
-        text.setCharacterSize(size);
-    }
-
-    // Draw text on SFML window
     void draw(sf::RenderWindow& window) {
         window.draw(text);
+    }
+};
+
+//define namespace to work with files
+#define fsys std::filesystem
+
+class File {//This class has only worked with CSV files
+private: 
+    std::fstream file;
+    std::vector<std::string> rowContent; //Path of the "mother" folder
+    std::string fileName;
+    fsys::path folderPath;
+
+public:
+    File(fsys::path folderPath, std::string fileName) {
+        this->fileName = fileName;
+        this->folderPath = folderPath;
+        folderPath /= fileName;
+        std::fstream file(folderPath);
+    }
+
+    void open() {
+        this->file.open(this->folderPath / this->fileName);
+    }
+    
+    void close() {
+        this->file.close();
+    }
+
+    std::vector<std::string> readRow() {//Only store one row per call
+        this->rowContent.clear();
+        std::string row;
+        if (!(this->file >> row)) return this->rowContent;
+        std::getline(this->file, row, '\n');
+        std::stringstream sRow(row);
+        std::string element;
+        while (std::getline(sRow, element, ',')) {
+            this->rowContent.push_back(element);
+        }
+        return this->rowContent;
+    }
+
+    void write(std::string content) {
+        this->file << content << std::endl;
+    }
+
+    void update() {
+
+    }
+};
+
+class Folder {
+private:
+    fsys::path folderPath; //Path of the "mother" folder
+    std::string folderName;
+    int subFolderNum;
+    int subFileNum;
+    bool CreateDirectoryRecursive(fsys::path const& folderDir, std::error_code& err)
+    {
+        err.clear();
+        if (!std::filesystem::create_directories(folderDir, err))
+        {
+            if (std::filesystem::exists(folderDir))
+            {
+                // The folder already exists:
+                err.clear();
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
+
+public:
+    Folder(std::string folderName) {
+        this->folderPath = "D:/UNI/US/CS162/COURSE MANAGEMENT SYSTEM/SFML/Data";
+        this->folderName = folderName;
+        std::error_code err;
+        if (!CreateDirectoryRecursive(this->folderPath / folderName, err))
+        {
+            // Report the error:
+            std::cout << "CreateDirectoryRecursive FAILED, err: " << err.message() << std::endl;
+        }
+        this->subFolderNum = 0;
+        this->subFileNum = 0;
+    }
+
+    Folder(fsys::path folderPath, std::string folderName) {
+        this->folderPath = folderPath;
+        this->folderName = folderName;
+        std::error_code err;
+        if (!CreateDirectoryRecursive(this->folderPath / folderName, err))
+        {
+            // Report the error:
+            std::cout << "CreateDirectoryRecursive FAILED, err: " << err.message() << std::endl;
+        }
+        this->subFolderNum = 0;
+        this->subFileNum = 0;
+    }
+
+    Folder createSubFolder(std::string folderName) {
+        Folder folder(this->folderPath / this -> folderName, folderName);
+        this->subFolderNum++;
+        return folder;
+    }
+
+    File createSubFile(std::string fileName) {
+        File file(this->folderPath / this->folderName, fileName); //remember to use file.close() after
+        this->subFileNum++;
+        return file;
+
     }
 };
