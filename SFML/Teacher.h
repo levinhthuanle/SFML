@@ -1,7 +1,5 @@
 #pragma once
-#include <string>
-#include <filesystem>
-namespace fsys = std::filesystem; 
+#include "Requirement.h"
 class Teacher
 {
 
