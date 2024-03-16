@@ -1,35 +1,55 @@
 #pragma once
-
+// Creating a stack for dynamic memory.
+// Temporarily puting all information in public "mode" for easy code and access.
+// Must improve the code for least accessing.
 template <class T>   
-class List{
-	class Node
+class Stack{
+public:
+	class ListNode
 	{
 		T val;
-		Node* next;
-	public:
-		Node(T data = T(), Node* node = nullptr)
+	public:	
+		ListNode* next;
+		ListNode(T data = T(), ListNode* node = nullptr)
 		{
 			val = data;
 			next = node;
 		}
 	};
-	Node* head;
-public:
-	List()
+	ListNode* head;
+	Stack()
 	{
 		head = nullptr;
 	}
-	~List()
+	void push(T val)
+	{
+		ListNode* temp = new ListNode(val, head);
+		head = temp; 
+		return;	
+	}
+	T front ()
+	{
+		return head->val; 
+	}
+	void pop()
+	{
+		if (!head) return;
+		else ListNode* temp = head; 
+		head = head->next; 
+		delete temp; 
+		return; 
+	}
+	~Stack()
 	{
 		while (head)
 		{
-			Node* temp = head;
+			ListNode* temp = head;
 			head = head->next;
 			delete temp;
 		}
 	}
 };
-//TODO:create function for linked list
+
 
 // Implement the input linklist from file, input by hand, output into file, output to the window
 // the delete linklist function, and other function if needed.
