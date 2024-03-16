@@ -96,7 +96,6 @@
     <Text Include="User.txt">
       <Filter>Source Files\Data</Filter>
     </Text>
-    <Text Include="Bao%27s commit No. 02.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Login.png">
