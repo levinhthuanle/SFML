@@ -1,54 +1,30 @@
 #pragma once
 #include "Requirement.h"
-namespace fsys = std::filesystem;
-class File {//This class has only worked with CSV files
+//Object: input a path to .csv file, create that file if not exist, inputing into that file, or return a stack of information in that file.  
+class csv_file {
 private:
-    std::fstream file;
-    std::vector<std::string> rowContent; //Path of the "mother" folder
-    std::string fileName;
-    fsys::path folderPath;
-
+    fsys::path filePath;
 public:
-    File() {}
-
-    File(fsys::path folderPath, std::string fileName) {
-        this->fileName = fileName;
-        this->folderPath = folderPath;
-        folderPath /= fileName;
-        std::fstream file(folderPath);
+    csv_file(fsys::path input) 
+    {
+        filePath = input; 
     }
-
-    void open() {
-        this->file.open(this->folderPath / this->fileName);
+    void create()   //create a csv if not exist.
+    {
+        if (fsys::exists(filePath)) return; 
+        std::ofstream fout; 
+        fout.open(filePath); 
+        fout.close(); 
+        return; 
     }
-
-    void close() {
-        this->file.close();
+    void write()    //write content on that file.
+    {
+        
     }
-
-    std::vector<std::string> readRow() {//Only store one row per call
-        this->rowContent.clear();
-        std::string row;
-        if (!(this->file >> row)) return this->rowContent;
-        std::getline(this->file, row, '\n');
-        std::stringstream sRow(row);
-        std::string element;
-        while (std::getline(sRow, element, ',')) {
-            this->rowContent.push_back(element);
-        }
-        return this->rowContent;
-    }
-
-    void write(std::string content) {
-        this->file << content << std::endl;
-    }
-
-    void update() {
+    Stack<> out()   //get output as a stack from the file. 
+    {
 
     }
-
-    ~File() {
-        if (file.is_open())
-            this->file.close();
-    }
+   
 };
+//TODO: chinh class file cho muc tieu tot hon. 

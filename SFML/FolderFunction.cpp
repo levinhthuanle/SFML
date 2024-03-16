@@ -10,3 +10,4 @@ void create_multiple_directories(fsys::path path, Stack <std::string> list_name)
 		curr = curr -> next; 
 	}
 }
+//TODO: create student folder with file. 
