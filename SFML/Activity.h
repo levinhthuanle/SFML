@@ -3,13 +3,10 @@
 
 class Activity {
 public:
-	int x = 1700;
-	int y = 950;
+	int type = 0; 
+	void initLoginWindow(sf::RenderWindow &window);
 
-	// Implement the function to display the different windows
-	void initLoginWindow();
+	void initHomePageStudentWindow(sf::RenderWindow& window);
 
-	void initHomePageStudentWindow();
-
-	void initInformationWindow();
+	void initInformationWindow(sf::RenderWindow& window);
 };

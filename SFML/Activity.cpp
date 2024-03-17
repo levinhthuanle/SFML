@@ -2,10 +2,10 @@
 // Global variables
 User user;
 
-void Activity::initLoginWindow()
+void Activity::initLoginWindow(sf::RenderWindow &window)
 {    
     // Generate the main window
-    sf::RenderWindow window(sf::VideoMode(x, y), "Course management system", sf::Style::Close | sf::Style::Titlebar);
+    
     sf::Texture texture;
     sf::Font font;
 
@@ -34,17 +34,18 @@ void Activity::initLoginWindow()
                 username.handleMouseClick(mousePos);
                 password.handleMouseClick(mousePos);
                 if (loginBtn.isClicked(mousePos)) {
+                    //login and setup type
                     std::cout << "Username: " << username.getInput() << std::endl;
                     std::cout << "Password: " << password.getInput() << std::endl;
-
+                    
                     user.setUsername(username.getInput());
                     user.setPassword(username.getInput());
+                    
                     user.setType("Student");
-                    window.close();
-                    initHomePageStudentWindow();
+                    type++;
+                    return; 
                 }
             }
-             
             username.processInput(event);
             password.processInput(event);
         }
@@ -63,9 +64,9 @@ void Activity::initLoginWindow()
     }
 }
 
-void Activity::initHomePageStudentWindow()
+void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
 {
-    sf::RenderWindow window(sf::VideoMode(x, y), "Course management system", sf::Style::Close | sf::Style::Titlebar);
+    
     sf::Texture texture;
     sf::Font font;
 
@@ -99,7 +100,7 @@ void Activity::initHomePageStudentWindow()
 
 }
 
-void Activity::initInformationWindow()
+void Activity::initInformationWindow(sf::RenderWindow& window)
 {
     //sf::RenderWindow window(sf::VideoMode(x, y), "Course management system", sf::Style::Close | sf::Style::Titlebar);
 
