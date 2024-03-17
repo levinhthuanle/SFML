@@ -8,11 +8,18 @@ int main()
     {
         switch (activity.type)
         {
-        case 0:activity.initLoginWindow(window);
+        case 0:
+            activity.initLoginWindow(window);
             break;
-        case 1:activity.initHomePageStudentWindow(window);
+
+        case 1:
+            activity.initHomePageStudentWindow(window);
+            break;
+
+        default:
             break;
         }
+
     }
 
 

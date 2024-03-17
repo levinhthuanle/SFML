@@ -18,30 +18,33 @@ public:
 		}
 	};
 	ListNode* head;
-	Stack()
-	{
+
+	Stack(){
 		head = nullptr;
 	}
-	void push(T val)
-	{
+
+	void push(T val){
 		ListNode* temp = new ListNode(val, head);
 		head = temp; 
 		return;	
 	}
-	T front ()
-	{
+
+	T front (){
 		return head->val; 
 	}
-	void pop()
-	{
-		if (!head) return;
-		else ListNode* temp = head; 
+
+	void pop(){
+		ListNode* temp = nullptr;
+		if (!head) 
+			return;
+		else 
+			ListNode* temp = head; 
 		head = head->next; 
 		delete temp; 
 		return; 
 	}
-	~Stack()
-	{
+
+	~Stack(){
 		while (head)
 		{
 			ListNode* temp = head;

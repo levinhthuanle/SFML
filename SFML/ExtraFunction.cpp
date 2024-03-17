@@ -16,7 +16,8 @@ std::string EF::getDateTime()
 
     return ss.str();
 }
-int check_login_type(std::string acc, std::string pass) // return 0 if wrong acc/pass, return 1 if student, return 2 if teacher
+
+int checkLoginType(std::string acc, std::string pass) // return 0 if wrong acc/pass, return 1 if student, return 2 if teacher
 {
 	if (acc.size() != 8) return 0;
 	//creating path

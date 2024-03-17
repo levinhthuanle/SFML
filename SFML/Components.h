@@ -109,7 +109,6 @@ public:
     }
 };
 
-
 class Text {
 private:
     sf::Text text;
@@ -152,8 +151,7 @@ public:
     }
 };
 
-//define namespace to work with files
-namespace fsys = std::filesystem;
+
 
 
 

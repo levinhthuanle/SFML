@@ -42,7 +42,9 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
                     user.setPassword(username.getInput());
                     
                     user.setType("Student");
-                    type++;
+                    type = 1;
+                    
+                    std::cout << checkLoginType(user.getUsername(), user.getPassword()) << std::endl;
                     return; 
                 }
             }

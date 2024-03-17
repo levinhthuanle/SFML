@@ -1,5 +1,9 @@
 #pragma once
 #include "Requirement.h"
+
+//define namespace to work with files
+namespace fsys = std::filesystem;
+
 class Teacher
 {
 
