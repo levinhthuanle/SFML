@@ -23,6 +23,15 @@ int main()
         case 3:
             activity.changePasswordStudentWindow(window);
             break;
+
+        case 4:
+            activity.viewCourseStudentWindow(window);
+            break;
+
+        case 5:
+            activity.viewScoreStudentWindow(window);
+            break;
+
         default:
             break;
         }

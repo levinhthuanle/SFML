@@ -18,7 +18,7 @@ public:
         //shape.setOutlineColor(sf::Color::Black);
 
         text.setFont(font);
-        text.setCharacterSize(20);
+        text.setCharacterSize(height * 0.7);
         text.setFillColor(sf::Color::Black);
         text.setPosition(x + 5.f, y + 5.f);
 
@@ -201,5 +201,4 @@ public:
     }
 };
 
-
-//InformationStudent.png
+//YourCourseStudent.png
