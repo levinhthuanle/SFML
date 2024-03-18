@@ -11,6 +11,7 @@
 #include <ctime>
 #include <iomanip>
 #include <sstream>
+#include <stdexcept>
 #include "Drawio.h"
 #include "Activity.h"
 #include "LinkList.h"

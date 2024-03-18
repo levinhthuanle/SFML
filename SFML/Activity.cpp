@@ -2,6 +2,7 @@
 // Global variables
 User user;
 
+// Finished
 void Activity::initLoginWindow(sf::RenderWindow &window)
 {    
     // Generate the main window
@@ -42,9 +43,10 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
                     user.setPassword(username.getInput());
                     
                     user.setType("Student");
-                    type = 1;
+
                     
                     std::cout << checkLoginType(user.getUsername(), user.getPassword()) << std::endl;
+                    type = 1; // initHomePageStudentWindow
                     return; 
                 }
             }
@@ -66,6 +68,7 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
     }
 }
 
+// Not yet finished
 void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
 {
     
@@ -74,7 +77,9 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
 
     Text name(1505, 10, user.getUsername(), font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
-   
+    Button yourCourse(130, 162, 521, 90, "Your course", font, sf::Color(218, 110, 50));
+    Button viewScore(130, 307, 521, 93, "View your score", font, sf::Color(218, 110, 50));
+    Circle userIcon(1403, 35, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
 
     if (!texture.loadFromFile("Assets/HomePageStudent.png"))
         std::cout << "Could not load the backrground image" << std::endl;
@@ -90,6 +95,16 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();  // Close 
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+                if (userIcon.isClicked(mousePos)) {
+                    std::cout << "User has clicked the information icon" << std::endl;
+                    type = 2; // initInformationWindow
+                    return;
+                }
+                
+            }
         }
 
         window.clear(sf::Color::White);
@@ -97,23 +112,126 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
 
         name.draw(window);
         datetime.draw(window);
+        yourCourse.draw(window);
+        viewScore.draw(window);
+        userIcon.draw(window);
+
         window.display();
     }
 
 }
 
-void Activity::initInformationWindow(sf::RenderWindow& window)
+// Not yet finished
+void Activity::initInformationStudentWindow(sf::RenderWindow& window)
 {
-    //sf::RenderWindow window(sf::VideoMode(x, y), "Course management system", sf::Style::Close | sf::Style::Titlebar);
+    sf::Texture texture;
+    sf::Font font;
 
-    //while (window.isOpen()) {
-    //    sf::Event event;
-    //    while (window.pollEvent(event)) {
-    //        if (event.type == sf::Event::Closed)
-    //            window.close();  // Close 
-    //    }
+    Text name(1505, 10, user.getUsername(), font, sf::Color(255, 255, 255), 20);
+    Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
+    Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
+    Button goBack(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
+    Button changePassword(833, 794, 372, 66, "Change password", font, sf::Color(218, 110, 50));
 
-    //    window.clear(sf::Color::White);
-    //    window.display();
-    //}
+    Text  fullName(672, 163, "Full name: " + user.fullname, font, sf::Color::Black, 36);
+    Text  id(672, 213, "Id: " + user.id, font, sf::Color::Black, 36);
+    Text  course(672, 258, "Course: " + user.courseName, font, sf::Color::Black, 36);
+    Text  classes(672, 300, "Class: " + user.courseName, font, sf::Color::Black, 36);
+
+
+    if (!texture.loadFromFile("Assets/InformationStudent.png"))
+        std::cout << "Could not load the backrground image" << std::endl;
+    if (!font.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    std::cout << "Generate Student Information sucess" << std::endl;
+    sf::Sprite background(texture);
+
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();  // Close 
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+                if (goBack.isClicked(mousePos)) {
+                    std::cout << "User has clicked the go back button" << std::endl;
+                    type = 1; // go back to initHomePageStudentWindow
+                    return;
+                }
+
+                if (changePassword.isClicked(mousePos)) {
+                    std::cout << "User has clicked the change password button" << std::endl;
+                    type = 3; // changePasswordStudent
+                    return;
+                }
+            }
+        }
+
+        window.clear(sf::Color::White);
+        window.draw(background);
+
+        name.draw(window);
+        datetime.draw(window);
+        userIcon.draw(window);
+        fullName.draw(window);
+        id.draw(window);
+        course.draw(window);
+        classes.draw(window);
+        goBack.draw(window);
+        changePassword.draw(window);
+
+        window.display();
+    }
+}
+
+// Not yet finished
+void Activity::changePasswordStudentWindow(sf::RenderWindow& window)
+{
+    sf::Texture texture;
+    sf::Font font;
+
+    Text name(1505, 10, user.fullname, font, sf::Color(255, 255, 255), 20);
+    Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
+    Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
+    Button goBack(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
+
+    if (!texture.loadFromFile("Assets/changePasswordStudent.png"))
+        std::cout << "Could not load the backrground image" << std::endl;
+    if (!font.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    std::cout << "Generate change password student sucess" << std::endl;
+    sf::Sprite background(texture);
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();  // Close 
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+                if (goBack.isClicked(mousePos)) {
+                    std::cout << "User has clicked the go back button" << std::endl;
+                    type = 1; // go back to initHomePageStudentWindow
+                    return;
+                }
+
+            }
+        }
+
+        window.clear(sf::Color::White);
+        window.draw(background);
+
+        name.draw(window);
+        datetime.draw(window);
+        userIcon.draw(window);
+        goBack.draw(window);
+
+
+        window.display();
+    }
 }

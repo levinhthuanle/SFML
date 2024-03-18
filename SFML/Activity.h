@@ -9,5 +9,7 @@ public:
 
 	void initHomePageStudentWindow(sf::RenderWindow& window);
 
-	void initInformationWindow(sf::RenderWindow& window);
+	void initInformationStudentWindow(sf::RenderWindow& window);
+
+	void changePasswordStudentWindow(sf::RenderWindow& window);
 };

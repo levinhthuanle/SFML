@@ -2,7 +2,8 @@
 #include "Requirement.h"
 class User
 {
-private:
+//private:
+public:
 	std::string username;
 	std::string password;
 	std::string type; // Student and Staff
@@ -11,7 +12,7 @@ private:
 	std::string id;
 	std::string courseName;
 	std::string className;
-public:
+
 	User(){}
 
 	User(std::string username, std::string password, std::string url) {

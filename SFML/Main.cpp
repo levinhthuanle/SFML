@@ -16,6 +16,13 @@ int main()
             activity.initHomePageStudentWindow(window);
             break;
 
+        case 2:
+            activity.initInformationStudentWindow(window);
+            break;
+
+        case 3:
+            activity.changePasswordStudentWindow(window);
+            break;
         default:
             break;
         }
