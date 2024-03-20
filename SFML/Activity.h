@@ -12,6 +12,7 @@ public:
 			std::cout << "Could not load the font" << std::endl;
 	}
 
+	// Student
 	void initLoginWindow(sf::RenderWindow &window);
 
 	void initHomePageStudentWindow(sf::RenderWindow& window);
@@ -23,4 +24,6 @@ public:
 	void viewCourseStudentWindow(sf::RenderWindow& window);
 
 	void viewScoreStudentWindow(sf::RenderWindow& window);
+
+	void initHomePageStaffWindow(sf::RenderWindow& window);
 };

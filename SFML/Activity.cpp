@@ -16,8 +16,6 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
     std::cout << "Generate the main window success" << std::endl;
 
 
-
-    // Main loop
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -100,6 +98,11 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
                     return;
                 }
 
+                if (viewScore.isClicked(mousePos)) {
+                    std::cout << "User has clicked the view score button" << std::endl;
+                    type = 5; // viewScoreStudentWindow
+                    return;
+                }
             }
         }
 
@@ -288,6 +291,54 @@ void Activity::viewCourseStudentWindow(sf::RenderWindow& window)
     }
 }
 
+// Not yet finished
 void Activity::viewScoreStudentWindow(sf::RenderWindow& window)
+{
+    Text name(1505, 10, user.getUsername(), font, sf::Color(255, 255, 255), 20);
+    Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
+    Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
+    Button goBack(687, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
+
+    if (!texture.loadFromFile("Assets/ViewScoreStudent.png"))
+        std::cout << "Could not load the ViewScoreStudent image" << std::endl;
+    std::cout << "Generate Your course student sucess" << std::endl;
+    sf::Sprite background(texture);
+
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();  // Close 
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+                if (userIcon.isClicked(mousePos)) {
+                    std::cout << "User has clicked the information icon" << std::endl;
+                    type = 2; // initInformationWindow
+                    return;
+                }
+
+                if (goBack.isClicked(mousePos)) {
+                    std::cout << "User has clicked the go back button" << std::endl;
+                    type = 1; // go back to initHomePageStudentWindow
+                    return;
+                }
+            }
+
+        }
+
+        window.clear(sf::Color::White);
+        window.draw(background);
+
+        name.draw(window);
+        datetime.draw(window);
+        userIcon.draw(window);
+        goBack.draw(window);
+        window.display();
+    }
+}
+
+void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 {
 }
