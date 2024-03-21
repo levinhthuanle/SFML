@@ -6,14 +6,15 @@ namespace fsys = std::filesystem;
 void createMultipleDirectories(fsys::path path, Stack <std::string> list_name);
 //Create multiple directories based on the linked list which a teacher input for classes in school year // student in a class.
 
-std::stringstream readFile(fsys::path filepath);
+//std::stringstream readFile(fsys::path filepath);
+Stack <std::stringstream> readFile(fsys::path filepath);
 
 
 //Multiple definition of createMultipleDirectory and readFile to fix "identifier not found" (C3861). Don't know why
 class Teacher
 {
 private:
-	void createInfoStudent()
+	void createInfoStudent() // use to create default folder in "student" folder.
 	{
 
 	}
@@ -53,15 +54,19 @@ public:
 		
 	}
 	
-	void createStudent(fsys::path className, std::stringstream student)
+	bool createStudent(fsys::path className, std::stringstream student)
 	{
+
 		return; 
 	}
+
 	
-	void createCourse(fsys::path course)
+	bool createCourse(fsys::path course)
 	{
 		return; 
 	}
+
 	
 };
+
 

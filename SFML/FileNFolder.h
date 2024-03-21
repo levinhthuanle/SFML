@@ -6,8 +6,8 @@ namespace fsys = std::filesystem;
 void createMultipleDirectories(fsys::path path, Stack <std::string> list_name);
 //Create multiple directories based on the linked list which a teacher input for classes in school year // student in a class.
 
-std::stringstream readFile(fsys::path filepath);
-
+//std::stringstream readFile(fsys::path filepath);
+Stack <std::stringstream> readFile(fsys::path filepath);
 
 class csvFile {
 private:
@@ -44,7 +44,7 @@ public:
     }
     void out()   //get output as a stack from the file. 
     {
-        std::stringstream content = readFile(filePath); 
+        return;
     }
    
 };

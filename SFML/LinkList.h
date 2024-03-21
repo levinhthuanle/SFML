@@ -9,7 +9,7 @@ public:
 	{
 	public:	
 		T val;
-		ListNode* next;
+		ListNode* next = 0;
 		ListNode(T data = T(), ListNode* node = nullptr)
 		{
 			val = data;
@@ -20,6 +20,13 @@ public:
 	Stack()
 	{
 		head = nullptr;
+	}
+	void newslot()
+	{
+		ListNode * temp; 
+		temp->next = head; 
+		head = temp;
+		return; 
 	}
 	void push(T val)
 	{
