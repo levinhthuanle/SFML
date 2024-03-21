@@ -1,5 +1,6 @@
 #pragma once
 #include "Requirement.h"
+namespace fsys = std::filesystem;
 class Student 
 {
 private:
@@ -13,15 +14,16 @@ public:
 	}
 	void showInfo()
 	{
-
+		return;
 	}
 	void showScoreBoard()
 	{
-
+		return; 
 	}
 	Stack <std::string> getUnfinishedCourse()
 	{
-
+		Stack <std::string> s; 
+		return s; 
 	}
 
 };

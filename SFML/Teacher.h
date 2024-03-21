@@ -1,6 +1,15 @@
 #pragma once
 #include "Requirement.h"
-namespace fsys = std::filesystem;
+
+namespace fsys = std::filesystem; 
+
+void createMultipleDirectories(fsys::path path, Stack <std::string> list_name);
+//Create multiple directories based on the linked list which a teacher input for classes in school year // student in a class.
+
+std::stringstream readFile(fsys::path filepath);
+
+
+//Multiple definition of createMultipleDirectory and readFile to fix "identifier not found" (C3861). Don't know why
 class Teacher
 {
 private:
@@ -24,7 +33,8 @@ public:
 			if (cls.size() < 5 && cls.size() > 6) return false;
 			classList.push(cls); 
 		}
-		createMultipleDirectories("data/student", classList);
+		
+		createMultipleDirectories("data/student" , classList);
 		classList.del(); 
 		return true; 
 	}
