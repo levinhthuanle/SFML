@@ -1,11 +1,13 @@
 #pragma once
 #include "Requirement.h"
-//Object: input a path to .csv file, create that file if not exist, inputing into that file, or return a stack of information in that file.  
-class csv_file {
+
+namespace fsys = std::filesystem;
+
+class csvFile {
 private:
     fsys::path filePath;
 public:
-    csv_file(fsys::path input) 
+    csvFile(fsys::path input) 
     {
         filePath = input; 
     }
@@ -17,14 +19,33 @@ public:
         fout.close(); 
         return; 
     }
-    void write()    //write content on that file.
+    bool write(std::stringstream input)    //write content on that file.
     {
-        
+        std::ofstream fout; 
+        fout.open(filePath); 
+        if (!fout.is_open()) return false; 
+        else
+        {
+            std::string t; 
+            while (input >> t)
+            {
+                fout << t; 
+                //add more format; 
+            }
+            fout.close(); 
+            return true; 
+        }
     }
-    Stack<> out()   //get output as a stack from the file. 
+    void out()   //get output as a stack from the file. 
     {
-
+        std::stringstream content = readFile(filePath); 
     }
    
 };
-//TODO: chinh class file cho muc tieu tot hon. 
+
+void createMultipleDirectories(fsys::path path, Stack <std::string> list_name);
+std::stringstream readFile(fsys::path filepath);
+
+
+//TODO: study csv.
+//TODO: finished class.

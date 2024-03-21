@@ -7,7 +7,6 @@ class Stack{
 public:
 	class ListNode
 	{
-		
 	public:	
 		T val;
 		ListNode* next;
@@ -35,12 +34,12 @@ public:
 	void pop()
 	{
 		if (!head) return;
-		else ListNode* temp = head; 
+		ListNode* temp = head; 
 		head = head->next; 
 		delete temp; 
 		return; 
 	}
-	~Stack()
+	void del()
 	{
 		while (head)
 		{
@@ -48,6 +47,10 @@ public:
 			head = head->next;
 			delete temp;
 		}
+	}
+	~Stack()
+	{
+		this->del(); 
 	}
 };
 
