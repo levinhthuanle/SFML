@@ -23,7 +23,7 @@ public:
 	}
 	void newslot()
 	{
-		ListNode * temp; 
+		ListNode *temp = 0; 
 		temp->next = head; 
 		head = temp;
 		return; 

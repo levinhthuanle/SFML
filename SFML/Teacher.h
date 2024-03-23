@@ -57,13 +57,13 @@ public:
 	bool createStudent(fsys::path className, std::stringstream student)
 	{
 
-		return; 
+		return true; 
 	}
 
 	
 	bool createCourse(fsys::path course)
 	{
-		return; 
+		return true; 
 	}
 
 	

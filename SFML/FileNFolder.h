@@ -17,36 +17,31 @@ public:
     {
         filePath = input; 
     }
-    void create()   //create a csv if not exist.
+    bool create()   //return false if the file is existed, true is a file is not existed and create that file. 
     {
-        if (fsys::exists(filePath)) return; 
+        if (fsys::exists(filePath)) return false; 
         std::ofstream fout; 
         fout.open(filePath); 
         fout.close(); 
-        return; 
+        return true;
     }
-    bool write(std::stringstream input)    //write content on that file.
+    
+    bool write(Stack <std::stringstream> content)
     {
-        std::ofstream fout; 
-        fout.open(filePath); 
-        if (!fout.is_open()) return false; 
-        else
-        {
-            std::string t; 
-            while (input >> t)
-            {
-                fout << t; 
-                //add more format; 
-            }
-            fout.close(); 
-            return true; 
-        }
+        return true;
     }
-    void out()   //get output as a stack from the file. 
+    bool addingLines(Stack <std::stringstream> input)    //adding new line on a existing file.
     {
-        return;
+        return true; 
     }
-   
+    Stack <std::stringstream> get()   //get output as a stack from the file. 
+    {
+        return (readFile(filePath)); 
+    }
+    bool save(/*content*/)
+    {
+        return true; 
+    }
 };
 
 

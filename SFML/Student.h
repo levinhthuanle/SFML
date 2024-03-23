@@ -5,6 +5,8 @@ class Student
 {
 private:
 	fsys::path studentPath = "data/student";
+
+	//more information about student
 public: 
 	Student(std::string ID)
 	{
@@ -12,11 +14,11 @@ public:
 		std::string num(ID.begin() + 5 + (ID.size() == 9), ID.begin() + 8 + (ID.size() == 9)); 
 		this->studentPath =  this -> studentPath / clas / num; 
 	}
-	void showInfo()
+	void getInfo()
 	{
 		return;
 	}
-	void showScoreBoard()
+	void getScoreBoard()
 	{
 		return; 
 	}
