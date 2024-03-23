@@ -11,6 +11,8 @@
 #include <ctime>
 #include <iomanip>
 #include <type_traits>
+#include <algorithm>
+#include <cassert>
 
 
 #include "Drawio.h"

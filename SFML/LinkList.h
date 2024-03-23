@@ -2,7 +2,7 @@
 // Creating a stack for dynamic memory.
 // Temporarily puting all information in public "mode" for easy code and access.
 // Must improve the code for least accessing.
-template <class T>   
+template <typename T>   
 class Stack{
 public:
 	class ListNode
