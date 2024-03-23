@@ -51,6 +51,9 @@
     <ClCompile Include="FolderFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ActivityStudent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Drawio.h">
@@ -104,10 +107,5 @@
     <Image Include="Assets\HomePageStudent.png">
       <Filter>Source Files\Assets</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="README.md">
-      <Filter>Source Files</Filter>
-    </None>
   </ItemGroup>
 </Project>

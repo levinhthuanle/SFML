@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActivityStudent.cpp" />
     <ClCompile Include="Components.cpp" />
     <ClCompile Include="Drawio.cpp" />
     <ClCompile Include="ExtraFunction.cpp" />
@@ -167,9 +168,6 @@
   <ItemGroup>
     <Image Include="Assets\HomePageStudent.png" />
     <Image Include="Assets\Login.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="README.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
