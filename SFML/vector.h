@@ -13,13 +13,20 @@ private:
 public:
     vector() : _data(nullptr), s(0), capacity(0) {}
 
-    vector(ll num, const T& val) : s(num), capacity(num) {
-        _data = new T[num];
-        std::fill(_data, _data + num, std::move(val));
+    vector(ll cellNum, const T& val) : s(cellNum), capacity(cellNum) {
+        _data = new T[cellNum];
+        std::fill(_data, _data + cellNum, std::move(val));
     }
 
     ~vector() {
-        delete[] _data;
+        clear();
+    }
+
+    void clear() {
+        if (_data) delete[] _data;
+        this->_data = nullptr;
+        this->capacity = 0;
+        this->s = 0;
     }
 
     void push_back(const T& val) {

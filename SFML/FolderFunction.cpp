@@ -20,22 +20,22 @@ void createMultipleDirectories(fsys::path path, Stack <std::string> list_name)
 //    return content;
 //
 //}
-Stack <std::stringstream> readFile(fsys::path filepath)
-{
-    Stack<std::stringstream> contentList;
-
-    std::ifstream fin;
-    fin.open(filepath);
-    if (!fin.is_open()) return contentList; 
-    while (fin.eof())
-    {
-        std::string line; 
-        contentList.newslot(); 
-        std::getline(fin, line);
-        contentList.head->val << line; 
-    }
-    return contentList;
-}
+//Stack <std::stringstream> readFile(fsys::path filepath)
+//{
+//    Stack<std::stringstream> contentList;
+//
+//    std::ifstream fin;
+//    fin.open(filepath);
+//    if (!fin.is_open()) return contentList; 
+//    while (fin.eof())
+//    {
+//        std::string line; 
+//        contentList.newslot(); 
+//        std::getline(fin, line);
+//        contentList.head->val << line; 
+//    }
+//    return contentList;
+//}
 
 
 

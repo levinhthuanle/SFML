@@ -7,7 +7,6 @@
 #include <string>
 #include <sstream>
 #include <filesystem>
-#include <string>
 #include <ctime>
 #include <iomanip>
 #include <type_traits>
@@ -20,6 +19,7 @@
 #include "Components.h"
 
 #include "LinkList.h"
+#include "vector.h"
 #include "FileNFolder.h"
 #include "ExtraFunction.h"
 
