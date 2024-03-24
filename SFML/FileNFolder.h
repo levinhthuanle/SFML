@@ -1,54 +1,129 @@
 #pragma once
 #include "Requirement.h"
+
 namespace fsys = std::filesystem;
-class File {//This class has only worked with CSV files
+
+void createMultipleDirectories(fsys::path path, Stack <std::string> list_name);
+
+class csvFile {
 private:
-    std::fstream file;
-    std::vector<std::string> rowContent; //Path of the "mother" folder
-    std::string fileName;
-    fsys::path folderPath;
+    fsys::path filePath;
 
 public:
-    File() {}
 
-    File(fsys::path folderPath, std::string fileName) {
-        this->fileName = fileName;
-        this->folderPath = folderPath;
-        folderPath /= fileName;
-        std::fstream file(folderPath);
+    vector<vector<std::string>> content;
+
+    csvFile(fsys::path path) 
+    {
+        this->filePath = path;
+        create();
     }
 
-    void open() {
-        this->file.open(this->folderPath / this->fileName);
-    }
-
-    void close() {
-        this->file.close();
-    }
-
-    std::vector<std::string> readRow() {//Only store one row per call
-        this->rowContent.clear();
-        std::string row;
-        if (!(this->file >> row)) return this->rowContent;
-        std::getline(this->file, row, '\n');
-        std::stringstream sRow(row);
-        std::string element;
-        while (std::getline(sRow, element, ',')) {
-            this->rowContent.push_back(element);
+    bool create()   //return false if the file is existed, true is a file is not existed and create that file. 
+    {
+        if (fsys::exists(filePath)) {
+            std::cerr << filePath << " already exists.\n";
+            return false;
         }
-        return this->rowContent;
+        std::ofstream fout; 
+        fout.open(filePath); 
+        fout.close(); 
+        return true;
     }
 
-    void write(std::string content) {
-        this->file << content << std::endl;
+    void clearSavedContent() {
+        content.clear();
     }
 
-    void update() {
+    void readFile() {
+        content.clear();
+        std::ifstream fin;
+        fin.open(filePath);
+        if (!fin.is_open()) {
+            std::cerr << "Error opening input file " << filePath << ".\n";
+            return;
+        }
 
+        std::string rowS;
+        std::string cell;
+
+        while (std::getline(fin, rowS, '\n')) {
+            vector<std::string> rowContent;
+            std::stringstream rowSS(rowS);
+            while (std::getline(rowSS, cell, ',')) {
+                rowContent.push_back(cell);
+            }
+            this->content.push_back(rowContent);
+        }
+        fin.close();
+    }
+    
+    bool writeFile() {                  //Any change to the file's content, please call the suitable function, then call the write function to chage the file
+        std::ofstream fout;
+        fout.open(filePath);
+        if (!fout.is_open()) {
+            std::cerr << "Cannot open " << filePath << " to write.\n";
+        }
+        ll rowNum = this->content.size();
+        for (ll i = 0; i < rowNum; i++) {
+            ll colNum = content[i].size();
+            for (ll j = 0; j < colNum - 1; j++)
+                fout << content[i][j] << ",";
+            fout << content[i][colNum - 1];
+            fout << std::endl;
+        }
+        return true;
     }
 
-    ~File() {
-        if (file.is_open())
-            this->file.close();
+    bool addCellOnFirstRow() {       //Used to create the first row of a page
+        if (this->content.size() == 0) {        //If the content is blank, add new row
+            vector<std::string> row(1, " ");
+            this->content.push_back(row);
+        }
+        else {
+            this->content[0].push_back(" ");
+        }
+        return true;
+    }
+
+    bool addRow() {    //AddNewRow, with the size equal to the size of above rows
+        if (this->content.size() == 0)
+            addCellOnFirstRow();
+        vector<std::string> row(this->content[0].size(), " ");
+        this->content.push_back(row);
+        return true; 
+    }
+
+    bool addCol() {
+        ll contentSize = this->content.size();
+        if (contentSize == 0)
+            addCellOnFirstRow();
+        else {
+            for (ll i = 0; i < contentSize; i++)
+                this->content[i].push_back(" ");
+        }
+        return true;
+    }
+
+    bool deleteRow(ll index) {
+        ll contentSize = this->content.size();
+        if (index >= contentSize) return false;
+        if (content[index].size() > 0) content[index].clear();
+        for (ll i = index; i < contentSize - 1; i++)
+            content[index] = content[index + 1];
+        content.pop_back();
+        return true;
+    }
+
+    bool deleteCol(ll index) {
+        ll contentSize = this->content.size();
+        for (ll i = 0; i < contentSize; i++) {
+            if (index >= content[i].size()) return false;
+            for (ll j = index; j < content[i].size() - 1; j++)
+                content[i][j] = content[i][j + 1];
+            content[i].pop_back();
+        }
+        return true;
     }
 };
+

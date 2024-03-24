@@ -2,15 +2,14 @@
 // Creating a stack for dynamic memory.
 // Temporarily puting all information in public "mode" for easy code and access.
 // Must improve the code for least accessing.
-template <class T>   
+template <typename T>   
 class Stack{
 public:
 	class ListNode
 	{
-		
 	public:	
 		T val;
-		ListNode* next;
+		ListNode* next = 0;
 		ListNode(T data = T(), ListNode* node = nullptr)
 		{
 			val = data;
@@ -23,7 +22,16 @@ public:
 		head = nullptr;
 	}
 
-	void push(T val){
+	void newslot()
+	{
+		ListNode *temp = 0; 
+		temp->next = head; 
+		head = temp;
+		return; 
+	}
+	void push(T val)
+	{
+
 		ListNode* temp = new ListNode(val, head);
 		head = temp; 
 		return;	
@@ -32,6 +40,7 @@ public:
 	T front (){
 		return head->val; 
 	}
+
 
 	void pop(){
 		ListNode* temp = nullptr;
@@ -44,13 +53,19 @@ public:
 		return; 
 	}
 
+
 	~Stack(){
+
 		while (head)
 		{
 			ListNode* temp = head;
 			head = head->next;
 			delete temp;
 		}
+	}
+	~Stack()
+	{
+		this->del(); 
 	}
 };
 
