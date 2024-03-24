@@ -1,6 +1,7 @@
 #pragma once
 #include "Requirement.h"
 
+
 namespace fsys = std::filesystem; 
 
 void createMultipleDirectories(fsys::path path, Stack <std::string> list_name);
@@ -11,6 +12,7 @@ Stack <std::stringstream> readFileFromFolder(fsys::path filepath);
 
 
 //Multiple definition of createMultipleDirectory and readFile to fix "identifier not found" (C3861). Don't know why
+
 class Teacher
 {
 private:

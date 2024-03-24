@@ -17,10 +17,11 @@ public:
 		}
 	};
 	ListNode* head;
-	Stack()
-	{
+
+	Stack(){
 		head = nullptr;
 	}
+
 	void newslot()
 	{
 		ListNode *temp = 0; 
@@ -30,24 +31,31 @@ public:
 	}
 	void push(T val)
 	{
+
 		ListNode* temp = new ListNode(val, head);
 		head = temp; 
 		return;	
 	}
-	T front ()
-	{
+
+	T front (){
 		return head->val; 
 	}
-	void pop()
-	{
-		if (!head) return;
-		ListNode* temp = head; 
+
+
+	void pop(){
+		ListNode* temp = nullptr;
+		if (!head) 
+			return;
+		else 
+			ListNode* temp = head; 
 		head = head->next; 
 		delete temp; 
 		return; 
 	}
-	void del()
-	{
+
+
+	~Stack(){
+
 		while (head)
 		{
 			ListNode* temp = head;

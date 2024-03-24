@@ -18,7 +18,7 @@ public:
         //shape.setOutlineColor(sf::Color::Black);
 
         text.setFont(font);
-        text.setCharacterSize(20);
+        text.setCharacterSize(height * 0.7);
         text.setFillColor(sf::Color::Black);
         text.setPosition(x + 5.f, y + 5.f);
 
@@ -44,7 +44,7 @@ public:
                     if (!input.empty())
                         input.pop_back();
                 }
-                else if (event.text.unicode == '\r') { //Bao's commit No. 01 // Set unselected for ENTER input
+                else if (event.text.unicode == '\r') { // Set unselected for ENTER input
                     selected = false;
                 }
                 else if (event.text.unicode < 128) {
@@ -52,8 +52,10 @@ public:
                 }
             }
         }
-        if (!selected) text.setString(input); //Bao's commit No. 01 // Remove "_" at the end of unselected inputfield
-        else text.setString(input + "_"); //Bao's commit No. 01 // Set "_" at the end of selected inputfield
+        if (!selected) 
+            text.setString(input); // Remove "_" at the end of unselected inputfield
+        else 
+            text.setString(input + "_"); // Set "_" at the end of selected inputfield
         setSelected(selected);
     }
 
@@ -82,10 +84,14 @@ private:
     sf::Text text;
 
 public:
+    Button(){}
+
     Button(float x, float y, float width, float height, const std::string& buttonText, sf::Font& font, const sf::Color& fillColor) {
         shape.setPosition(sf::Vector2f(x, y));
         shape.setSize(sf::Vector2f(width, height));
         shape.setFillColor(fillColor);
+        shape.setOutlineThickness(2.f);
+        shape.setOutlineColor(sf::Color::Black);
 
         text.setFont(font);
         text.setString(buttonText);
@@ -93,10 +99,6 @@ public:
         text.setFillColor(sf::Color::White);
         text.setPosition(x + 10.f, y + 10.f);
 
-        // Calculate position to center the text within the button
-        sf::FloatRect textBounds = text.getLocalBounds();
-        text.setOrigin(textBounds.left + textBounds.width / 2.f, textBounds.top + textBounds.height / 2.f);
-        text.setPosition(sf::Vector2f(x + width / 2.f, y + height / 2.f));
     }
 
     void draw(sf::RenderWindow& window) {
@@ -109,6 +111,53 @@ public:
     }
 };
 
+class Circle {
+private:
+    sf::CircleShape circle;
+    sf::Texture texture;
+    sf::Sprite sprite;
+
+public:
+    Circle(float x, float y, float radius, const std::string& pathToImg, const sf::Color& fillColor) {
+        // Initialize circle
+        circle.setPosition(x, y);
+        circle.setRadius(radius);
+        circle.setFillColor(fillColor);
+        circle.setOrigin(radius, radius); // Set origin to center
+        circle.setOutlineThickness(1.f);
+        circle.setOutlineColor(sf::Color::Black);
+
+        // Load texture
+        if (!texture.loadFromFile(pathToImg)) {
+            std::cout << "Failed to load image";
+            throw std::runtime_error("Failed to load image");
+        }
+
+        // Initialize sprite with texture
+        sprite.setTexture(texture);
+        sf::Vector2u textureSize = texture.getSize();
+        sprite.setOrigin(textureSize.x / 2.f, textureSize.y / 2.f); // Set origin to center
+
+
+        sprite.setPosition(x, y);
+    }
+
+    bool isClicked(const sf::Vector2i& mousePos) {
+        sf::Vector2f circleCenter = circle.getPosition();
+        float circleRadius = circle.getRadius();
+
+        // Calculate distance between mouse position and circle center
+        float distance = std::sqrt(std::pow(mousePos.x - circleCenter.x, 2) + std::pow(mousePos.y - circleCenter.y, 2));
+
+        // If distance is less than or equal to circle radius, the mouse is inside the circle
+        return (distance <= circleRadius);
+    }
+
+    void draw(sf::RenderWindow& window) {
+        window.draw(circle);
+        window.draw(sprite);
+    }
+};
 
 class Text {
 private:
@@ -151,8 +200,5 @@ public:
         window.draw(text);
     }
 };
-
-
-
 
 

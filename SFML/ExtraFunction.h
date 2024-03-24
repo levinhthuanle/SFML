@@ -6,4 +6,4 @@ struct EF {
 };
 
 
-int check_login_type(std::string acc, std::string pass);
+int checkLoginType(std::string username, std::string password);
