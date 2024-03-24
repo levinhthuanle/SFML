@@ -3,7 +3,7 @@
 
 namespace fsys = std::filesystem;
 
-void createMultipleDirectories(fsys::path path, Stack <std::string> list_name);
+// void createMultipleDirectories(fsys::path path, Stack <std::string> list_name);
 
 class csvFile {
 private:
