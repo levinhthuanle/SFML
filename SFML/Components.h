@@ -18,7 +18,7 @@ public:
         //shape.setOutlineColor(sf::Color::Black);
 
         text.setFont(font);
-        text.setCharacterSize(height * 0.7);
+        text.setCharacterSize(int(height * 0.7));
         text.setFillColor(sf::Color::Black);
         text.setPosition(x + 5.f, y + 5.f);
 
@@ -95,7 +95,7 @@ public:
 
         text.setFont(font);
         text.setString(buttonText);
-        text.setCharacterSize(height/2 + 5);
+        text.setCharacterSize(int(height/2 + 5));
         text.setFillColor(sf::Color::White);
         text.setPosition(x + 10.f, y + 10.f);
 
@@ -147,7 +147,7 @@ public:
         float circleRadius = circle.getRadius();
 
         // Calculate distance between mouse position and circle center
-        float distance = std::sqrt(std::pow(mousePos.x - circleCenter.x, 2) + std::pow(mousePos.y - circleCenter.y, 2));
+        double distance = std::sqrt(std::pow(mousePos.x - circleCenter.x, 2) + std::pow(mousePos.y - circleCenter.y, 2));
 
         // If distance is less than or equal to circle radius, the mouse is inside the circle
         return (distance <= circleRadius);
