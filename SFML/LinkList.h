@@ -54,7 +54,7 @@ public:
 	}
 
 
-	~Stack(){
+	void del(){
 
 		while (head)
 		{
