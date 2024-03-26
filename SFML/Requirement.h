@@ -31,6 +31,8 @@
 
 #include "Teacher.h"
 #include "Student.h"
+#include "SchoolYear.h"
+#include "Date.h"
 
 
 #include "User.h"
