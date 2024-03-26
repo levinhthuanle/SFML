@@ -32,6 +32,7 @@
 #include "Teacher.h"
 #include "Student.h"
 #include "SchoolYear.h"
+#include "Semester.h"
 #include "Date.h"
 
 
