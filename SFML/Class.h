@@ -3,7 +3,7 @@
 
 class Class {
 private:
-    std:string classID, className;
+    std::string classID, className;
     Stack<Student> students;
 public:
     Class(std::string classID, std::string className) {
