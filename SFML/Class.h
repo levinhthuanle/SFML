@@ -10,8 +10,10 @@ public:
 		this->classID = classID;
 		this->className = className;
 	}
-	void addStudent(Student student) {
-		students.push(student);
+	~Class() {
+		while (!students.isEmpty()) {
+			students.pop();
+		}
 	}
 	std::string getClassID() {
 		return classID;
@@ -19,18 +21,18 @@ public:
 	std::string getClassName() {
 		return className;
 	}
-	Stack<Student> getStudents() {
-		return students;
-	}
 	void setClassID(std::string classID) {
 		this->classID = classID;
 	}
 	void setClassName(std::string className) {
 		this->className = className;
 	}
-	~Class() {
-		while (!students.isEmpty()) {
-			students.pop();
-		}
-	})
+
+	//Student
+	void addStudent(Student student) {
+		students.push(student);
+	}
+	Stack<Student> getStudents() {
+		return students;
+	}
 };

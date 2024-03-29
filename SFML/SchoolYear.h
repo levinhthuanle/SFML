@@ -36,6 +36,7 @@ public:
 		semesters.push(semester);
 		return true;
 	}
+
 	//Class
 	void addClass(Class newClass) { classes.push(newClass); }
 

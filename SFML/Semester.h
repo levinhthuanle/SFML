@@ -35,25 +35,25 @@ public:
 	Date getEndDate() {
 		return endDate;
 	}
-	//Stack<Course> getCourses() {
-	//    return courses;
-	//}
-	//void addCourse(Course course) {
-	//    courses.push(course);
-	//}
-	//void removeCourse(Course course) {
-	//    Stack<Course> temp;
-	//    while (!courses.empty()) {
-	//        if (courses.top().getName() != course.getName()) {
-	//            temp.push(courses.top());
-	//        }
-	//        courses.pop();
-	//    }
-	//    while (!temp.empty()) {
-	//        courses.push(temp.top());
-	//        temp.pop();
-	//    }
-	//}
+	Stack<Course> getCourses() {
+	    return courses;
+	}
+	void addCourse(Course course) {
+	    courses.push(course);
+	}
+	void removeCourse(Course course) {
+	    Stack<Course> temp;
+	    while (!courses.empty()) {
+	        if (courses.top().getName() != course.getName()) {
+	            temp.push(courses.top());
+	        }
+	        courses.pop();
+	    }
+	    while (!temp.empty()) {
+	        courses.push(temp.top());
+	        temp.pop();
+	    }
+	}
 	//void save() {
 	//    std::ofstream file("semesters/" + name + "/start_end_time.txt");
 	//    file << startDate.toString() << std::endl;

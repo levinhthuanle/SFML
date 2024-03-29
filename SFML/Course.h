@@ -6,6 +6,7 @@ class Course
 private:
     int id, credits, maxStudents, session1, session2;
     std::string courseID, courseName, teacherName, startDate, endDate;
+    Stack<Student> students;
 public:
     Course(int id) : Course() {
         this->id = id;
@@ -28,6 +29,37 @@ public:
     }
 
     ~Course() {
-            
+            while (!students.isEmpty()) {
+                students.pop();
+            }
     }
+
+    int getId() {return id;}
+
+    int getID() { return id; }
+
+    std::string getCourseID() { return courseID; }
+
+    std::string getCourseName() { return courseName; }
+
+    std::string getTeacherName() { return teacherName; }
+
+    int getCredits() { return credits; }
+
+    void setFirstSession(int session1) { this->session1 = session1; }
+
+    int getFirstSession() { return session1; }
+
+    void setSecondSession(int session2) { this->session2 = session2; }
+
+    int getSecondSession() { return session2; }
+
+    //Student
+    void addStudent(Student student) {
+		students.push(student);
+	}
+    Stack<Student> getStudents() {
+        return students;
+    }
+    
 };
