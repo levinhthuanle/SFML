@@ -7,7 +7,7 @@ namespace fsys = std::filesystem;
 
 class csvFile {
 private:
-    fsys::path filePath;
+    fsys::path filePath;        
 
 public:
 

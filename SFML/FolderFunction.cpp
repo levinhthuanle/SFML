@@ -1,15 +1,15 @@
-#include "FileNFolder.h"
-
-void createMultipleDirectories(fsys::path path, Stack <std::string> list_name)
-//Create multiple directories based on the linked list which a teacher input for classes in school year // student in a class.
-{
-    Stack<std::string>::ListNode* curr = list_name.head;
-    while (curr)
-    {
-        fsys::create_directories(path / curr->val);
-        curr = curr->next;
-    }
-}
+//#include "FileNFolder.h"
+//
+//void createMultipleDirectories(fsys::path path, Stack <std::string> list_name)
+////Create multiple directories based on the linked list which a teacher input for classes in school year // student in a class.
+//{
+//    Stack<std::string>::ListNode* curr = list_name.head;
+//    while (curr)
+//    {
+//        fsys::create_directories(path / curr->val);
+//        curr = curr->next;
+//    }
+//}
 //std::stringstream readFile(fsys::path filepath)
 //{
 //    std::stringstream content;
@@ -36,9 +36,9 @@ void createMultipleDirectories(fsys::path path, Stack <std::string> list_name)
 //    }
 //    return contentList;
 //}
-
-
-
-//TODO: create student folder with file. 
-
-// the function create only one directory exists in <filesystem>, so i don't rewrite again. 
+//
+//
+////
+////TODO: create student folder with file. 
+////
+//// the function create only one directory exists in <filesystem>, so i don't rewrite again. 
