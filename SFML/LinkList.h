@@ -1,74 +1,65 @@
 #pragma once
+#include "Requirement.h"
 // Creating a stack for dynamic memory.
 // Temporarily puting all information in public "mode" for easy code and access.
 // Must improve the code for least accessing.
-template <typename T>   
-class Stack{
+template <typename T>
+class Stack {
 public:
-	class ListNode
-	{
-	public:	
-		T val;
-		ListNode* next = 0;
-		ListNode(T data = T(), ListNode* node = nullptr)
-		{
-			val = data;
-			next = node;
-		}
-	};
-	ListNode* head;
+    class ListNode {
+    public:
+        T val;
+        ListNode* next;
+        ListNode(T data = T(), ListNode* node = nullptr) : val(data), next(node) {}
+    };
 
-	Stack(){
-		head = nullptr;
-	}
+    ListNode* head;
 
-	void newslot()
-	{
-		ListNode *temp = 0; 
-		temp->next = head; 
-		head = temp;
-		return; 
-	}
-	void push(T val)
-	{
+    Stack() : head(nullptr) {}
 
-		ListNode* temp = new ListNode(val, head);
-		head = temp; 
-		return;	
-	}
+    void push(const T& val) {
+        ListNode* temp = new ListNode(val, head);
+        head = temp;
+    }
 
-	T front (){
-		return head->val; 
-	}
+    bool isEmpty() const {
+        return head == nullptr;
+    }
+
+    T* top() const {
+        if (head)
+            return &(head->val);
+        else
+            return nullptr;
+    }
 
 
-	void pop(){
-		ListNode* temp = nullptr;
-		if (!head) 
-			return;
-		else 
-			ListNode* temp = head; 
-		head = head->next; 
-		delete temp; 
-		return; 
-	}
+    void pop() {
+        if (head) {
+            ListNode* temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
 
+    bool empty() const {
+        return head == nullptr;
+    }
 
-	void del(){
+    void del() {
 
-		while (head)
-		{
-			ListNode* temp = head;
-			head = head->next;
-			delete temp;
-		}
-	}
-	~Stack()
-	{
-		this->del(); 
-	}
+        while (head)
+        {
+            ListNode* temp = head;
+            head = head->next;
+            delete temp;
+        }
+    }
+    ~Stack()
+    {
+        this->del();
+    }
 };
-
 
 // Implement the input linklist from file, input by hand, output into file, output to the window
 // the delete linklist function, and other function if needed.

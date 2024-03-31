@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Class.cpp" />
     <ClCompile Include="Components.cpp" />
     <ClCompile Include="Drawio.cpp" />
     <ClCompile Include="ExtraFunction.cpp" />
@@ -146,13 +147,17 @@
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Class.h" />
     <ClInclude Include="Components.h" />
+    <ClInclude Include="Course.h" />
+    <ClInclude Include="Date.h" />
     <ClInclude Include="Drawio.h" />
     <ClInclude Include="ExtraFunction.h" />
     <ClInclude Include="FileNFolder.h" />
     <ClInclude Include="LinkList.h" />
     <ClInclude Include="Requirement.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="SchoolYear.h" />
+    <ClInclude Include="Semester.h" />
     <ClInclude Include="Student.h" />
     <ClInclude Include="Teacher.h" />
     <ClInclude Include="Activity.h" />

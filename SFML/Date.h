@@ -2,10 +2,12 @@
 #include "Requirement.h"
 class Date {
 private:
-    string date;
+    std::string date;
 
 public:
-    Date(string date) {
+    Date() {}
+
+    Date(std::string date) {
         this->date = date;
     }
 
