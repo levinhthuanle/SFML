@@ -41,3 +41,15 @@ int checkLoginType(std::string acc, std::string pass) // return 0 if wrong acc/p
 		return 1 + (type == "00");
 	}
 }
+
+void loginLogic(User& user, InputField& username, InputField& password) {
+	std::cout << "Username: " << username.getInput() << std::endl;
+	std::cout << "Password: " << password.getInput() << std::endl;
+
+	user.setUsername(username.getInput());
+	user.setPassword(username.getInput());
+	user.setType("Student");
+
+
+	std::cout << checkLoginType(user.getUsername(), user.getPassword()) << std::endl;
+}

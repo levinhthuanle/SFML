@@ -7,3 +7,7 @@ struct EF {
 
 
 int checkLoginType(std::string username, std::string password);
+
+#include "Components.h"
+#include "User.h"
+void loginLogic(User& user, InputField& username, InputField& password);

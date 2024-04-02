@@ -1,4 +1,5 @@
 #include "Activity.h"
+#include "ExtraFunction.h"
 // Global variables
 User user;
 
@@ -11,6 +12,7 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
 
     sf::Sprite background(texture);
     InputField username(661.f, 405.f, 370.f, 40.f, font);
+    username.setSelected(true);
     InputField password(661.f, 538.f, 370.f, 40.f, font);
     Button loginBtn(692.f, 671.f, 313.f, 60.f, "Login", font, sf::Color(218, 100, 50));
     std::cout << "Generate the main window success" << std::endl;
@@ -18,6 +20,8 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
 
     while (window.isOpen()) {
         sf::Event event;
+        if (username.isSelected()) username.textCursor(username.getInput());
+        if (password.isSelected()) password.textCursor(password.getInput());
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) 
                 window.close();  // Close 
@@ -29,21 +33,22 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
 
                 if (loginBtn.isClicked(mousePos)) {
                     //login and setup type
-                    std::cout << "Username: " << username.getInput() << std::endl;
-                    std::cout << "Password: " << password.getInput() << std::endl;
-                    
-                    user.setUsername(username.getInput());
-                    user.setPassword(username.getInput());
-                    user.setType("Student");
-
-                    
-                    std::cout << checkLoginType(user.getUsername(), user.getPassword()) << std::endl;
+                    loginLogic(user, username, password);
                     type = 1; // initHomePageStudentWindow
                     return; 
                 }
             }
             username.processInput(event);
+            if (username.chooseNextField()) {
+                event.type = sf::Event::MouseButtonReleased;
+                password.setSelected(true);
+            }
             password.processInput(event);
+            if (password.chooseNextField()) {
+                loginLogic(user, username, password);
+                type = 1; // initHomePageStudentWindow
+                return;
+            }
         }
 
 

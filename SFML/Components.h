@@ -8,6 +8,9 @@ private:
     sf::Text text;
     bool selected;
     std::string input;
+    sf::Clock clock;
+    bool showCursor;    //When selected, if the text cursor "|" is shown
+    bool nextField;     //Automatically choose the next field
 
 public:
     InputField(float x, float y, float width, float height, sf::Font& font) {
@@ -22,6 +25,8 @@ public:
         text.setFillColor(sf::Color::Black);
         text.setPosition(x + 5.f, y + 5.f);
 
+        nextField = false;
+        showCursor = false;
         selected = false;
     }
 
@@ -41,6 +46,8 @@ public:
         input = defaultText;
         text.setString(input);
 
+        nextField = false;
+        showCursor = false;
         selected = false;
     }
 
@@ -56,6 +63,14 @@ public:
         return selected;
     }
 
+    bool chooseNextField() {
+        if (nextField) {
+            nextField = false;
+            return true;
+        }
+        return false;
+    }
+
     void processInput(sf::Event& event) {
         if (selected) {
             if (event.type == sf::Event::TextEntered) {
@@ -63,18 +78,20 @@ public:
                     if (!input.empty())
                         input.pop_back();
                 }
-                else if (event.text.unicode == '\r') { // Set unselected for ENTER input
+                else if (event.text.unicode == '\r') {  // Set unselected for ENTER input
                     selected = false;
+                    nextField = true;
+                }
+                else if (event.text.unicode == '\t') {  // Set unselected for TAB input
+                    selected = false;
+                    nextField = true;
                 }
                 else if (event.text.unicode < 128) {
                     input += static_cast<char>(event.text.unicode);
                 }
             }
         }
-        if (!selected) 
-            text.setString(input); // Remove "_" at the end of unselected inputfield
-        else 
-            text.setString(input + "_"); // Set "_" at the end of selected inputfield
+        else text.setString(input);
         setSelected(selected); 
     }
 
@@ -98,6 +115,23 @@ public:
 
     void setText(std::string content) {
         text.setString(content);
+    }
+
+    void textCursor(std::string input) {
+        if (!showCursor) {
+            if (clock.getElapsedTime().asSeconds() >= 0.4f) {
+                text.setString(input + "|");
+                clock.restart();
+                showCursor = true;
+            }
+        }
+        else {
+            if (clock.getElapsedTime().asSeconds() >= 0.4f) {
+                text.setString(input);
+                clock.restart();
+                showCursor = false;
+            }
+        }
     }
 };
 
