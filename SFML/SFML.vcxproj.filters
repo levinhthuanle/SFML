@@ -104,6 +104,9 @@
     <ClInclude Include="Semester.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BuiltClasses.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SFML.rc">

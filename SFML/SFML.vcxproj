@@ -147,6 +147,7 @@
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BuiltClasses.h" />
     <ClInclude Include="Class.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="Course.h" />

@@ -1,13 +1,18 @@
 #pragma once
+
 #include "Requirement.h"
-#include "LinkList.h" 
 #include "Student.h"
+#include "Vector.h"
+
+
 class Class {
 private:
     std::string classID, className;
-    Stack<Student> students;
+    vector<Student> students;
 
 public:
+	Class() {}
+
 	Class(std::string classID, std::string className) {
 		this->classID = classID;
 		this->className = className;

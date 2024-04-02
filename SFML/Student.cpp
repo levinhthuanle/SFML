@@ -16,7 +16,7 @@ void Student::getScoreBoard()
 	return;
 }
 
-Stack<std::string> Student::getUnfinishedCourse()
+vector<std::string> Student::getUnfinishedCourse()
 {
-	return Stack<std::string>();
+	return vector<std::string>();
 }

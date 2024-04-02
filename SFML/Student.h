@@ -1,5 +1,6 @@
 #pragma once
 #include "Requirement.h"
+#include "Vector.h"
 namespace fsys = std::filesystem;
 class Student 
 {
@@ -8,13 +9,15 @@ private:
 
 	//more information about student
 public: 
+	Student() {}
+
 	Student(std::string ID);
 
 	void getInfo();
 
 	void getScoreBoard();
 
-	Stack <std::string> getUnfinishedCourse();
+	vector<std::string> getUnfinishedCourse();
 
 };
 

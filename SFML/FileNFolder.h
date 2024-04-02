@@ -13,6 +13,8 @@ public:
 
     vector<vector<std::string>> content;
 
+    csvFile() {}
+
     csvFile(fsys::path path) 
     {
         this->filePath = path;

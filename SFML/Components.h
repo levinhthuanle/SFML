@@ -25,6 +25,25 @@ public:
         selected = false;
     }
 
+    InputField(float x, float y, float width, float height, sf::Font& font, std::string defaultText) {  //initiate inputfield which already had text, like in courses's scoreboard in staff view
+        shape.setPosition(sf::Vector2f(x, y));
+        shape.setSize(sf::Vector2f(width, height));
+        shape.setFillColor(sf::Color::White);
+        shape.setOutlineThickness(0.f);
+        //shape.setOutlineColor(sf::Color::Black);
+
+        text.setFont(font);
+        text.setCharacterSize(int(height * 0.7));
+        text.setFillColor(sf::Color::Black);
+        text.setPosition(x + 5.f, y + 5.f);
+
+        //set default text
+        input = defaultText;
+        text.setString(input);
+
+        selected = false;
+    }
+
     void setSelected(bool isSelected) {
         selected = isSelected;
         //if (selected)
@@ -56,7 +75,7 @@ public:
             text.setString(input); // Remove "_" at the end of unselected inputfield
         else 
             text.setString(input + "_"); // Set "_" at the end of selected inputfield
-        setSelected(selected);
+        setSelected(selected); 
     }
 
     std::string getInput() const {
@@ -75,6 +94,10 @@ public:
     void draw(sf::RenderWindow& window) {
         window.draw(shape);
         window.draw(text);
+    }
+
+    void setText(std::string content) {
+        text.setString(content);
     }
 };
 

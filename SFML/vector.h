@@ -1,9 +1,10 @@
 #pragma once
 //Make vector class to store CSV files' data
 #include "Requirement.h"
+
 using ll = long long;
 
-template <typename T>
+template <class T>
 class vector {
 private:
     T* _data;
