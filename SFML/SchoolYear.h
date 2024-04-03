@@ -3,19 +3,19 @@
 //
 //class SchoolYear {
 //private:
-//    std::string year;
-//    Stack<Semester> semesters;
+//	std::string year;
+//	Stack<Semester> semesters;
 //	Stack<Class> classes;
 //public:
-//    SchoolYear(std::string year) : year(year) {
-//      
-//        std::string directory = "data/" + year;
+//	SchoolYear(std::string year) : year(year) {
 //
-//       // for (const auto& entry : std::filesystem::directory_iterator(directory)) {
-//       //     semesters.push(Semester(entry.path()));
-//       // }
-//    }
-//    ~SchoolYear() {
+//		std::string directory = "data/" + year;
+//
+//		// for (const auto& entry : std::filesystem::directory_iterator(directory)) {
+//		//     semesters.push(Semester(entry.path()));
+//		// }
+//	}
+//	~SchoolYear() {
 //		while (!semesters.isEmpty()) {
 //			semesters.pop();
 //		}
@@ -32,7 +32,7 @@
 //	}
 //
 //
-//    bool inputNewSemester() {
+//	bool inputNewSemester() {
 //		std::string semesterName;
 //		std::cout << "Enter semester name: ";
 //		std::cin >> semesterName;
@@ -42,12 +42,12 @@
 //	}
 //
 //	//Class
-//	void addClass(Class newClass) { 
-//		classes.push(newClass); 
+//	void addClass(Class newClass) {
+//		classes.push(newClass);
 //	}
 //
-//	Class* getClass() { 
-//		return classes.top(); 
+//	Class* getClass() {
+//		return classes.top();
 //	}
 //
 //	void removeClass() { classes.pop(); }
