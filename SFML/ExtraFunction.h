@@ -10,4 +10,4 @@ int checkLoginType(std::string username, std::string password);
 
 #include "Components.h"
 #include "User.h"
-void loginLogic(User& user, InputField& username, InputField& password);
+void loginLogic(User& user, InputField& username, InputField& password, int &type);

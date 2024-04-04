@@ -33,8 +33,9 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
 
                 if (loginBtn.isClicked(mousePos)) {
                     //login and setup type
-                    loginLogic(user, username, password);
-                    type = 1; // initHomePageStudentWindow
+
+                    type += checkLoginType(username.getInput(), password.getInput());
+                    if (type != 0) loginLogic(user, username, password, type);
                     return; 
                 }
             }
@@ -45,8 +46,8 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
             }
             password.processInput(event);
             if (password.chooseNextField()) {
-                loginLogic(user, username, password);
-                type = 1; // initHomePageStudentWindow
+                type += checkLoginType(username.getInput(), password.getInput());
+                if (type != 0) loginLogic(user, username, password, type);
                 return;
             }
         }
@@ -346,4 +347,5 @@ void Activity::viewScoreStudentWindow(sf::RenderWindow& window)
 
 void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 {
+    return; 
 }

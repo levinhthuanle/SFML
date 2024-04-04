@@ -43,5 +43,11 @@ public:
 
 	void viewScoreStudentWindow(sf::RenderWindow& window);
 
+	// Staff
+
 	void initHomePageStaffWindow(sf::RenderWindow& window);
+
+	
+
+
 };
