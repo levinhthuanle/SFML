@@ -33,6 +33,7 @@ int checkLoginType(std::string acc, std::string pass) // return 0 if wrong acc/p
 	{
 		//try to open file and check password.
 		std::ifstream fin;
+		// TODO: FIXBUG: create a new string = stu + .csv
 		fin.open(cla / stu / "password.txt");
 		if (!fin.is_open()) return 0;
 		std::string p; fin >> p;
