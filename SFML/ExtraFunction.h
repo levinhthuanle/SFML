@@ -11,4 +11,4 @@ struct EF {
 int checkLoginType(std::string username, std::string password);
 
 
-void loginLogic(User& user, InputField& username, InputField& password);
+void loginLogic(User& user, InputField& username, InputField& password , int& type);

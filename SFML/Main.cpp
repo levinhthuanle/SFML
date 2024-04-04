@@ -32,6 +32,9 @@ int main()
             activity.viewScoreStudentWindow(window);
             break;
 
+        case 11:
+            activity.initHomePageStaffWindow(window); 
+            break; 
         default:
             break;
         }

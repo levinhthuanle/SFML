@@ -348,7 +348,43 @@ void Activity::viewScoreStudentWindow(sf::RenderWindow& window)
 }
 
 //Finishing this function before next week.
+//Adding create schoolyear button, show existing class & create more button
 void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 {
-    return; 
+    Text name(1505, 10, user.getUsername(), font, sf::Color(255, 255, 255), 20);
+    Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
+    Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
+    
+    if (!texture.loadFromFile("Assets/HomePageStaff.png"))
+        std::cout << "Could not load the HomePageStaff image" << std::endl;
+    std::cout << "Generate staff sucess" << std::endl;
+    sf::Sprite background(texture);
+
+
+    while (window.isOpen())
+    {
+        sf::Event event;
+        while (window.pollEvent(event))
+        {
+            if (event.type == sf::Event::Closed)
+            {
+                window.close();  // Close 
+            }
+            else if (event.type == sf::Event::MouseButtonPressed)
+            {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+            }
+
+        }
+        window.clear(sf::Color::White);
+        window.draw(background);
+
+        name.draw(window);
+        datetime.draw(window);
+        userIcon.draw(window);
+        name.draw(window);
+        window.display();
+        
+    }
+        return;
 }
