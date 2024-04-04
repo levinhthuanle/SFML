@@ -1,9 +1,11 @@
 #include "Activity.h"
 #include "ExtraFunction.h"
 // Global variables
+
+
 User user;
 
-// Not yet finished - Do not have the check valid function
+//Finished
 void Activity::initLoginWindow(sf::RenderWindow &window)
 {    
 
@@ -345,6 +347,7 @@ void Activity::viewScoreStudentWindow(sf::RenderWindow& window)
     }
 }
 
+//Finishing this function before next week.
 void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 {
     return; 

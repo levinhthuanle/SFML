@@ -74,7 +74,7 @@ int checkLoginType(std::string acc, std::string pass) // return 0 if wrong acc/p
 
 
 
-			return 2;
+			return 2; // return the correct number of activity type.
 		}
 	}
 }
