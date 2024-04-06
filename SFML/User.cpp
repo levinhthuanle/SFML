@@ -10,9 +10,12 @@ void User::setUsername(std::string username)
 	this->username = username;
 }
 
-void User::setPassword(std::string password)
-{
+void User::setPassword(std::string password) {
 	this->password = password;
+	std::fstream userFile;
+	userFile.open(this->url, std::ios::trunc);
+	userFile << password;
+	userFile.close();
 }
 
 std::string User::getUrl()
