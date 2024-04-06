@@ -36,8 +36,10 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
                 if (loginBtn.isClicked(mousePos)) {
                     //login and setup type
 
-                    type += checkLoginType(username.getInput(), password.getInput());
-                    if (type != 0) loginLogic(user, username, password, type);
+                    user.setUsername(username.getInput());
+                    user.setPassword(password.getInput());
+                    type += checkLoginType(user);
+                    //if (type != 0) loginLogic(user, username, password, type);
                     return; 
                 }
             }
@@ -48,8 +50,10 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
             }
             password.processInput(event);
             if (password.chooseNextField()) {
-                type += checkLoginType(username.getInput(), password.getInput());
-                if (type != 0) loginLogic(user, username, password, type);
+                user.setUsername(username.getInput());
+                user.setPassword(password.getInput());
+                type += checkLoginType(user);
+                /*if (type != 0) loginLogic(user, username, password, type);*/
                 return;
             }
         }
@@ -73,7 +77,7 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
 {
     
 
-    Text name(1505, 10, user.getUsername(), font, sf::Color(255, 255, 255), 20);
+    Text name(1505, 10, user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Button yourCourse(130, 162, 521, 90, "Your course", font, sf::Color(218, 110, 50));
     Button viewScore(130, 307, 521, 93, "View your score", font, sf::Color(218, 110, 50));

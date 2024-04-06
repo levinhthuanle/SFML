@@ -17,15 +17,20 @@ std::string EF::getDateTime()
 	return ss.str();
 }
 
-int checkLoginType(std::string acc, std::string pass) // return 0 if wrong acc/pass, return 1 if student, return 2 if teacher
+int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if student, return 2 if teacher
 {
-	if (acc.size() != 9) return 0;
+	std::string username = user.getUsername();
+	std::string password = user.getPassword();
+	if (username.size() != 9) return 0;
+
 	//creating path
-	fsys::path cla(acc.begin(), acc.begin() + 6);
-	std::string user(acc.begin() + 6, acc.begin() + 9);
+	fsys::path cla(username.begin(), username.begin() + 6);
+	std::string User(username.begin() + 6, username.begin() + 9);
+
+	std::cout << cla << std::endl;
 	//try to open path
-	std::string stringUser = user + ".csv";
-	std::string type(acc.begin(), acc.begin() + 2);
+	std::string stringUser = User + ".csv";
+	std::string type(username.begin(), username.begin() + 2);
 
 	if (type != "00")
 	{
@@ -41,13 +46,26 @@ int checkLoginType(std::string acc, std::string pass) // return 0 if wrong acc/p
 			std::ifstream fin;
 			fin.open("data/student" / cla / stringUser);
 
-			if (!fin.is_open()) return 0;
+			if (!fin.is_open()) 
+				return 0;
 			std::string p; fin >> p;
 
 			//check valid
-			if (p != pass) return 0;
+			if (p != password) return 0;
 
+			std::string id, fullName, className;
+			getline(fin, id); // Eat the carrier
+			getline(fin, id);
+			getline(fin, fullName);
+			getline(fin, className);
 
+			std::cout << id << '\n' << fullName << '\n' << className << '\n';
+
+			// Need to be change to private and use setter
+			user.id = id;
+			user.fullname = fullName;
+			user.className = className;
+			
 
 			return 1;
 		}
@@ -70,7 +88,7 @@ int checkLoginType(std::string acc, std::string pass) // return 0 if wrong acc/p
 			std::string p; fin >> p;
 
 			//check valid
-			if (p != pass) return 0;
+			if (p != password) return 0;
 
 
 
@@ -79,15 +97,17 @@ int checkLoginType(std::string acc, std::string pass) // return 0 if wrong acc/p
 	}
 }
 
+
+// Unused
 void loginLogic(User& user, InputField& username, InputField& password, int& type) {
-	std::cout << "Username: " << username.getInput() << std::endl;
+/*	std::cout << "Username: " << username.getInput() << std::endl;
 	std::cout << "Password: " << password.getInput() << std::endl;
 
 	user.setUsername(username.getInput());
 	user.setPassword(username.getInput());
 
 	if (type == 1) user.setType("Student");
-	else if (type == 2) user.setType("Staff");;
+	else if (type == 2) user.setType("Staff");*/;
 
-	std::cout << checkLoginType(user.getUsername(), user.getPassword()) << std::endl;
+	//std::cout << checkLoginType(user.getUsername(), user.getPassword()) << std::endl;
 }

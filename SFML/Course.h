@@ -4,8 +4,8 @@
 class Course
 {
 private:
-    int id, credits, maxStudents, session1, session2;
-    std::string courseID, courseName, teacherName, startDate, endDate;
+    int id = 0, credits = 0, maxStudents = 0, session1 = 0, session2 = 0;
+    std::string courseID = "", courseName = "", teacherName = "", startDate = "", endDate = "";
     Stack<Student> students;
 public:
 
