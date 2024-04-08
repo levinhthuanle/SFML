@@ -49,5 +49,5 @@ public:
 
 	void initInformationStaffWindow(sf::RenderWindow& window);
 
-
+	void changePasswordStaffWindow(sf::RenderWindow& window);
 };

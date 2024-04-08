@@ -10,23 +10,18 @@ int main()
 		case 0:
 			activity.initLoginWindow(window);
 			break;
-
 		case 1:
 			activity.initHomePageStudentWindow(window);
 			break;
-
 		case 2:
 			activity.initInformationStudentWindow(window);
 			break;
-
 		case 3:
 			activity.changePasswordStudentWindow(window);
 			break;
-
 		case 4:
 			activity.viewCourseStudentWindow(window);
 			break;
-
 		case 5:
 			activity.viewScoreStudentWindow(window);
 			break;
@@ -35,6 +30,9 @@ int main()
 			break;
 		case 12:
 			activity.initInformationStaffWindow(window);
+			break;
+		case 13:
+			activity.changePasswordStaffWindow(window);
 			break;
 		default:
 			break;

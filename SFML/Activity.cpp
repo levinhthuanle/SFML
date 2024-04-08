@@ -378,7 +378,7 @@ void Activity::viewScoreStudentWindow(sf::RenderWindow& window)
 
 void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 {
-    Text name(1505, 10, user.fullname, font, sf::Color(255, 255, 255), 20);
+    Text name(1446, 10, "Hello, " + user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
     Button createSYButn(89, 106, 393, 54.59, "Create School Year", font, sf::Color(144, 44, 44));
@@ -484,7 +484,7 @@ void Activity::initInformationStaffWindow(sf::RenderWindow& window)
 
                 if (changePassword.isClicked(mousePos)) {
                     std::cout << "User has clicked the change password button" << std::endl;
-                    type = 3; // changePasswordStudent
+                    type = 13; // changePasswordStaff
                     return;
                 }
             }
@@ -499,6 +499,85 @@ void Activity::initInformationStaffWindow(sf::RenderWindow& window)
         fullName.draw(window);
         goBack.draw(window);
         changePassword.draw(window);
+
+        window.display();
+    }
+}
+
+void Activity::changePasswordStaffWindow(sf::RenderWindow& window)
+{
+    Text name(1505, 10, user.fullname, font, sf::Color(255, 255, 255), 20);
+    Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
+    Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
+    Button goBackBtn(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
+    Button confirmBtn(835, 794, 316, 66, "Accept change", font, sf::Color(218, 110, 50));
+
+    InputField oldPassword(703.f, 189.f, 415.f, 51.f, font);
+    InputField newPassword(703.f, 273.f, 415.f, 51.f, font);
+    InputField cfNewPassword(703.f, 357.f, 415.f, 51.f, font);
+
+
+    if (!texture.loadFromFile("Assets/changePasswordStaff.png"))
+        std::cout << "Could not load the changePasswordStaff image" << std::endl;
+
+
+    std::cout << "Generate change password student sucess" << std::endl;
+    sf::Sprite background(texture);
+
+    while (window.isOpen()) {
+        sf::Event event;
+        //if (password.isSelected()) password.textCursor(password.getInput());
+        if (oldPassword.isSelected()) oldPassword.textCursor(oldPassword.getInput());
+        if (newPassword.isSelected()) newPassword.textCursor(newPassword.getInput());
+        if (cfNewPassword.isSelected()) cfNewPassword.textCursor(cfNewPassword.getInput());
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();  // Close 
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                oldPassword.handleMouseClick(mousePos);
+                newPassword.handleMouseClick(mousePos);
+                cfNewPassword.handleMouseClick(mousePos);
+
+                if (goBackBtn.isClicked(mousePos)) {
+                    std::cout << "User has clicked the go back button" << std::endl;
+                    type = 11; // go back to initHomePageStaffWindow
+                    return;
+                }
+
+                if (confirmBtn.isClicked(mousePos)) {
+                    std::cout << "User has clicked the confirm change password" << std::endl;
+                    type = 11;
+                    changePassword(user, oldPassword.getInput(), newPassword.getInput(), cfNewPassword.getInput());
+                    return;
+                }
+
+            }
+
+            oldPassword.processInput(event);
+            if (oldPassword.chooseNextField()) {
+                event.type = sf::Event::MouseButtonReleased;
+                newPassword.setSelected(true);
+            }
+            newPassword.processInput(event);
+            if (newPassword.chooseNextField()) {
+                event.type = sf::Event::MouseButtonReleased;
+                cfNewPassword.setSelected(true);
+            }
+            cfNewPassword.processInput(event);
+        }
+
+        window.clear(sf::Color::White);
+        window.draw(background);
+
+        name.draw(window);
+        datetime.draw(window);
+        userIcon.draw(window);
+        goBackBtn.draw(window);
+        confirmBtn.draw(window);
+        oldPassword.draw(window);
+        newPassword.draw(window);
+        cfNewPassword.draw(window);
 
         window.display();
     }
