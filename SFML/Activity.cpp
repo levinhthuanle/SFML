@@ -358,6 +358,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
     Text name(1505, 10, user.getUsername(), font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
+    Button createSYButn(89, 106, 393, 54.59, "Create School Year", font, sf::Color(144, 44, 44));
     
     if (!texture.loadFromFile("Assets/HomePageStaff.png"))
         std::cout << "Could not load the HomePageStaff image" << std::endl;
@@ -377,6 +378,12 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
             else if (event.type == sf::Event::MouseButtonPressed)
             {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+                if (createSYButn.isClicked(mousePos))
+                {
+
+
+                    //create second window to handle the work to create school year.
+                }
             }
 
         }
@@ -387,6 +394,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         datetime.draw(window);
         userIcon.draw(window);
         name.draw(window);
+        createSYButn.draw(window);
         window.display();
         
     }

@@ -65,6 +65,7 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 			user.id = id;
 			user.fullname = fullName;
 			user.className = className;
+			user.setType("Student");
 			
 
 			return 1;
@@ -89,6 +90,7 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 
 			//check valid
 			if (p != password) return 0;
+			user.setType("Staff");
 
 
 
