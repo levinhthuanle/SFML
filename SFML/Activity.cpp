@@ -375,7 +375,7 @@ void Activity::viewScoreStudentWindow(sf::RenderWindow& window)
 //Adding create schoolyear button, show existing class & create more button
 void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 {
-    Text name(1505, 10, user.getUsername(), font, sf::Color(255, 255, 255), 20);
+    Text name(1505, 10, user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
     Button createSYButn(89, 106, 393, 54.59, "Create School Year", font, sf::Color(144, 44, 44));
@@ -398,6 +398,12 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
             else if (event.type == sf::Event::MouseButtonPressed)
             {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+                if (userIcon.isClicked(mousePos)) {
+                    std::cout << "User has clicked the information icon" << std::endl;
+                    type = 12; // initInformationWindow
+                    return;
+                }
                 if (createSYButn.isClicked(mousePos))
                 {
 
@@ -419,4 +425,59 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         
     }
         return;
+}
+
+void Activity::initInformationStaffWindow(sf::RenderWindow& window)
+{
+    //InformationStaff.png
+    Text name(1505, 10, user.fullname, font, sf::Color(255, 255, 255), 20);
+    Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
+    Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
+    Button goBack(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
+    Button changePassword(833, 794, 372, 66, "Change password", font, sf::Color(218, 110, 50));
+
+    Text  fullName(672, 163, "Full name: " + user.fullname, font, sf::Color::Black, 36);
+
+
+    if (!texture.loadFromFile("Assets/InformationStaff.png"))
+        std::cout << "Could not load the InformationStaff image" << std::endl;
+
+    std::cout << "Generate Staff Information sucess" << std::endl;
+    sf::Sprite background(texture);
+
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                window.close();  // Close 
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+
+                if (goBack.isClicked(mousePos)) {
+                    std::cout << "User has clicked the go back button" << std::endl;
+                    type = 11; // go back to initHomePageStaffWindow
+                    return;
+                }
+
+                if (changePassword.isClicked(mousePos)) {
+                    std::cout << "User has clicked the change password button" << std::endl;
+                    type = 3; // changePasswordStudent
+                    return;
+                }
+            }
+        }
+
+        window.clear(sf::Color::White);
+        window.draw(background);
+
+        name.draw(window);
+        datetime.draw(window);
+        userIcon.draw(window);
+        fullName.draw(window);
+        goBack.draw(window);
+        changePassword.draw(window);
+
+        window.display();
+    }
 }

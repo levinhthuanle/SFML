@@ -47,7 +47,7 @@ public:
 
 	void initHomePageStaffWindow(sf::RenderWindow& window);
 
-	
+	void initInformationStaffWindow(sf::RenderWindow& window);
 
 
 };

@@ -35,6 +35,9 @@ int main()
         case 11:
             activity.initHomePageStaffWindow(window); 
             break; 
+        case 12:
+            activity.initInformationStaffWindow(window);
+            break;
         default:
             break;
         }
