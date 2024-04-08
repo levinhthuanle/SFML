@@ -40,6 +40,8 @@ public:
 
 	std::string getType();
 
+	
+
 	~User() {
 		username = "";
 		password = "";
