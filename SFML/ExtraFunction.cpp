@@ -91,6 +91,7 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 
 			//check valid
 			if (p != password) return 0;
+			user.setType("Staff");
 
 
 

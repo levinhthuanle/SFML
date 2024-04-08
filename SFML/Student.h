@@ -6,6 +6,8 @@ namespace fsys = std::filesystem;
 class Student 
 {
 private:
+
+
 	fsys::path studentPath;
 	User user;
 	//more information about student
@@ -21,9 +23,13 @@ public:
 
 	void getInfo();
 
-	void getScoreBoard();
+	
 
 	vector<std::string> getUnfinishedCourse();
+	
+	vector<std::string> getFinishedCourse();
+
+	void getScoreBoard();
 
 	void changePassword(std::string newPass) {
 		this->user.setPassword(newPass);
