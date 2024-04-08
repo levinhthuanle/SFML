@@ -7,11 +7,12 @@ public:
 	std::string username;
 	std::string password;
 	std::string type; // Student and Staff
-	std::string url;
+	fsys::path url;
 	std::string fullname;
 	std::string id;
 	std::string courseName;
 	std::string className;
+	// 
 
 	User(){}
 
@@ -21,7 +22,7 @@ public:
 		this->url = url;
 	}
 
-	void setUrl(std::string url);
+	void setUrl(fsys::path url);
 
 	void setUsername(std::string username);
 
@@ -31,7 +32,7 @@ public:
 		this->type = type;
 	}
 
-	std::string getUrl();
+	fsys::path getUrl();
 
 	std::string getUsername();
 
