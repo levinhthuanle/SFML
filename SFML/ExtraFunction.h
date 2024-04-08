@@ -9,5 +9,4 @@ struct EF {
 
 int checkLoginType(User& user);
 
-
-void loginLogic(User& user, InputField& username, InputField& password , int& type);
+bool changePassword(User& user, std::string oldPassword, std::string newPassword, std:: string cfNewPassword);

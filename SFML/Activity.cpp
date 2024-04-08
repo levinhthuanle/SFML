@@ -136,7 +136,7 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
 void Activity::initInformationStudentWindow(sf::RenderWindow& window)
 {
 
-    Text name(1505, 10, user.getUsername(), font, sf::Color(255, 255, 255), 20);
+    Text name(1505, 10, user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
     Button goBack(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
@@ -200,7 +200,8 @@ void Activity::changePasswordStudentWindow(sf::RenderWindow& window)
     Text name(1505, 10, user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
-    Button goBack(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
+    Button goBackBtn(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
+    Button confirmBtn(835, 794, 316, 66, "Accept change", font, sf::Color(218, 110, 50));
 
     InputField oldPassword(703.f, 189.f, 415.f, 51.f, font);
     InputField newPassword(703.f, 273.f, 415.f, 51.f, font);
@@ -216,6 +217,10 @@ void Activity::changePasswordStudentWindow(sf::RenderWindow& window)
 
     while (window.isOpen()) {
         sf::Event event;
+        //if (password.isSelected()) password.textCursor(password.getInput());
+        if (oldPassword.isSelected()) oldPassword.textCursor(oldPassword.getInput());
+        if (newPassword.isSelected()) newPassword.textCursor(newPassword.getInput());
+        if (cfNewPassword.isSelected()) cfNewPassword.textCursor(cfNewPassword.getInput());
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();  // Close 
@@ -225,17 +230,31 @@ void Activity::changePasswordStudentWindow(sf::RenderWindow& window)
                 newPassword.handleMouseClick(mousePos);
                 cfNewPassword.handleMouseClick(mousePos);
 
-                if (goBack.isClicked(mousePos)) {
+                if (goBackBtn.isClicked(mousePos)) {
                     std::cout << "User has clicked the go back button" << std::endl;
                     type = 1; // go back to initHomePageStudentWindow
                     return;
                 }
 
+                if (confirmBtn.isClicked(mousePos)) {
+                    std::cout << "User has clicked the confirm change password" << std::endl;
+                    type = 1;
+                    changePassword(user, oldPassword.getInput(), newPassword.getInput(), cfNewPassword.getInput());
+                    return;
+                }
 
             }
 
             oldPassword.processInput(event);
+            if (oldPassword.chooseNextField()) {
+                event.type = sf::Event::MouseButtonReleased;
+                newPassword.setSelected(true);
+            }
             newPassword.processInput(event);
+            if (newPassword.chooseNextField()) {
+                event.type = sf::Event::MouseButtonReleased;
+                cfNewPassword.setSelected(true);
+            }
             cfNewPassword.processInput(event);
         }
 
@@ -245,7 +264,8 @@ void Activity::changePasswordStudentWindow(sf::RenderWindow& window)
         name.draw(window);
         datetime.draw(window);
         userIcon.draw(window);
-        goBack.draw(window);
+        goBackBtn.draw(window);
+        confirmBtn.draw(window);
         oldPassword.draw(window);
         newPassword.draw(window);
         cfNewPassword.draw(window);

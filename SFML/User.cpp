@@ -1,6 +1,6 @@
 #include "User.h"
 
-void User::setUrl(std::string url)
+void User::setUrl(fsys::path url)
 {
 	this->url = url;
 }
@@ -18,7 +18,7 @@ void User::setPassword(std::string password) {
 	userFile.close();
 }
 
-std::string User::getUrl()
+fsys::path User::getUrl()
 {
 	return url;
 }

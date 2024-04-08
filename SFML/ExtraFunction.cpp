@@ -65,8 +65,9 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 			user.id = id;
 			user.fullname = fullName;
 			user.className = className;
-			user.setType("Student");
-			
+			user.type = "Student";
+			fsys::path temp = "data/student" / cla / stringUser;
+			user.url = temp;
 
 			return 1;
 		}
@@ -99,17 +100,34 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 	}
 }
 
+bool changePassword(User& user, std::string oldPassword, std::string newPassword, std::string cfNewPassword)
+{
+	if (user.getPassword() != oldPassword) {
+		std::cout << "The old password you enter is now correct" << std::endl;
+		return false;
+	}
 
-// Unused
-void loginLogic(User& user, InputField& username, InputField& password, int& type) {
-/*	std::cout << "Username: " << username.getInput() << std::endl;
-	std::cout << "Password: " << password.getInput() << std::endl;
+	if (newPassword != cfNewPassword) {
+		std::cout << "The new Password and confirm Password does not match!" << std::endl;
+		return false;
+	}
 
-	user.setUsername(username.getInput());
-	user.setPassword(username.getInput());
+	user.setPassword(newPassword);
+	std::ofstream fout;
+	fout.open(user.url);
+	if (!fout.is_open()) {
+		std::cout << "Can not open the user information file!" << std::endl;
+		return false;
+	}
 
-	if (type == 1) user.setType("Student");
-	else if (type == 2) user.setType("Staff");*/;
+	fout << user.getPassword() << std::endl;
+	fout << user.id << std::endl;
+	fout << user.fullname << std::endl;
+	fout << user.className << std::endl;
 
-	//std::cout << checkLoginType(user.getUsername(), user.getPassword()) << std::endl;
+	fout.close();
+
+	std::cout << "Succesful change the password" << std::endl;
+	return true;
 }
+
