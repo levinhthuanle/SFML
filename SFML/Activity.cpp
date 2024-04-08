@@ -5,6 +5,8 @@
 
 User user;
 
+vector<std::string> schoolYear = getYearFolder();
+
 //Finished
 void Activity::initLoginWindow(sf::RenderWindow &window)
 {    
@@ -373,19 +375,27 @@ void Activity::viewScoreStudentWindow(sf::RenderWindow& window)
 
 //Finishing this function before next week.
 //Adding create schoolyear button, show existing class & create more button
+
 void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 {
     Text name(1505, 10, user.getUsername(), font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
     Button createSYButn(89, 106, 393, 54.59, "Create School Year", font, sf::Color(144, 44, 44));
+
+    vector<Button> schoolYearButton; 
+    for (int i = 0; i < schoolYear.size(); ++i)
+    {
+        Button newButton(89.0f , 106.0F +(i + 1) * 70, 393.0f, 54.59, schoolYear[i], font, sf::Color(144, 44, 44));
+        schoolYearButton.push_back(newButton); 
+    }
     
     if (!texture.loadFromFile("Assets/HomePageStaff.png"))
         std::cout << "Could not load the HomePageStaff image" << std::endl;
     std::cout << "Generate staff sucess" << std::endl;
     sf::Sprite background(texture);
 
-
+    
     while (window.isOpen())
     {
         sf::Event event;
@@ -415,6 +425,10 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         userIcon.draw(window);
         name.draw(window);
         createSYButn.draw(window);
+        for (int i = 0; i < schoolYear.size(); ++i)
+        {
+            schoolYearButton[i].draw(window); 
+        }
         window.display();
         
     }
