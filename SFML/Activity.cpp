@@ -384,9 +384,9 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
     Button createSYButn(89, 106, 393, 54.59, "Create School Year", font, sf::Color(144, 44, 44));
 
     vector<Button> schoolYearButton; 
-    for (int i = 0; i < schoolYear.size(); ++i)
+    for (int i = 0; i < min(schoolYear.size(), 3LL); ++i)
     {
-        Button newButton(89.0f , 106.0F +(i + 1) * 70, 393.0f, 54.59, schoolYear[i], font, sf::Color(144, 44, 44));
+        Button newButton(89.0f , 106.0F +(i + 1) * 200, 393.0f, 54.59, schoolYear[i], font, sf::Color(144, 44, 44));
         schoolYearButton.push_back(newButton); 
     }
     
@@ -414,6 +414,14 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 
                     //create second window to handle the work to create school year.
                 }
+                for (int i = 0; i < min(schoolYear.size(), 3LL); ++i)
+                {
+                    if (schoolYearButton[i].isClicked(mousePos))
+                    {
+                        //create second window to handle the work to create semester && class.
+                    }
+                }
+
             }
 
         }
