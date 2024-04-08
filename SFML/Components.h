@@ -232,6 +232,10 @@ public:
         text.setPosition(x, y);
     }
 
+    std::string getContent() {
+        return text.getString();
+    }
+
     // Set text string
     void setString(const std::string& str) {
         text.setString(str);
@@ -258,4 +262,54 @@ public:
     }
 };
 
+class Calendar {
+public:
+    sf::Font font;
+    sf::Text text;
+    Calendar(sf::Font font) {
+        this->font = font;
+        system("python calendar.py");
+        std::ifstream fin;
+        fin.open("data/calendar.txt");
+        std::string s = "", temp;
+        getline(fin, temp);
+        s = s + '\n' + temp;
+        fin.close();
 
+        // Text(float x, float y, const std::string& content, sf::Font& font, const sf::Color& color, unsigned int size) {
+
+        Text calendar(1402, 207, s, font, sf::Color(0, 0, 0), 25);
+        Text days(1384, 133, "Mo Tu We Th Fr Sa Su", font, sf::Color(26, 114, 98), 25);
+
+    }
+
+    Calendar() {
+        system("python calendar.py");
+        std::ifstream fin;
+        fin.open("data/calendar.txt");
+        if (!fin.is_open())
+            std::cout << "Could not open the calendar file" << std::endl;
+
+        std::string s = "", temp;
+        while (!fin.eof()) {
+            getline(fin, temp);
+            s = s + '\n' + temp;
+        }
+        
+        fin.close();
+
+        // Text(float x, float y, const std::string& content, sf::Font& font, const sf::Color& color, unsigned int size) {
+
+        text.setFont(font);
+        text.setCharacterSize(25);
+        text.setFillColor(sf::Color(100, 100,100));
+        text.setString(s);
+        text.setPosition(1384, 169);
+
+        //std::cout << text.getString().toAnsiString() << std::endl;
+    }
+
+    void draw(sf::RenderWindow& window){
+        window.draw(text);
+    }
+};

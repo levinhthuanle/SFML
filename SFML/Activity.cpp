@@ -4,8 +4,10 @@
 
 
 User user;
+Calendar calendar;
 
 vector<std::string> schoolYear = getYearFolder();
+
 
 //Finished
 void Activity::initLoginWindow(sf::RenderWindow &window)
@@ -79,7 +81,7 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
 {
     
 
-    Text name(1505, 10, user.fullname, font, sf::Color(255, 255, 255), 20);
+    Text name(1446, 10, "Hello, " + user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Button yourCourse(130, 162, 521, 90, "Your course", font, sf::Color(218, 110, 50));
     Button viewScore(130, 307, 521, 93, "View your score", font, sf::Color(218, 110, 50));
@@ -125,8 +127,8 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
 
         name.draw(window);
         datetime.draw(window);
-        yourCourse.draw(window);
-        viewScore.draw(window);
+        //yourCourse.draw(window);
+        //viewScore.draw(window);
         userIcon.draw(window);
 
         window.display();
@@ -138,7 +140,7 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
 void Activity::initInformationStudentWindow(sf::RenderWindow& window)
 {
 
-    Text name(1505, 10, user.fullname, font, sf::Color(255, 255, 255), 20);
+    Text name(1446, 10,"Hello, " + user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
     Button goBack(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
@@ -199,7 +201,7 @@ void Activity::initInformationStudentWindow(sf::RenderWindow& window)
 // Not yet finished - Do not have data
 void Activity::changePasswordStudentWindow(sf::RenderWindow& window)
 {
-    Text name(1505, 10, user.fullname, font, sf::Color(255, 255, 255), 20);
+    Text name(1446, 10,"Hello, " + user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
     Button goBackBtn(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
@@ -380,8 +382,13 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 {
     Text name(1446, 10, "Hello, " + user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
+    Text days(1390, 133, "Mo Tu We Th Fr Sa Su", font, sf::Color(26, 114, 98), 25);
+    Text newCalendar(1384, 169, calendar.text.getString().toAnsiString(), font, sf::Color(26, 114, 98), 25);
+
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
     Button createSYButn(89, 106, 393, 54.59, "Create School Year", font, sf::Color(144, 44, 44));
+    Button viewAllCoursesBtn(1375, 436, 300, 55, "View all courses", font, sf::Color(144, 44, 44));
+    
 
     vector<Button> schoolYearButton; 
     for (int i = 0; i < min(schoolYear.size(), 3LL); ++i)
@@ -433,17 +440,26 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         }
         window.clear(sf::Color::White);
         window.draw(background);
+        window.draw(calendar.text);
+        std::cout << calendar.text.getString().toAnsiString() << std::endl;
 
         name.draw(window);
         datetime.draw(window);
         userIcon.draw(window);
         name.draw(window);
         createSYButn.draw(window);
+        viewAllCoursesBtn.draw(window);
+        days.draw(window);
+        newCalendar.draw(window);
+
         for (int i = 0; i < schoolYear.size(); ++i)
         {
             schoolYearButton[i].draw(window); 
         }
+        
+        
         window.display();
+
         
     }
         return;
@@ -452,7 +468,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 void Activity::initInformationStaffWindow(sf::RenderWindow& window)
 {
     //InformationStaff.png
-    Text name(1505, 10, user.fullname, font, sf::Color(255, 255, 255), 20);
+    Text name(1505, 10,"Hello, " + user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
     Button goBack(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));

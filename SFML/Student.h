@@ -6,10 +6,9 @@ namespace fsys = std::filesystem;
 class Student 
 {
 private:
-
-
 	fsys::path studentPath;
 	User user;
+
 	//more information about student
 public: 
 	Student() {}
