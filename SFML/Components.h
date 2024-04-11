@@ -1,6 +1,8 @@
 #pragma once
 #include "Requirement.h"
-
+#include "Subject.h"
+#include <string>
+#include <iomanip>
 
 class InputField {
 private:
@@ -236,6 +238,14 @@ public:
         return text.getString();
     }
 
+    void setAttribute(float x, float y, const std::string& content, sf::Font& font, const sf::Color& color, unsigned int size) {
+        text.setFont(font); 
+        text.setCharacterSize(size); 
+        text.setFillColor(color); 
+        text.setString(content); 
+        text.setPosition(x, y);
+    }
+
     // Set text string
     void setString(const std::string& str) {
         text.setString(str);
@@ -315,5 +325,73 @@ public:
 };
 
 class courseButton {
+private:
+    sf::RectangleShape shape;
+    sf::Text courseId, courseName, teacherName, time, credits, seeMore;
 
+public:
+    courseButton() {}
+
+    courseButton(float x, float y, const Subject infor, sf::Font& font) {
+        const float width = 250.f, height = 186.f, thickness = 6.f;
+        const sf::Color fillColor = sf::Color(245, 244, 244), outlineColor = sf::Color(81, 161, 147);
+        
+        shape.setPosition(sf::Vector2f(x, y));
+        shape.setSize(sf::Vector2f(width, height));
+        shape.setFillColor(fillColor);
+        shape.setOutlineThickness(thickness);
+        shape.setOutlineColor(outlineColor);
+
+        courseId.setFont(font);
+        courseId.setString(infor.courseId);
+        courseId.setCharacterSize(36);
+        courseId.setFillColor(outlineColor);
+        courseId.setPosition(x + 10.f, y + 10.f);
+        courseId.setOutlineColor(outlineColor);
+        courseId.setOutlineThickness(1.f);
+
+        courseName.setFont(font);
+        courseName.setString(infor.courseName);
+        courseName.setCharacterSize(16);
+        courseName.setFillColor(outlineColor);
+        courseName.setPosition(x + 10.f, y + 50.f);
+       
+        teacherName.setFont(font);
+        teacherName.setString(infor.teacherName);
+        teacherName.setCharacterSize(16);
+        teacherName.setFillColor(outlineColor);
+        teacherName.setPosition(x + 10.f, y + 100.f);
+
+        time.setFont(font);
+        time.setString(infor.days + " " + infor.time);
+        time.setCharacterSize(16);
+        time.setFillColor(sf::Color(218, 110, 50));
+        time.setPosition(x + 10.f, y + 120.f);
+
+        credits.setFont(font);
+        credits.setString("Number of credit: " + std::to_string(infor.credits));
+        credits.setCharacterSize(16);
+        credits.setFillColor(sf::Color(218, 110, 50));
+        credits.setPosition(x + 10.f, y + 140.f);
+
+        seeMore.setFont(font);
+        seeMore.setString("See more >> ");
+        seeMore.setCharacterSize(16);
+        seeMore.setFillColor(sf::Color(218, 110, 50));
+        seeMore.setPosition(x + 10.f, y + 160.f);
+    }
+
+    void draw(sf::RenderWindow& window) {
+        window.draw(shape);
+        window.draw(courseId);
+        window.draw(courseName);
+        window.draw(teacherName);
+        window.draw(time);
+        window.draw(credits);
+        window.draw(seeMore);
+    }
+
+    bool isClicked(const sf::Vector2i& mousePos) {
+        return shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+    }
 };

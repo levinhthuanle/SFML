@@ -9,9 +9,6 @@ Calendar calendar;
 vector<std::string> schoolYearName = getYearFolder();
 
 //// create object for each type of user. 
-Student student; 
-Teacher teacher; 
-
 
 //Finished
 void Activity::initLoginWindow(sf::RenderWindow &window)
@@ -87,6 +84,25 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 35, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
 
+    int unfinshedCourse = 0, finishedCourse = 0;
+    vector<courseButton> unfinBtn, finBtn;
+
+    for (int i = unfinshedCourse; i < user.listOfUnfinCourse.size(); i++) {
+        //float x, float y, Subject course, sf::Font font, sf::RenderWindow& window){
+        //courseButton newCourseBtn((float) (52 + 280 * (i - unfinshedCourse)), 175, "test", font);
+        courseButton newCourseBtn((float) (52 + 280 * (i - unfinshedCourse)), 175, user.listOfUnfinCourse[i], font);
+        unfinBtn.push_back(newCourseBtn);
+        
+    }
+
+    for (int i = unfinshedCourse; i < user.listOfUnfinCourse.size(); i++) {
+        //float x, float y, Subject course, sf::Font font, sf::RenderWindow& window){
+        courseButton newCourseBtn((float)(52 + 280 * (i - unfinshedCourse)), 685, user.listOfFinCourse[i], font);
+        finBtn.push_back(newCourseBtn);
+
+    }
+
+
     if (!texture.loadFromFile("Assets/HomePageStudent.png"))
         std::cout << "Could not load the HomePageStudent image" << std::endl;
 
@@ -114,10 +130,14 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
         window.clear(sf::Color::White);
         window.draw(background);
 
+
         name.draw(window);
         datetime.draw(window);
         userIcon.draw(window);
-
+        for (int i = 0; i < unfinBtn.size(); i++)
+            unfinBtn[i].draw(window);
+        for (int i = 0; i < finBtn.size(); i++)
+            finBtn[i].draw(window);
         window.display();
     }
 
