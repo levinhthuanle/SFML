@@ -13,7 +13,7 @@ public:
 	std::string id;
 	std::string courseName;
 	std::string className;
-	std::string dayOfBirth;
+	std::string dayOfBirth, gender, socialId;
 	vector<Subject> listOfFinCourse;
 	vector<Subject> listOfUnfinCourse;
 	// 

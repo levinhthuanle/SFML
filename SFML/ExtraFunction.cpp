@@ -17,6 +17,56 @@ std::string EF::getDateTime()
 	return ss.str();
 }
 
+
+
+void getSubjectData(User& user, fsys::path url)
+{
+	std::ifstream sub;
+	
+	sub.open(url); 
+
+	if (!sub.is_open()) {
+		std::cout << "Can not open subject.csv file" << std::endl;
+		return;
+	}
+
+	while(!sub.eof()){
+		std::string courseId, courseName, teacherName, days, time, temp;
+		int credits, numOfStudents, sessions;
+
+		getline(sub, courseId);
+		getline(sub, courseName);
+		getline(sub, teacherName);
+		sub >> credits; getline(sub, temp);
+		sub >> numOfStudents; getline(sub, temp);
+		sub >> sessions; getline(sub, temp);
+		getline(sub, days);
+		getline(sub, time);
+	
+
+		getline(sub, temp);
+		Subject tempSubject(temp);
+
+		tempSubject.courseId = courseId;
+		tempSubject.courseName = courseName;
+		tempSubject.teacherName = teacherName;
+		tempSubject.days = days;
+		tempSubject.time = time;
+		tempSubject.credits = credits;
+		tempSubject.numOfStudents = numOfStudents;
+		tempSubject.sessions = sessions;
+
+		std::cout << temp << std::endl;
+		if (tempSubject.completed)
+			user.listOfFinCourse.push_back(tempSubject);
+		else
+			user.listOfUnfinCourse.push_back(tempSubject);
+
+		
+	}
+	sub.close();
+}
+
 int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if student, return 2 if teacher
 {
 	std::string username = user.getUsername();
@@ -40,6 +90,9 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 		}
 		else
 		{
+			std::string subjectUrl = User + "_subject.csv";
+			getSubjectData(user, "data/student" / cla / subjectUrl);
+
 			std::ifstream fin;
 			fin.open("data/student" / cla / stringUser);
 
@@ -50,35 +103,21 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 			//check valid
 			if (p != password) return 0;
 
-			std::string id, fullName, className;
-			getline(fin, id); // Eat the carrier
-			getline(fin, className);
-			getline(fin, id);
-			getline(fin, fullName);
-			getline(fin, user.dayOfBirth);
+			getline(fin, user.id); // Eat the carrier
 
-			while (!fin.eof()) {
-				std::string temp;
-				getline(fin, temp);
-				Subject tempSubject(temp);
-				std::cout << temp << std::endl;
-				if (tempSubject.completed)
-					user.listOfFinCourse.push_back(tempSubject);
-				else
-					user.listOfUnfinCourse.push_back(tempSubject);
-			}
-
-			std::cout << id << '\n' << fullName << '\n' << className << '\n';
+			getline(fin, user.id);
+			getline(fin, user.className);
+			getline(fin, user.fullname);
+			getline(fin, user.gender);
+			getline(fin, user.socialId);
+			std::cout << user.id << '\n' << user.fullname << '\n' << user.className << '\n';
 			std::cout << "Numer of courses:" << user.listOfFinCourse.size() << " " << user.listOfUnfinCourse.size() << std::endl;
 
 			// Need to be change to private and use setter
-			user.id = id;
-			user.fullname = fullName;
-			user.className = className;
 			user.type = "Student";
 			fsys::path temp = "data/student" / cla / stringUser;
 			user.url = temp;
-
+			fin.close();
 			return 1;
 		}
 	}
