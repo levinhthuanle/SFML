@@ -11,6 +11,8 @@ private:
 	Date endDate;
 	vector<Course> courses;
 public:
+	Semester() {};
+
 	Semester(std::string directory) {
 
 		name = directory.substr(directory.find_last_of("/") + 1);

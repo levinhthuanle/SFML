@@ -5,7 +5,9 @@
 class SchoolYear {
 private:
 	std::string year;
-	vector<Semester> semesters;
+	Semester smtr1;
+	Semester smtr2;
+	Semester smtr3;
 	vector<Class> classes;
 public:
 	SchoolYear() {}
@@ -14,25 +16,12 @@ public:
 		return year;
 	}
 
-	vector<Semester> getSemester() {
-		return semesters;
-	}
-
-	vector<Class> getClasses() {
-		return classes;
-	}
-
 	void setYear(std::string year) {
 		this->year = year;
 	}
 
-	void setSemester(vector<Semester> semesters) {
-		this->semesters = semesters;
-	}
 
-	void setClasses(vector<Class> classes) {
-		this->classes = classes;
-	}
+
 
 
 };

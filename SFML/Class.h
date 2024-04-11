@@ -38,33 +38,4 @@ public:
 
 	}
 
-	//~Class() {
-	//	while (!students.isEmpty()) {
-	//		students.pop();
-	//	}
-	//}
-
-
-
-	std::string getClassID();
-
-	std::string getClassName();
-
-	void setClassID(std::string classID);
-
-	//function to create whole student 
-	void createWholeStudentList()
-	{
-		fsys::create_directories("data/course/" + classID); 
-		for (int i = 0; i < students.size(); ++i)
-			students[i].create(); 
-	}
-
-	//Student
-	//void addStudent(Student student) {
-	//	students.push(student);
-	//}
-	//Stack<Student> getStudents() {
-	//	return students;
-	//}
 };
