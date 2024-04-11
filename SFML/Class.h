@@ -38,4 +38,20 @@ public:
 
 	}
 
+	void readData(fsys::path filepath) {
+		classID = "";
+		csvFile studentList(filepath);
+		studentList.readFile();
+
+		for (int i = 0; i < studentList.content.size(); ++i)
+		{
+			vector<std::string> info(7);
+			info[0] = classID;
+			for (int j = 0; j < 5; ++i)
+			{
+				info[j + 1] = studentList.content[i][j];
+			}
+			students.push_back(Student(info));
+		}
+	}
 };

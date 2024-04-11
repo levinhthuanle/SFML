@@ -313,3 +313,7 @@ public:
         window.draw(text);
     }
 };
+
+class courseButton {
+
+};

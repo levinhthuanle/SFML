@@ -1,5 +1,6 @@
 #pragma once
 #include "Requirement.h"
+#include "Subject.h"
 class User
 {
 //private:
@@ -12,6 +13,9 @@ public:
 	std::string id;
 	std::string courseName;
 	std::string className;
+	std::string dayOfBirth;
+	vector<Subject> listOfFinCourse;
+	vector<Subject> listOfUnfinCourse;
 	// 
 
 	User(){}

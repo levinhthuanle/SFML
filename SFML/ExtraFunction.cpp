@@ -40,9 +40,6 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 		}
 		else
 		{
-
-			//try to open file and get password.
-
 			std::ifstream fin;
 			fin.open("data/student" / cla / stringUser);
 
@@ -55,11 +52,24 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 
 			std::string id, fullName, className;
 			getline(fin, id); // Eat the carrier
+			getline(fin, className);
 			getline(fin, id);
 			getline(fin, fullName);
-			getline(fin, className);
+			getline(fin, user.dayOfBirth);
+
+			while (!fin.eof()) {
+				std::string temp;
+				getline(fin, temp);
+				Subject tempSubject(temp);
+				std::cout << temp << std::endl;
+				if (tempSubject.completed)
+					user.listOfFinCourse.push_back(tempSubject);
+				else
+					user.listOfUnfinCourse.push_back(tempSubject);
+			}
 
 			std::cout << id << '\n' << fullName << '\n' << className << '\n';
+			std::cout << "Numer of courses:" << user.listOfFinCourse.size() << " " << user.listOfUnfinCourse.size() << std::endl;
 
 			// Need to be change to private and use setter
 			user.id = id;
@@ -78,6 +88,7 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 		{
 			return 0;
 		}
+
 		else
 		{
 
@@ -116,6 +127,26 @@ bool changePassword(User& user, std::string oldPassword, std::string newPassword
 	}
 
 	user.setPassword(newPassword);
+
+	vector<std::string> listOfCourse;
+	// Read all the course in the student file
+	if (user.getType() == "Student") {
+
+		std::ifstream fin;
+		fin.open(user.url);
+		if (!fin.is_open())
+			std::cout << "Can not open information file to change password" << std::endl;
+
+		std::string temp;
+		for (int i = 1; i <= 5; i++)
+			getline(fin, temp); // Pass the usser information
+		while (!fin.eof()) {
+			getline(fin, temp);
+			listOfCourse.push_back(temp);
+		}
+		fin.close();
+	}
+
 	std::ofstream fout;
 	fout.open(user.url);
 	if (!fout.is_open()) {
@@ -124,11 +155,14 @@ bool changePassword(User& user, std::string oldPassword, std::string newPassword
 	}
 
 	fout << user.getPassword() << std::endl;
-
 	if (user.getType() == "Student") {
+		fout << user.className << std::endl;
 		fout << user.id << std::endl;
 		fout << user.fullname << std::endl;
-		fout << user.className << std::endl;
+		fout << user.dayOfBirth << std::endl;
+
+		for (int i = 0; i < listOfCourse.size(); i++)
+			fout << listOfCourse[i] << std::endl;
 	}
 
 	else {
