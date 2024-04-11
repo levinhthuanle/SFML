@@ -3,6 +3,16 @@
 
 namespace fsys = std::filesystem;
 
+bool createFolder(fsys::path folderPath) {
+    if (fsys::exists(folderPath)) {
+        std::cerr << folderPath << " already exists.\n";
+        return false;
+    }
+
+    fsys::create_directories(folderPath);
+    return true;
+}
+
 // void createMultipleDirectories(fsys::path path, Stack <std::string> list_name);
 
 class csvFile {

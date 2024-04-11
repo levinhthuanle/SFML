@@ -1,66 +1,94 @@
 #pragma once
 #include "Requirement.h"
+#include "FileNFolder.h"
+#include "vector.h"
+
+
+//The structure of the files:
+//__info.csv__
+//Name,         Teacher,    Credits,    Max Students,   Current Students,   Day,    Session,
+//Calculus II,  PTMDuyen,   4,          50,             36,                 Wed,      1,
+//
+//__score.csv__
+//Stu ID,       Class,      Name,       Score,
+//23125000      23TT2,      ABCDee      9.9
+
 
 class Course
 {
 private:
-    int id = 0, credits = 0, maxStudents = 0, session1 = 0, session2 = 0;
-    std::string courseID = "", courseName = "", teacherName = "", startDate = "", endDate = "";
-    Stack<Student> students;
+    std::string id;
+    fsys::path folderPath;
+    csvFile infoFile;
+    csvFile scoreFile;
+    vector<std::string> info;               //content of the info file (the second row)
+
+    void displayErrorExceedMaxStu() {
+        std::cerr << "Max students exceeded.\n";
+    }
+
 public:
 
-    Course(int id) {
+    vector<vector<std::string>> score;      //content of the score file (from the second row)
+
+    Course(){}
+
+    Course(fsys::path motherFolder, std::string id, int maxStu) {
         this->id = id;
+        this->folderPath = motherFolder / id;
+        createFolder(this->folderPath);
+
+        csvFile inf(folderPath / "info.csv");
+        this->infoFile = inf;
+
+        csvFile sco(folderPath / "score.csv");
+        this->scoreFile = sco;
+
+        infoFile.readFile();
+        this->info = infoFile.content[1];       //Get the second row of infoFile
+
+        this->setMaxStu(maxStu);
+
+        scoreFile.readFile();
+        int stuNum = scoreFile.content.size();
+        if (stuNum > this->getMaxStu()) {
+            displayErrorExceedMaxStu();
+        }
+        else {
+            this->setCurStu(stuNum);
+            for (int i = 1; i < stuNum; i++) this->score.push_back(scoreFile.content[i]);
+        }
+        
     }
 
-    Course(int id, std::string courseName) : Course(id) {
-        this->courseName = courseName;
+    std::string getID() { return id; }
+    fsys::path getPath() { return folderPath; }
+    std::string getName() { return info[0]; }
+    void setName(std::string name) {
+        this->info[0] = name;
     }
-
-    Course(int id, std::string courseID, std::string courseName, std::string teacherName, int credits, int maxStudents, int session1, int session2, std::string startDate, std::string endDate)
-        : Course(id, courseName) {
-        this->courseID = courseID;
-        this->teacherName = teacherName;
-        this->credits = credits;
-        this->maxStudents = maxStudents;
-        this->session1 = session1;
-        this->session2 = session2;
-        this->startDate = startDate;
-        this->endDate = endDate;
+    std::string getTeacher() { return info[1]; }
+    void setTeacher(std::string teacher) {
+        this->info[1] = teacher;
     }
-
-    ~Course() {
-            while (!students.isEmpty()) {
-                students.pop();
-            }
+    int getCredit() { return stoi(info[2]); }
+    void setCredit(int credit) {
+        this->info[2] = std::to_string(credit);
     }
-
-    int getId() {return id;}
-
-    int getID() { return id; }
-
-    std::string getCourseID() { return courseID; }
-
-    std::string getCourseName() { return courseName; }
-
-    std::string getTeacherName() { return teacherName; }
-
-    int getCredits() { return credits; }
-
-    void setFirstSession(int session1) { this->session1 = session1; }
-
-    int getFirstSession() { return session1; }
-
-    void setSecondSession(int session2) { this->session2 = session2; }
-
-    int getSecondSession() { return session2; }
-
-    //Student
-    void addStudent(Student student) {
-		students.push(student);
-	}
-    Stack<Student> getStudents() {
-        return students;
+    int getMaxStu() { return stoi(info[3]); }
+    void setMaxStu(int maxStu) {
+        this->info[3] = std::to_string(maxStu);
     }
-    
+    int getCurStu() { return stoi(info[4]); }
+    void setCurStu(int curStu) {
+        this->info[4] = std::to_string(curStu);
+    }
+    std::string getDay() { return info[5]; }
+    void setDay(std::string day) {
+        this->info[5] = day;
+    }
+    std::string getSession() { return info[6]; }
+    void setSession(std::string session) {
+        this->info[6] = session;
+    }
 };
