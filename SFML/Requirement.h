@@ -7,11 +7,19 @@
 #include <string>
 #include <sstream>
 #include <filesystem>
-#include "Drawio.h"
-#include "Activity.h"
-#include "LinkList.h"
-#include "Teacher.h"
-#include "Student.h"
-#include "Components.h"
-#include "ExtraFunction.h"
-#include "User.h"
+#include <ctime>
+#include <iomanip>
+
+#include <type_traits>
+#include <algorithm>
+#include <cassert>
+
+
+#include <sstream>
+#include <stdexcept>
+
+
+
+//define namespace to work with files
+namespace fsys = std::filesystem;
+

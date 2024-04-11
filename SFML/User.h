@@ -1,17 +1,23 @@
 #pragma once
 #include "Requirement.h"
+#include "Subject.h"
 class User
 {
-private:
+//private:
+public:
 	std::string username;
 	std::string password;
 	std::string type; // Student and Staff
-	std::string url;
+	fsys::path url;
 	std::string fullname;
 	std::string id;
 	std::string courseName;
 	std::string className;
-public:
+	std::string dayOfBirth, gender, socialId;
+	vector<Subject> listOfFinCourse;
+	vector<Subject> listOfUnfinCourse;
+	// 
+
 	User(){}
 
 	User(std::string username, std::string password, std::string url) {
@@ -20,7 +26,7 @@ public:
 		this->url = url;
 	}
 
-	void setUrl(std::string url);
+	void setUrl(fsys::path url);
 
 	void setUsername(std::string username);
 
@@ -30,13 +36,15 @@ public:
 		this->type = type;
 	}
 
-	std::string getUrl();
+	fsys::path getUrl();
 
 	std::string getUsername();
 
 	std::string getPassword();
 
 	std::string getType();
+
+	
 
 	~User() {
 		username = "";

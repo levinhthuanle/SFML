@@ -8,6 +8,9 @@ private:
     sf::Text text;
     bool selected;
     std::string input;
+    sf::Clock clock;
+    bool showCursor;    //When selected, if the text cursor "|" is shown
+    bool nextField;     //Automatically choose the next field
 
 public:
     InputField(float x, float y, float width, float height, sf::Font& font) {
@@ -18,10 +21,33 @@ public:
         //shape.setOutlineColor(sf::Color::Black);
 
         text.setFont(font);
-        text.setCharacterSize(20);
+        text.setCharacterSize(int(height * 0.7));
         text.setFillColor(sf::Color::Black);
         text.setPosition(x + 5.f, y + 5.f);
 
+        nextField = false;
+        showCursor = false;
+        selected = false;
+    }
+
+    InputField(float x, float y, float width, float height, sf::Font& font, std::string defaultText) {  //initiate inputfield which already had text, like in courses's scoreboard in staff view
+        shape.setPosition(sf::Vector2f(x, y));
+        shape.setSize(sf::Vector2f(width, height));
+        shape.setFillColor(sf::Color::White);
+        shape.setOutlineThickness(0.f);
+        //shape.setOutlineColor(sf::Color::Black);
+
+        text.setFont(font);
+        text.setCharacterSize(int(height * 0.7));
+        text.setFillColor(sf::Color::Black);
+        text.setPosition(x + 5.f, y + 5.f);
+
+        //set default text
+        input = defaultText;
+        text.setString(input);
+
+        nextField = false;
+        showCursor = false;
         selected = false;
     }
 
@@ -37,6 +63,14 @@ public:
         return selected;
     }
 
+    bool chooseNextField() {
+        if (nextField) {
+            nextField = false;
+            return true;
+        }
+        return false;
+    }
+
     void processInput(sf::Event& event) {
         if (selected) {
             if (event.type == sf::Event::TextEntered) {
@@ -44,17 +78,21 @@ public:
                     if (!input.empty())
                         input.pop_back();
                 }
-                else if (event.text.unicode == '\r') { //Bao's commit No. 01 // Set unselected for ENTER input
+                else if (event.text.unicode == '\r') {  // Set unselected for ENTER input
                     selected = false;
+                    nextField = true;
+                }
+                else if (event.text.unicode == '\t') {  // Set unselected for TAB input
+                    selected = false;
+                    nextField = true;
                 }
                 else if (event.text.unicode < 128) {
                     input += static_cast<char>(event.text.unicode);
                 }
             }
         }
-        if (!selected) text.setString(input); //Bao's commit No. 01 // Remove "_" at the end of unselected inputfield
-        else text.setString(input + "_"); //Bao's commit No. 01 // Set "_" at the end of selected inputfield
-        setSelected(selected);
+        else text.setString(input);
+        setSelected(selected); 
     }
 
     std::string getInput() const {
@@ -74,6 +112,27 @@ public:
         window.draw(shape);
         window.draw(text);
     }
+
+    void setText(std::string content) {
+        text.setString(content);
+    }
+
+    void textCursor(std::string input) {
+        if (!showCursor) {
+            if (clock.getElapsedTime().asSeconds() >= 0.4f) {
+                text.setString(input + "|");
+                clock.restart();
+                showCursor = true;
+            }
+        }
+        else {
+            if (clock.getElapsedTime().asSeconds() >= 0.4f) {
+                text.setString(input);
+                clock.restart();
+                showCursor = false;
+            }
+        }
+    }
 };
 
 class Button {
@@ -82,21 +141,21 @@ private:
     sf::Text text;
 
 public:
+    Button(){}
+
     Button(float x, float y, float width, float height, const std::string& buttonText, sf::Font& font, const sf::Color& fillColor) {
         shape.setPosition(sf::Vector2f(x, y));
         shape.setSize(sf::Vector2f(width, height));
         shape.setFillColor(fillColor);
+        shape.setOutlineThickness(2.f);
+        shape.setOutlineColor(sf::Color::Black);
 
         text.setFont(font);
         text.setString(buttonText);
-        text.setCharacterSize(height/2 + 5);
+        text.setCharacterSize(int(height/2 + 5));
         text.setFillColor(sf::Color::White);
         text.setPosition(x + 10.f, y + 10.f);
 
-        // Calculate position to center the text within the button
-        sf::FloatRect textBounds = text.getLocalBounds();
-        text.setOrigin(textBounds.left + textBounds.width / 2.f, textBounds.top + textBounds.height / 2.f);
-        text.setPosition(sf::Vector2f(x + width / 2.f, y + height / 2.f));
     }
 
     void draw(sf::RenderWindow& window) {
@@ -109,139 +168,152 @@ public:
     }
 };
 
-
-class TextBox {
+class Circle {
 private:
-    sf::Text text;
+    sf::CircleShape circle;
+    sf::Texture texture;
+    sf::Sprite sprite;
 
 public:
-    TextBox(float x, float y, int charSize, sf::Color color, sf::Font& font) {
-        text.setPosition(x, y);
-        text.setCharacterSize(charSize);
-        text.setFillColor(color);
+    Circle(float x, float y, float radius, const std::string& pathToImg, const sf::Color& fillColor) {
+        // Initialize circle
+        circle.setPosition(x, y);
+        circle.setRadius(radius);
+        circle.setFillColor(fillColor);
+        circle.setOrigin(radius, radius); // Set origin to center
+        circle.setOutlineThickness(1.f);
+        circle.setOutlineColor(sf::Color::Black);
+
+        // Load texture
+        if (!texture.loadFromFile(pathToImg)) {
+            std::cout << "Failed to load image";
+            throw std::runtime_error("Failed to load image");
+        }
+
+        // Initialize sprite with texture
+        sprite.setTexture(texture);
+        sf::Vector2u textureSize = texture.getSize();
+        sprite.setOrigin(textureSize.x / 2.f, textureSize.y / 2.f); // Set origin to center
+
+
+        sprite.setPosition(x, y);
+    }
+
+    bool isClicked(const sf::Vector2i& mousePos) {
+        sf::Vector2f circleCenter = circle.getPosition();
+        float circleRadius = circle.getRadius();
+
+        // Calculate distance between mouse position and circle center
+        double distance = std::sqrt(std::pow(mousePos.x - circleCenter.x, 2) + std::pow(mousePos.y - circleCenter.y, 2));
+
+        // If distance is less than or equal to circle radius, the mouse is inside the circle
+        return (distance <= circleRadius);
+    }
+
+    void draw(sf::RenderWindow& window) {
+        window.draw(circle);
+        window.draw(sprite);
+    }
+};
+
+class Text {
+private:
+    sf::Text text;
+    sf::Font font;
+
+public:
+    Text() {}
+
+    Text(float x, float y, const std::string& content, sf::Font& font, const sf::Color& color, unsigned int size) {
         text.setFont(font);
-    }
-
-    void setString(std::string content) {
+        text.setCharacterSize(size);
+        text.setFillColor(color);
         text.setString(content);
+        text.setPosition(x, y);
     }
 
-    std::string getString() {
+    std::string getContent() {
         return text.getString();
     }
 
+    // Set text string
+    void setString(const std::string& str) {
+        text.setString(str);
+    }
+
+    // Set text position
+    void setPosition(float x, float y) {
+        text.setPosition(x, y);
+    }
+
+    // Set text color
+    void setColor(const sf::Color& color) {
+        text.setFillColor(color);
+    }
+
+    // Set text size
+    void setSize(unsigned int size) {
+        text.setCharacterSize(size);
+    }
+
+    // Draw text on SFML window
     void draw(sf::RenderWindow& window) {
         window.draw(text);
     }
 };
 
-//define namespace to work with files
-#define fsys std::filesystem
-
-class File {//This class has only worked with CSV files
-private: 
-    std::fstream file;
-    std::vector<std::string> rowContent; //Path of the "mother" folder
-    std::string fileName;
-    fsys::path folderPath;
-
+class Calendar {
 public:
-    File(fsys::path folderPath, std::string fileName) {
-        this->fileName = fileName;
-        this->folderPath = folderPath;
-        folderPath /= fileName;
-        std::fstream file(folderPath);
+    sf::Font font;
+    sf::Text text;
+    Calendar(sf::Font font) {
+        this->font = font;
+        system("python calendar.py");
+        std::ifstream fin;
+        fin.open("data/calendar.txt");
+        std::string s = "", temp;
+        getline(fin, temp);
+        s = s + '\n' + temp;
+        fin.close();
+
+        // Text(float x, float y, const std::string& content, sf::Font& font, const sf::Color& color, unsigned int size) {
+
+        Text calendar(1402, 207, s, font, sf::Color(0, 0, 0), 25);
+        Text days(1384, 133, "Mo Tu We Th Fr Sa Su", font, sf::Color(26, 114, 98), 25);
+
     }
 
-    void open() {
-        this->file.open(this->folderPath / this->fileName);
-    }
-    
-    void close() {
-        this->file.close();
-    }
+    Calendar() {
+        system("python calendar.py");
+        std::ifstream fin;
+        fin.open("data/calendar.txt");
+        if (!fin.is_open())
+            std::cout << "Could not open the calendar file" << std::endl;
 
-    std::vector<std::string> readRow() {//Only store one row per call
-        this->rowContent.clear();
-        std::string row;
-        if (!(this->file >> row)) return this->rowContent;
-        std::getline(this->file, row, '\n');
-        std::stringstream sRow(row);
-        std::string element;
-        while (std::getline(sRow, element, ',')) {
-            this->rowContent.push_back(element);
+        std::string s = "", temp;
+        while (!fin.eof()) {
+            getline(fin, temp);
+            s = s + '\n' + temp;
         }
-        return this->rowContent;
+        
+        fin.close();
+
+        // Text(float x, float y, const std::string& content, sf::Font& font, const sf::Color& color, unsigned int size) {
+
+        text.setFont(font);
+        text.setCharacterSize(25);
+        text.setFillColor(sf::Color(100, 100,100));
+        text.setString(s);
+        text.setPosition(1384, 169);
+
+        //std::cout << text.getString().toAnsiString() << std::endl;
     }
 
-    void write(std::string content) {
-        this->file << content << std::endl;
-    }
-
-    void update() {
-
+    void draw(sf::RenderWindow& window){
+        window.draw(text);
     }
 };
 
-class Folder {
-private:
-    fsys::path folderPath; //Path of the "mother" folder
-    std::string folderName;
-    int subFolderNum;
-    int subFileNum;
-    bool CreateDirectoryRecursive(fsys::path const& folderDir, std::error_code& err)
-    {
-        err.clear();
-        if (!std::filesystem::create_directories(folderDir, err))
-        {
-            if (std::filesystem::exists(folderDir))
-            {
-                // The folder already exists:
-                err.clear();
-                return true;
-            }
-            return false;
-        }
-        return true;
-    }
+class courseButton {
 
-public:
-    Folder(std::string folderName) {
-        this->folderPath = "D:/UNI/US/CS162/COURSE MANAGEMENT SYSTEM/SFML/Data";
-        this->folderName = folderName;
-        std::error_code err;
-        if (!CreateDirectoryRecursive(this->folderPath / folderName, err))
-        {
-            // Report the error:
-            std::cout << "CreateDirectoryRecursive FAILED, err: " << err.message() << std::endl;
-        }
-        this->subFolderNum = 0;
-        this->subFileNum = 0;
-    }
-
-    Folder(fsys::path folderPath, std::string folderName) {
-        this->folderPath = folderPath;
-        this->folderName = folderName;
-        std::error_code err;
-        if (!CreateDirectoryRecursive(this->folderPath / folderName, err))
-        {
-            // Report the error:
-            std::cout << "CreateDirectoryRecursive FAILED, err: " << err.message() << std::endl;
-        }
-        this->subFolderNum = 0;
-        this->subFileNum = 0;
-    }
-
-    Folder createSubFolder(std::string folderName) {
-        Folder folder(this->folderPath / this -> folderName, folderName);
-        this->subFolderNum++;
-        return folder;
-    }
-
-    File createSubFile(std::string fileName) {
-        File file(this->folderPath / this->folderName, fileName); //remember to use file.close() after
-        this->subFileNum++;
-        return file;
-
-    }
 };

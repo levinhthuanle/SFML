@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -104,10 +104,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AdditionalIncludeDirectories>$(SolutionDir)\SFML_Lib\include</AdditionalIncludeDirectories>
-
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -136,38 +134,51 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Class.cpp" />
     <ClCompile Include="Components.cpp" />
     <ClCompile Include="Drawio.cpp" />
     <ClCompile Include="ExtraFunction.cpp" />
+    <ClCompile Include="FolderFunction.cpp" />
     <ClCompile Include="LinkList.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Student.cpp" />
+    <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Teacher.cpp" />
     <ClCompile Include="Activity.cpp" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BuiltClasses.h" />
+    <ClInclude Include="Class.h" />
     <ClInclude Include="Components.h" />
+    <ClInclude Include="Course.h" />
+    <ClInclude Include="Date.h" />
     <ClInclude Include="Drawio.h" />
     <ClInclude Include="ExtraFunction.h" />
+    <ClInclude Include="FileNFolder.h" />
     <ClInclude Include="LinkList.h" />
     <ClInclude Include="Requirement.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="SchoolYear.h" />
+    <ClInclude Include="Semester.h" />
     <ClInclude Include="Student.h" />
+    <ClInclude Include="Subject.h" />
     <ClInclude Include="Teacher.h" />
     <ClInclude Include="Activity.h" />
     <ClInclude Include="User.h" />
+    <ClInclude Include="Vector.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="SFML.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Bao%27s commit No. 02.txt" />
     <Text Include="User.txt" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\HomePageStudent.png" />
     <Image Include="Assets\Login.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Calendar.py" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

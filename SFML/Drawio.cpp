@@ -1,6 +1,6 @@
 #include "Drawio.h"
 
-sf::RectangleShape Drawio::Rectangle(float width, float height, int posX, int posY, sf::Color color)
+sf::RectangleShape Drawio::Rectangle(float width, float height, float posX, float posY, sf::Color color)
 {
 	sf::RectangleShape shape(sf::Vector2f(width, height));
 	shape.setFillColor(color);
@@ -8,7 +8,7 @@ sf::RectangleShape Drawio::Rectangle(float width, float height, int posX, int po
 	return shape;
 }
 
-sf::Sprite Drawio::addImage(sf::RenderWindow &window, std::string url, int x, int y)
+sf::Sprite Drawio::addImage(sf::RenderWindow &window, std::string url, float x, float y)
 {
     sf::Texture texture;
 
