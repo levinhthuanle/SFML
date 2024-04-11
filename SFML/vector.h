@@ -18,6 +18,9 @@ public:
         _data = new T[cellNum];
         std::fill(_data, _data + cellNum, std::move(val));
     }
+    vector(const ll cellNum) : s(cellNum), capacity(cellNum) {
+        _data = new T[cellNum];
+    }
 
     ~vector() {
         clear();

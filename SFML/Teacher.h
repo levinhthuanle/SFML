@@ -77,4 +77,10 @@
 //	
 //};
 
+//writing method for teacher
+class Teacher
+{
+
+};
+
 
