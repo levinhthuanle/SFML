@@ -175,6 +175,9 @@
     <Image Include="Assets\HomePageStudent.png" />
     <Image Include="Assets\Login.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Calendar.py" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

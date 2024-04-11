@@ -6,7 +6,11 @@
 User user;
 Calendar calendar;
 
-vector<std::string> schoolYear = getYearFolder();
+vector<std::string> schoolYearName = getYearFolder();
+
+//// create object for each type of user. 
+Student student; 
+Teacher teacher; 
 
 
 //Finished
@@ -391,9 +395,9 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
     
 
     vector<Button> schoolYearButton; 
-    for (int i = 0; i < min(schoolYear.size(), 3LL); ++i)
+    for (int i = 0; i < min(schoolYearName.size(), 3LL); ++i)
     {
-        Button newButton(89.0f , 106.0F +(i + 1) * 200, 393.0f, 54.59, schoolYear[i], font, sf::Color(144, 44, 44));
+        Button newButton(89.0f , 106.0F +(i + 1) * 200, 393.0f, 54.59, schoolYearName[i], font, sf::Color(144, 44, 44));
         schoolYearButton.push_back(newButton); 
     }
     
@@ -427,7 +431,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 
                     //create second window to handle the work to create school year.
                 }
-                for (int i = 0; i < min(schoolYear.size(), 3LL); ++i)
+                for (int i = 0; i < min(schoolYearName.size(), 3LL); ++i)
                 {
                     if (schoolYearButton[i].isClicked(mousePos))
                     {
@@ -452,7 +456,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         days.draw(window);
         newCalendar.draw(window);
 
-        for (int i = 0; i < schoolYear.size(); ++i)
+        for (int i = 0; i < schoolYearName.size(); ++i)
         {
             schoolYearButton[i].draw(window); 
         }
