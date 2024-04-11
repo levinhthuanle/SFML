@@ -74,6 +74,9 @@ vector<std::string> Student::getFinishedCourse()
 		return course;
 	}
 }
+void Student::getScoreBoard()
+{
+}
 //void Student::create()
 //{
 //	studentPath = studentPath / classname;
@@ -146,15 +149,19 @@ void Student::create()
 	
 	csvFile studentFile(studentPath); 
 	vector<std::string> defaultPass(1,"123"); 
-	studentFile.content.push_back(defaultPass); 
+	studentFile.cnt.push_back(defaultPass); 
 
 
 	for (long long i = 0; i < 6; ++i)
 	{
 		studentFile.addRow(); 
-		studentFile.content[i + 1] = vector<std::string>(1,basic_info[i]); 
+		studentFile.cnt[i + 1] = vector<std::string>(1,basic_info[i]); 
 	}
-	studentFile.create(); 
+	studentFile.isCreate(); 
 	studentFile.writeFile(); 
 	return; 
+}
+
+void Student::updateCourse(std::string newcoursename)
+{
 }

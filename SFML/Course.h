@@ -21,7 +21,7 @@ private:
     fsys::path folderPath;
     csvFile infoFile;
     csvFile scoreFile;
-    vector<std::string> info;               //content of the info file (the second row)
+    vector<std::string> info;               //cnt of the info file (the second row)
 
     void displayErrorExceedMaxStu() {
         std::cerr << "Max students exceeded.\n";
@@ -29,7 +29,7 @@ private:
 
 public:
 
-    vector<vector<std::string>> score;      //content of the score file (from the second row)
+    vector<vector<std::string>> score;      //cnt of the score file (from the second row)
 
     Course(){}
 
@@ -45,18 +45,18 @@ public:
         this->scoreFile = sco;
 
         infoFile.readFile();
-        this->info = infoFile.content[1];       //Get the second row of infoFile
+        this->info = infoFile.cnt[1];       //Get the second row of infoFile
 
         this->setMaxStu(maxStu);
 
         scoreFile.readFile();
-        int stuNum = scoreFile.content.size();
+        int stuNum = scoreFile.cnt.size();
         if (stuNum > this->getMaxStu()) {
             displayErrorExceedMaxStu();
         }
         else {
             this->setCurStu(stuNum);
-            for (int i = 1; i < stuNum; i++) this->score.push_back(scoreFile.content[i]);
+            for (int i = 1; i < stuNum; i++) this->score.push_back(scoreFile.cnt[i]);
         }
         
     }
