@@ -472,7 +472,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 void Activity::initInformationStaffWindow(sf::RenderWindow& window)
 {
     //InformationStaff.png
-    Text name(1505, 10,"Hello, " + user.fullname, font, sf::Color(255, 255, 255), 20);
+    Text name(1446, 10,"Hello, " + user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
     Button goBack(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
@@ -526,7 +526,7 @@ void Activity::initInformationStaffWindow(sf::RenderWindow& window)
 
 void Activity::changePasswordStaffWindow(sf::RenderWindow& window)
 {
-    Text name(1505, 10, user.fullname, font, sf::Color(255, 255, 255), 20);
+    Text name(1446, 10,"Hello, " +  user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
     Button goBackBtn(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
