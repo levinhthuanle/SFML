@@ -83,21 +83,26 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
     Text name(1446, 10, "Hello, " + user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 35, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
+    Button nextPageBtn(1187.f, 732.f, 92.f, 62.f, "Next", font, sf::Color(218, 110, 50));
+    Button prevPageBtn(1187.f, 809.f, 92.f, 62.f, "Prev", font, sf::Color(218, 110, 50));
 
     int unfinshedCourse = 0, finishedCourse = 0;
     vector<courseButton> unfinBtn, finBtn;
-
-    for (int i = unfinshedCourse; i < user.listOfUnfinCourse.size(); i++) {
-        //float x, float y, Subject course, sf::Font font, sf::RenderWindow& window){
-        //courseButton newCourseBtn((float) (52 + 280 * (i - unfinshedCourse)), 175, "test", font);
-        courseButton newCourseBtn((float) (52 + 280 * (i - unfinshedCourse)), 175, user.listOfUnfinCourse[i], font);
-        unfinBtn.push_back(newCourseBtn);
-        
+    int displayFin = 0;
+    for (int i = 0; i < user.listOfUnfinCourse.size(); i++) {
+        if (i <= 3) {
+            courseButton newCourseBtn((float)(52 + 280 * (i - unfinshedCourse)), 175, user.listOfUnfinCourse[i], font);
+            unfinBtn.push_back(newCourseBtn);
+        }
+        else {
+            courseButton newCourseBtn((float)(52 + 280 * (i - unfinshedCourse - 4)), 386, user.listOfUnfinCourse[i], font);
+            unfinBtn.push_back(newCourseBtn);
+        }
     }
 
-    for (int i = unfinshedCourse; i < user.listOfUnfinCourse.size(); i++) {
+    for (int i = 0; i < user.listOfFinCourse.size(); i++) {
         //float x, float y, Subject course, sf::Font font, sf::RenderWindow& window){
-        courseButton newCourseBtn((float)(52 + 280 * (i - unfinshedCourse)), 685, user.listOfFinCourse[i], font);
+        courseButton newCourseBtn((float)(52 + 280 * (i % 4)), 670, user.listOfFinCourse[i], font);
         finBtn.push_back(newCourseBtn);
 
     }
@@ -112,6 +117,7 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
 
     while (window.isOpen()) {
         sf::Event event;
+        long long tempFin = (displayFin + 4) > finBtn.size() ? finBtn.size() : (displayFin + 4);
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();  // Close 
@@ -123,7 +129,30 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
                     type = 2; // initInformationWindow
                     return;
                 }
+
+                if (nextPageBtn.isClicked(mousePos)) {
+                    if (displayFin + 4 <= finBtn.size())
+                    displayFin += 4;
+                }
+
+                if (prevPageBtn.isClicked(mousePos)) {
+                    if (displayFin - 4 >= 0)
+                        displayFin -= 4;
+                }
                 
+                for (int i = 0; i < unfinBtn.size(); i++) {
+                    if (unfinBtn[i].isClicked(mousePos)) {
+                        std::cout << "User has click the unfinished button " << unfinBtn[i].cnt.courseId << std::endl;
+                        Activity2::courseInformationStudent(unfinBtn[i].cnt);
+                    }
+                }
+
+                for (int i = displayFin; i < tempFin; i++) {
+                    if (finBtn[i].isClicked(mousePos)) {
+                        std::cout << "User has click the finished button " << finBtn[i].cnt.courseId << std::endl;
+                        Activity2::courseInformationStudent(finBtn[i].cnt);
+                    }
+                }
             }
         }
 
@@ -136,8 +165,11 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
         userIcon.draw(window);
         for (int i = 0; i < unfinBtn.size(); i++)
             unfinBtn[i].draw(window);
-        for (int i = 0; i < finBtn.size(); i++)
+
+        
+        for (int i = displayFin; i < tempFin; i++) {
             finBtn[i].draw(window);
+        }
         window.display();
     }
 
@@ -393,14 +425,14 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
     Text newCalendar(1384, 169, calendar.text.getString().toAnsiString(), font, sf::Color(26, 114, 98), 25);
 
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
-    Button createSYButn(89, 106, 393, 54.59, "Create School Year", font, sf::Color(144, 44, 44));
-    Button viewAllCoursesBtn(1375, 436, 300, 55, "View all courses", font, sf::Color(144, 44, 44));
+    Button createSYButn(89.f, 106.f, 393, 55.f, "Create School Year", font, sf::Color(144, 44, 44));
+    Button viewAllCoursesBtn(1375.f, 436.f, 300, 55, "View all courses", font, sf::Color(144, 44, 44));
     
 
     vector<Button> schoolYearButton; 
     for (int i = 0; i < min(schoolYearName.size(), 3LL); ++i)
     {
-        Button newButton(89.0f , 106.0F +(i + 1) * 200, 393.0f, 54.59, schoolYearName[i], font, sf::Color(144, 44, 44));
+        Button newButton(89.0f , 106.0F +(i + 1) * 200, 393.f, 54.f, schoolYearName[i], font, sf::Color(144, 44, 44));
         schoolYearButton.push_back(newButton); 
     }
     

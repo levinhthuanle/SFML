@@ -50,7 +50,7 @@ public:
         this->setMaxStu(maxStu);
 
         scoreFile.readFile();
-        int stuNum = scoreFile.cnt.size();
+        long long stuNum = scoreFile.cnt.size();
         if (stuNum > this->getMaxStu()) {
             displayErrorExceedMaxStu();
         }

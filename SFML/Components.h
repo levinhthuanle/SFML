@@ -328,11 +328,14 @@ class courseButton {
 private:
     sf::RectangleShape shape;
     sf::Text courseId, courseName, teacherName, time, credits, seeMore;
+    
 
 public:
+    Subject cnt;
     courseButton() {}
 
     courseButton(float x, float y, const Subject infor, sf::Font& font) {
+        cnt = infor;
         const float width = 250.f, height = 186.f, thickness = 6.f;
         const sf::Color fillColor = sf::Color(245, 244, 244), outlineColor = sf::Color(81, 161, 147);
         

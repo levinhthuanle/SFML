@@ -134,6 +134,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Activity2.cpp" />
     <ClCompile Include="Class.cpp" />
     <ClCompile Include="Components.cpp" />
     <ClCompile Include="Drawio.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Activity2.h" />
     <ClInclude Include="BuiltClasses.h" />
     <ClInclude Include="Class.h" />
     <ClInclude Include="Components.h" />

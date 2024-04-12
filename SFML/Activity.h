@@ -18,6 +18,7 @@
 #include "Class.h"
 #include "Course.h"
 #include "User.h"
+#include "Activity2.h"
 
 class Activity {
 public:
