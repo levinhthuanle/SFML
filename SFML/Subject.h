@@ -29,7 +29,7 @@ public:
 	Subject(std::string unsolved) {
 		int isComplete;
 		std::istringstream iss(unsolved);
-		iss >> isComplete >> name >> midScore >> practiceScore >> plusScore >> otherScore >> finalScore >> aveScore;
+		iss >> isComplete >> midScore >> practiceScore >> plusScore >> otherScore >> finalScore >> aveScore;
 
 		if (isComplete == 1)
 			completed = true;

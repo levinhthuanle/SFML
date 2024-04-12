@@ -15,14 +15,18 @@ void Activity2::courseInformationStudent(Subject subject)
     sf::Sprite background(textureNext);
 
     const sf::Color black = sf::Color(18, 2, 2);
+    const sf::Color green = sf::Color(81, 161, 147);
+    const sf::Color orange = sf::Color(218, 110, 50);
+
+
     const int textSize = 36;
     Text courseId(110, 132, "Course Id: " + subject.courseId, fontNext, black, textSize);
     Text courseName(110, 182, "Course name: " + subject.courseName, fontNext, black, textSize);
     Text teacherName(110, 232, "Teacher name: " + subject.teacherName, fontNext, black, textSize);
     Text credits(110, 282, "Number of credits: " + std::to_string(subject.credits), fontNext, black, textSize);
     Text time(110, 332, "Time: " + subject.days + " - " + subject.time, fontNext, black, textSize);
-
-
+    Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, orange);
+    
     while (windowNext.isOpen()) {
         sf::Event event;
         while (windowNext.pollEvent(event)) {
@@ -30,6 +34,9 @@ void Activity2::courseInformationStudent(Subject subject)
                 windowNext.close();  // Close 
             else if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+
+                if (goBackBtn.isClicked(mousePos))
+                    windowNext.close();
             }
 
         }
@@ -37,11 +44,27 @@ void Activity2::courseInformationStudent(Subject subject)
         windowNext.clear(sf::Color::White);
         windowNext.draw(background);
 
+        if (subject.completed == false) {
+            Text uncompleted(110, 382, "This course is not be scored!", fontNext, black, textSize);
+            uncompleted.draw(windowNext);
+        }
+        else {
+            Text typeOfScorse(110, 425, "Midterm\t Practice\t Plus\t Other\t Final\t Overall", fontNext, green, textSize);
+            std::string Score = '\t' + std::to_string(subject.midScore) + "\t\t          " + std::to_string(subject.practiceScore) + "\t\t    ";
+            Score += std::to_string(subject.plusScore) + "\t\t    " + std::to_string(subject.otherScore) + "\t\t  ";
+            Score += std::to_string(subject.finalScore) + "\t\t      " + std::to_string(subject.aveScore);
+            Text score(110, 460, Score, fontNext, orange, textSize);
+
+            typeOfScorse.draw(windowNext);
+            score.draw(windowNext);
+        }
+
         courseId.draw(windowNext);
         courseName.draw(windowNext);
         teacherName.draw(windowNext);
         credits.draw(windowNext);
         time.draw(windowNext);
+        goBackBtn.draw(windowNext);
         windowNext.display();
     }
 }
