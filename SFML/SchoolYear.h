@@ -4,9 +4,9 @@
 #include "Class.h"
 
 class SchoolYear {
-private:
+public:
 	std::string year;
-	vector<Semester> sem; 
+	vector<Semester> semester; 
 	vector<Class> firstYearClasses;
 
 public:
@@ -19,10 +19,10 @@ public:
 		
 		for (int i = 1; i <= 3; ++i)
 		{
-			std::string dir = schoolYearDir + "/Semester" + static_cast<char>(i + '0');
+			std::string dir = schoolYearDir + "/Semester" + std::to_string(i);
 			fsys::path realDir(dir); 
 			if (fsys::exists(realDir))
-				sem.push_back(Semester(dir));
+				semester.push_back(Semester(dir));
 			else
 				break; 
 		}
@@ -37,6 +37,7 @@ public:
 	}
 
 };
+
 static vector<SchoolYear> getExistedSchoolYear()
 {
 	vector < std::string> classYear;
@@ -50,7 +51,6 @@ static vector<SchoolYear> getExistedSchoolYear()
 
 		yearName = yearName.substr(yearName.find_last_of('/') + 1, 5); 
 		classYear.push_back(yearName);
-
 	}
 	classYear.decrease_sort();
 	for (int i = 0; i < classYear.size(); ++i)
