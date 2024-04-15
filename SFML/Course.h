@@ -1,6 +1,6 @@
 #pragma once
-#include "Requirement.h"
 #include "FileNFolder.h"
+#include "Requirement.h"
 #include "vector.h"
 
 
@@ -34,15 +34,15 @@ private:
     std::string infoTitle[7] = { "Name", "Teacher", "Credits", "Max Students", "Current Student", "Day", "Session" };
     std::string scoreTitle[9] = { "Student ID", "Class", "Full Name", "Practice Score", "Midterm Score", "Final Score", "Plus Score", "Other Score", "Average Score" };
 
-    void displayErrorExceedMaxStu() {
-        std::cerr << "Max students exceeded.\n";
-    }
+	void displayErrorExceedMaxStu() {
+		std::cerr << "Max students exceeded.\n";
+	}
 
 public:
 
     vector<vector<std::string>>& score = scoreFile.cnt;      
 
-    Course(){}
+	Course() {}
 
     Course(fsys::path motherFolder, std::string id, std::string name, std::string teacher, int credit, int maxStu, std::string day, std::string session) {
         this->id = id;
