@@ -80,6 +80,14 @@ public:
         return s;
     }
 
+    T* begin()
+    {
+        return _data; 
+    }
+    T* end()
+    {
+        return _data + size; 
+    }
 private:
     void upsize() {
         capacity = (capacity == 0) ? 1 : 2 * capacity;
@@ -87,5 +95,16 @@ private:
         std::move(_data, _data + s, ne);
         delete[] _data;
         _data = ne;
+    }
+
+public:
+   
+    void sort()
+    {
+        std::sort(_data, _data + s); 
+    }
+    void decrease_sort()
+    {
+        std::sort(_data, _data + s, std::greater<T>()); 
     }
 };

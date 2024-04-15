@@ -89,8 +89,9 @@ private:
 public:
 	Semester() {};
 
-	Semester(std::string directory) {
-
+	Semester(std::string directory) 
+	{
+		semesterPath = directory; 
 		name = directory.substr(directory.find_last_of("/") + 1);
 		std::ifstream file(directory + "/start_end_time.txt");
 		std::string line;
@@ -103,6 +104,8 @@ public:
 		//    courses.push(Course(entry.path()));
 		//}
 	}
+	
+
 	~Semester() {
 		
 	}
@@ -122,14 +125,27 @@ public:
 	vector<Course> getCourses() {
 		return courses;
 	}
+	void loadCourse()
+	{
+		/*for (auto const& dir_entry : std::filesystem::directory_iterator{semesterPath})
+		{
+			std::string courseName = dir_entry.path().generic_string(); 
+			courseName = courseName.substr(courseName.find_last_of('/') + 1); 
 
-	void addCourse(Course course) {
+			Course tempCourse();
+			courses.push_back(tempCourse); 
+		}*/
+	}
+
+	void addCourse(Course course) 
+	{
 		
 	}
 
 	void removeCourse(Course course) {
 		
 	}
+
 	void save() {
 	    //std::ofstream file("semesters/" + name + "/start_end_time.txt");
 	    //file << startDate.toString() << std::endl;

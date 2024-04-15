@@ -215,18 +215,3 @@ bool changePassword(User& user, std::string oldPassword, std::string newPassword
 }
 
 // return a string containing all year. 
-vector<std::string> getYearFolder()
-{
-	vector < std::string> classYear;
-	fsys::path course("data/courses");
-	std::string yearName;
-
-	for (auto const& dir_entry : std::filesystem::directory_iterator{ course })
-	{
-		yearName = dir_entry.path().generic_string();
-		classYear.push_back(yearName);
-
-	}
-	return classYear;
-
-}

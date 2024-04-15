@@ -1,6 +1,10 @@
 #pragma once
 
 #include "Requirement.h"
+#include "vector.h"
+#include "SchoolYear.h"
+#include "Class.h"
+#include "Student.h"
 //#include "Vector.h"
 //
 //
@@ -78,48 +82,48 @@
 //};
 
 //writing method for teacher
-class Teacher
+class teacher
 {
 // can modify or fix anything 
 private:
-    vector<SchoolYear> schoolYearList;
-    vector<Class> classList;
-    vector<Student> studentList;
+    vector<schoolyear> schoolyearlist;
+    vector<class> classlist;
+    vector<student> studentlist;
 
 public:
-    Teacher() {}
+    teacher() {}
     // at begining of school year
-    void createSchoolYear(std::string name) {
-        SchoolYear sy(name);
-        schoolYearList.push_back(sy);
+    void createschoolyear(std::string name) {
+        schoolyear sy(name);
+        schoolyearlist.push_back(sy);
     }
 
-    void createClass(std::string year, std::string id) {
-        Class cls(year, id);
-        classList.push_back(cls);
+    void createclass(std::string year, std::string id) {
+        class cls(year, id);
+        classlist.push_back(cls);
     }
 
-    void createStudent(vector<std::string> basicInfo) {
-		Student student(basicInfo);
-		studentList.push_back(student);
+    void createstudent(vector<std::string> basicinfo) {
+		student student(basicinfo);
+		studentlist.push_back(student);
 	}
     
-    void importStudentCSV(fsys::path path) {
-         Class cls(path);
-         classList.push_back(cls);
+    void importstudentcsv(fsys::path path) {
+         class cls(path);
+         classlist.push_back(cls);
     }
 
     // at begining of semester
-    void createSemmester() {
+    void createsemmester() {
 
     }
-    void addCourse() {
+    void addcourse() {
 
 	}
-    void addStudentToCourse() {
+    void addstudenttocourse() {
 
     }
-    void removeStudentFromCourse() {
+    void removestudentfromcourse() {
 
 	}
 };

@@ -20,6 +20,7 @@
 #include "User.h"
 #include "Activity2.h"
 
+
 class Activity {
 public:
 	int type = 0; 

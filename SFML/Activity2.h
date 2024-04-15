@@ -1,6 +1,8 @@
 #pragma once
 #include "Subject.h"
 #include "Components.h"
+
+//I assume that this class create sub-activity for student. 
 class Activity2
 {
 public:
