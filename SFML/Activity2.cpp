@@ -68,3 +68,8 @@ void Activity2::courseInformationStudent(Subject subject)
         windowNext.display();
     }
 }
+
+void Activity2::createNewSchoolYearStaff()
+{
+
+}

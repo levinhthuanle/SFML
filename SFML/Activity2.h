@@ -14,5 +14,7 @@ public:
 
 	//courseInformationStudent(unfinBtn[i].cnt)
 	static void courseInformationStudent(Subject subject);
+
+	static void createNewSchoolYearStaff();
 };
 

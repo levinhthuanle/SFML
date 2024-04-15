@@ -1,5 +1,5 @@
 #pragma once
-#include "Requirement.h"
+
 #include "vector.h"
 namespace fsys = std::filesystem;
 
@@ -20,7 +20,6 @@ public:
     }
 
     bool isCreate();   //return false if the file is existed, true is a file is not existed and create that file. 
-
 
     void clearSavedContent() {
         cnt.clear();

@@ -17,9 +17,7 @@ bool csvFile::isCreate()
         std::cerr << filePath << " already exists.\n";
         return false;
     }
-    std::ofstream fout;
-    fout.open(filePath);
-    fout.close();
+
     return true;
 }
 
