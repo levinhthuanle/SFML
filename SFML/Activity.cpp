@@ -1,6 +1,6 @@
 #include "Activity.h"
-#include "ExtraFunction.h"
-#include <algorithm>
+
+
 // Global variables
 
 
@@ -9,8 +9,6 @@ Calendar calendar;
 
 vector<SchoolYear> existedSchoolYear = getExistedSchoolYear(); 
 
-
-//// create object for each type of user. 
 
 //Finished
 void Activity::initLoginWindow(sf::RenderWindow &window)
@@ -495,9 +493,17 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         days.draw(window);
         newCalendar.draw(window);
 
+        std::cout << "School year list: " << std::endl;
         for (int i = 0; i < existedSchoolYear.size(); ++i)
         {
+            std::cout << existedSchoolYear[i].getYear() << std::endl;
+            
+            for (int j = 0; j < existedSchoolYear[i].semester.size(); j++) {
+                SchoolYear temp = existedSchoolYear[i];
+                std::cout << "Semester " << temp.semester[j].getName() << std::endl;
+            }
             schoolYearButton[i].draw(window); 
+
         }
         
         
