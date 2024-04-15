@@ -8,7 +8,7 @@ User user;
 Calendar calendar;
 
 vector<SchoolYear> existedSchoolYear = getExistedSchoolYear(); 
-vector<Class> allClass = Class::getAllClassName();
+//vector<Class> allClass = Class::getAllClassName();
 
 //Finished
 void Activity::initLoginWindow(sf::RenderWindow &window)
@@ -436,9 +436,9 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         schoolYearButton.push_back(newButton); 
     }
     
-    for (int i = 0; i < allClass.size(); i++) {
-        std::cout << allClass[i].classID << std::endl;
-    }
+    //for (int i = 0; i < allClass.size(); i++) {
+    //    std::cout << allClass[i].classID << std::endl;
+    //}
 
     if (!texture.loadFromFile("Assets/HomePageStaff.png"))
         std::cout << "Could not load the HomePageStaff image" << std::endl;
@@ -467,7 +467,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                 if (createNewSYBtn.isClicked(mousePos))
                 {
                   
-
+                    Activity2::createNewSchoolYearStaff();
                     //create second window to handle the work to create school year.
                 }
                 for (int i = 0; i < min(existedSchoolYear.size(), 3LL); ++i)
@@ -499,16 +499,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 
         
         for (int i = 0; i < existedSchoolYear.size(); ++i)
-        {
-            std::cout << existedSchoolYear[i].getYear() << std::endl;
-            
-            for (int j = 0; j < existedSchoolYear[i].semester.size(); j++) {
-                SchoolYear temp = existedSchoolYear[i];
-                std::cout << "Semester " << temp.semester[j].getName() << std::endl;
-            }
             schoolYearButton[i].draw(window); 
-
-        }
         
         
         window.display();

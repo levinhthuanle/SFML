@@ -50,7 +50,7 @@ public:
 		this->setMaxStu(maxStu);
 
 		scoreFile.readFile();
-		long long stuNum = scoreFile.cnt.size();
+		__int64 stuNum = scoreFile.cnt.size();
 		if (stuNum > this->getMaxStu()) {
 			displayErrorExceedMaxStu();
 		}
@@ -90,7 +90,7 @@ public:
 
 	int getCurStu() { return stoi(info[4]); }
 
-	void setCurStu(int curStu) {
+	void setCurStu(__int64 curStu) {
 		this->info[4] = std::to_string(curStu);
 	}
 
