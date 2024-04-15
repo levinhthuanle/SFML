@@ -499,7 +499,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
             std::cout << existedSchoolYear[i].getYear() << std::endl;
             
             for (int j = 0; j < existedSchoolYear[i].semester.size(); j++) {
-                SchoolYear temp = existedSchoolYear[i];
+                SchoolYear& temp = existedSchoolYear[i];
                 std::cout << "Semester " << temp.semester[j].getName() << std::endl;
             }
             schoolYearButton[i].draw(window); 

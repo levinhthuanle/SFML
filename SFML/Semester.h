@@ -7,6 +7,7 @@ class Semester {
 public:
 	fsys::path semesterPath;
 	std::string name = "";
+	std::string year = ""; 
 	Date startDate;
 	Date endDate;
 	vector<Course> courses;
@@ -16,8 +17,9 @@ public:
 	Semester(std::string directory) 
 	{
 		semesterPath = directory; 
-
-		name = directory.substr(directory.find_last_of("/") + 1);
+		auto t = directory.find_last_of("/"); 
+		name = directory.substr(t + 1);
+		year = directory.substr(t - 5, 5);
 		std::ifstream file(directory + "/start_end_time.txt");
 		std::string line;
 		std::getline(file, line);
