@@ -2,6 +2,7 @@
 #include "FileNFolder.h"
 #include "Requirement.h"
 #include "vector.h"
+#include "Student.h"
 
 
 //Run pressEnter function when Proceed Button is click: Save changes to the files
@@ -16,7 +17,6 @@
 //__score.csv__
 //Stu ID,       Class,      Name,       Practice Score, Midterm Score,      Final Score,    Plus Score, Other Score,    Average Score,
 //23125000      23TT2,      ABCDee      9.0             9.8
-
 
 
 
@@ -42,7 +42,13 @@ public:
 
     vector<vector<std::string>>& score = scoreFile.cnt;      
 
+
+    Course operator=(Course& b) {
+        return std::move(b);
+    }
+
 	Course() {}
+
 
     Course(fsys::path motherFolder, std::string id, std::string name, std::string teacher, int credit, int maxStu, std::string day, std::string session) {
         this->id = id;
@@ -52,16 +58,18 @@ public:
         csvFile inf(folderPath / "info.csv");
         this->infoFile = inf;
         vector <std::string> infoTit;
-        infoTit.setDefault(this->infoTitle);
+        infoTit.setDefault(7, this->infoTitle);
+        info.push_back(infoTit);
 
         csvFile sco(folderPath / "score.csv");
         this->scoreFile = sco;
         vector <std::string> scoreTit;
-        scoreTit.setDefault(this->scoreTitle);
+        scoreTit.setDefault(9, this->scoreTitle);
+        score.push_back(scoreTit);
 
-        infoFile.readFile();
+        infoFile.writeFile();
 
-        scoreFile.readFile();
+        scoreFile.writeFile();
 
         setName(name);
         setTeacher(teacher);

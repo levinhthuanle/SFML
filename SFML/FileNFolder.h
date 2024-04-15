@@ -3,18 +3,14 @@
 #include "vector.h"
 namespace fsys = std::filesystem;
 
-static bool createFolder(fsys::path folderPath) {
-    if (fsys::exists(folderPath)) {
-        fileExistError(folderPath);
-        return false;
-    }
-    fsys::create_directories(folderPath);
-    return true;
-}
 
-void fileExistError(fsys::path fileName) {
+static void fileExistError(fsys::path fileName) {
     std::cerr << fileName << " already exists.\n";
 }
+
+
+bool createFolder(fsys::path folderPath);
+
 
 // void createMultipleDirectories(fsys::path path, Stack <std::string> list_name);
 
@@ -50,5 +46,9 @@ public:
     bool deleteRow(ll index);
 
     bool deleteCol(ll index);
+
+    csvFile operator=(csvFile& b) {
+        return std::move(b);
+    }
 };
 

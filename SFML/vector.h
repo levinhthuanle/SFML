@@ -108,9 +108,12 @@ public:
         std::sort(_data, _data + s, std::greater<T>()); 
     }
 
-    void setDefault(T def[]) {
-        int n = def.size();
+    void setDefault(int n, T def[]) {
         for (int i = 0; i < n; i++)
             this->push_back(def[i]);
+    }
+
+    vector<T> operator=(vector<T>& b) {
+        return std::move(b);
     }
 };
