@@ -27,20 +27,20 @@ private:
     fsys::path folderPath;
     csvFile infoFile;
     csvFile scoreFile;
-    vector<vector<std::string>>& info = infoFile.cnt;   
+    vector<vector<std::string>>& info = infoFile.cnt;
 
 
     //Just default files' title
     std::string infoTitle[7] = { "Name", "Teacher", "Credits", "Max Students", "Current Student", "Day", "Session" };
     std::string scoreTitle[9] = { "Student ID", "Class", "Full Name", "Practice Score", "Midterm Score", "Final Score", "Plus Score", "Other Score", "Average Score" };
 
-	void displayErrorExceedMaxStu() {
-		std::cerr << "Max students exceeded.\n";
-	}
+    void displayErrorExceedMaxStu() {
+        std::cerr << "Max students exceeded.\n";
+    }
 
 public:
 
-    vector<vector<std::string>>& score = scoreFile.cnt;      
+    vector<vector<std::string>>& score = scoreFile.cnt;
 
 
     Course operator=(Course& b) {
@@ -78,6 +78,23 @@ public:
         setCurStu(0);
         setDay(day);
         setSession(session);
+    }
+    Course(fsys::path folderPath)
+    {
+        csvFile inf(folderPath / "info.csv");
+        this->infoFile = inf;
+        csvFile sco(folderPath / "score.csv");
+        this->scoreFile = sco;
+        infoFile.readFile();
+        scoreFile.readFile();
+        setName(infoFile.cnt[1][0]);
+        setTeacher(infoFile.cnt[1][1]);
+        setCredit(stoi(infoFile.cnt[1][2]));
+        setMaxStu(stoi(infoFile.cnt[1][3]));
+        setCurStu(stoi(infoFile.cnt[1][4]));
+        setDay(infoFile.cnt[1][5]);
+        setSession(infoFile.cnt[1][6]);
+
     }
 
     void pressEnter() {                                         //When press Enter or Continue Button after some changes, this function runs, save changes to the file.
@@ -153,7 +170,7 @@ public:
         csvFile file(filePath);
         fsys::copy_file(this->folderPath / "score.csv", filePath);
     }
-    
+
     //Export student list
     void exportStudentList(fsys::path& filePath) {
         csvFile file(filePath);
@@ -166,4 +183,4 @@ public:
         }
         file.writeFile();
     }
-};
+}

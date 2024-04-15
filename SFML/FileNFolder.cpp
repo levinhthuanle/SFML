@@ -1,14 +1,16 @@
 #include "FileNFolder.h"
 
-bool createFolder(fsys::path folderPath)
-{
+static bool createFolder(fsys::path folderPath) {
     if (fsys::exists(folderPath)) {
-        std::cerr << folderPath << " already exists.\n";
+        fileExistError(folderPath);
         return false;
     }
-
     fsys::create_directories(folderPath);
     return true;
+}
+
+void fileExistError(fsys::path fileName) {
+    std::cerr << fileName << " already exists.\n";
 }
 
 bool csvFile::isCreate()
