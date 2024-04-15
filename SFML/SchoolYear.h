@@ -12,6 +12,10 @@ private:
 public:
 	SchoolYear() {}
 
+	SchoolYear(std::string year) {
+		this->year = year;
+	}
+
 	std::string getYear() {
 		return year;
 	}

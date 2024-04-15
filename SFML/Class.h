@@ -7,7 +7,7 @@
 
 class Class {
 private:
-	std::string classID;
+	std::string classID, SchoolYear;
     vector<Student> students;
 
 public:
@@ -18,6 +18,10 @@ public:
 		this->classID = classID;
 	}
 
+	Class(std::string classID, std::string SchoolYear) {
+		this->classID = classID;
+		this->SchoolYear = SchoolYear;
+	}
 	//get a class from a special csv file (for task 4)
 	Class(fsys::path filepath)
 	{
@@ -54,4 +58,5 @@ public:
 			students.push_back(Student(info));
 		}
 	}
+
 };
