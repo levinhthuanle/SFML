@@ -2,7 +2,7 @@
 #include "FileNFolder.h"
 #include "Requirement.h"
 #include "vector.h"
-
+#include "Student.h"
 
 //Run pressEnter function when Proceed Button is click: Save changes to the files
 //Run pressBack function when Back Button is click: Discard changes to the files
@@ -28,7 +28,7 @@ private:
     csvFile infoFile;
     csvFile scoreFile;
     vector<vector<std::string>>& info = infoFile.cnt;   
-
+    
 
     //Just default files' title
     std::string infoTitle[7] = { "Name", "Teacher", "Credits", "Max Students", "Current Student", "Day", "Session" };
