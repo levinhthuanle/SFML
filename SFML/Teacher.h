@@ -86,15 +86,15 @@ class teacher
 {
 // can modify or fix anything 
 private:
-    vector<schoolyear> schoolyearlist;
-    vector<class> classlist;
-    vector<student> studentlist;
+    vector<SchoolYear> schoolyearlist;
+    vector<Class> classlist;
+    vector<Student> studentlist;
 
 public:
     teacher() {}
     // at begining of school year
     void createschoolyear(std::string name) {
-        schoolyear sy(name);
+        SchoolYear sy(name);
         schoolyearlist.push_back(sy);
     }
 

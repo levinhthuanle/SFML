@@ -107,4 +107,10 @@ public:
     {
         std::sort(_data, _data + s, std::greater<T>()); 
     }
+
+    void setDefault(T def[]) {
+        int n = def.size();
+        for (int i = 0; i < n; i++)
+            this->push_back(def[i]);
+    }
 };
