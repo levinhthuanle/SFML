@@ -36,6 +36,16 @@ public:
 		
 	}
 
+	Semester& operator=(const Semester& rhs) {
+		this->semesterPath = rhs.semesterPath;
+		this->name = rhs.name;
+		this->year = rhs.year;
+		this->startDate = rhs.startDate;
+		this->endDate = rhs.endDate;
+		this->courses = rhs.courses;
+		return *this;
+	}
+
 	std::string getName() {
 		return name;
 	}
