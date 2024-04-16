@@ -3,13 +3,21 @@
 #include "vector.h"
 namespace fsys = std::filesystem;
 
-void fileExistError(fsys::path fileName);
 
-static bool createFolder(fsys::path folderPath);
+static void fileExistError(fsys::path fileName) {
+    std::cerr << fileName << " already exists.\n";
+}
 
+static bool createFolder(fsys::path folderPath) {
+    if (fsys::exists(folderPath)) {
+        fileExistError(folderPath);
+        return false;
+    }
+    fsys::create_directories(folderPath);
+    return true;
+}
 
-
- //void createMultipleDirectories(fsys::path path, Stack <std::string> list_name);
+// void createMultipleDirectories(fsys::path path, Stack <std::string> list_name);
 
 class csvFile {
 private:
@@ -43,5 +51,12 @@ public:
     bool deleteRow(ll index);
 
     bool deleteCol(ll index);
+
+    csvFile operator=(const csvFile& b) {
+        if (this == &b) return *this;
+        this->filePath = b.filePath;
+        this->cnt = b.cnt;
+        return *this;
+    }
 };
 

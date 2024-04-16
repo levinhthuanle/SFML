@@ -20,7 +20,6 @@
 
 
 
-
 class Course
 {
 private:
@@ -43,7 +42,18 @@ public:
 
     vector<vector<std::string>>& score = scoreFile.cnt;
 
-    Course() {}
+
+    Course operator=(const Course& b) {
+        if (this == &b) return *this;
+        this->id = b.id;
+        this->folderPath = b.folderPath;
+        this->infoFile = b.infoFile;
+        this->scoreFile = b.scoreFile;
+        return *this;
+    }
+
+	Course() {}
+
 
     Course(fsys::path motherFolder, std::string id, std::string name, std::string teacher, int credit, int maxStu, std::string day, std::string session) {
         this->id = id;
@@ -53,16 +63,18 @@ public:
         csvFile inf(folderPath / "info.csv");
         this->infoFile = inf;
         vector <std::string> infoTit;
-        infoTit.setDefault(this->infoTitle);
+        infoTit.setDefault(7, this->infoTitle);
+        info.push_back(infoTit);
 
         csvFile sco(folderPath / "score.csv");
         this->scoreFile = sco;
         vector <std::string> scoreTit;
-        scoreTit.setDefault(this->scoreTitle);
+        scoreTit.setDefault(9, this->scoreTitle);
+        score.push_back(scoreTit);
 
-        infoFile.readFile();
+        infoFile.writeFile();
 
-        scoreFile.readFile();
+        scoreFile.writeFile();
 
         setName(name);
         setTeacher(teacher);
