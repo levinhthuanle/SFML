@@ -1,10 +1,9 @@
 #pragma once
-#include "Requirement.h"
 #include "Date.h"
-#include "Vector.h"
 #include "Course.h"
+
 class Semester {
-public:
+private:
 	fsys::path semesterPath;
 	std::string name = "";
 	std::string year = ""; 
@@ -31,7 +30,7 @@ public:
 		//    courses.push(Course(entry.path()));
 		//}
 	}
-	
+	 
 
 	~Semester() {
 		
@@ -54,23 +53,40 @@ public:
 	}
 	void loadCourse()
 	{
-		/*for (auto const& dir_entry : std::filesystem::directory_iterator{semesterPath})
+		for (auto const& dir_entry : std::filesystem::directory_iterator{semesterPath})
 		{
-			std::string courseName = dir_entry.path().generic_string(); 
-			courseName = courseName.substr(courseName.find_last_of('/') + 1); 
+			std::string coursename = dir_entry.path().generic_string(); 
+			std::string classname = coursename.substr(coursename.find_last_of('/') + 1); 
+			if (classname == "start_end_date.txt") continue; 
+			else
+			{
+				Course tempcourse(semesterPath / classname);
 
-			Course tempCourse();
-			courses.push_back(tempCourse); 
-		}*/
+				courses.push_back(tempcourse);
+			}
+
+		}
 	}
 
 	void addCourse(Course course) 
 	{
-		
+		courses.push_back(course); 
+
 	}
 
-	void removeCourse(Course course) {
-		
+	void removeCourse(Course course) 
+	{
+		for (int i = 0; i < courses.size(); ++i)
+		{
+			if (course.getID() == courses[i].getID())
+			{
+				std::error_code errorCode;
+				if (!std::filesystem::remove(semesterPath/course.getID(), errorCode)) {
+					std::cout << errorCode.message() << std::endl;
+				}
+				return; 
+			}
+		}
 	}
 
 	void save() {
