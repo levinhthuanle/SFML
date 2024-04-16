@@ -432,43 +432,31 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
     Button createNewSYBtn(51.f, 106.f, 450.f, 55.f, "Create School Year", font, sf::Color(218, 110, 50));
     Button viewAllCoursesBtn(1375.f, 436.f, 300, 55, "View all courses", font, sf::Color(144, 44, 44));
-    
+    Button viewAllClassBtn(1380.f, 700.f, 250, 40, "View all >>", font, sf::Color(144, 44, 44));
 
     int displaySY = 0;
     
     vector<schoolyearButton> schoolyearBtn;
     for (int i = 0; i < existedSchoolYear.size(); ++i)
     {
-        std::cout << existedSchoolYear[i].getYear() << "\n";
-        std::cout << existedSchoolYear[i].semester[1].name; 
-
-         //newButton(89.0f , 106.0F +(i + 1) * 200, 393.f, 54.f, existedSchoolYear[i].getYear(), font, sf::Color(144, 44, 44));
         schoolyearButton tempBtn(53.f, 190.f + 170.f * (i % 4), existedSchoolYear[i], font);
         schoolyearBtn.push_back(tempBtn); 
     }
     
-    for (int i = 0; i < allClass.size(); i++) {
-        std::cout << allClass[i].classID << std::endl;
-        std::cout << allClass[i].students[0].getID() << allClass[i].students[0].getFullname();
+    //for (int i = 0; i < allClass.size(); i++) {
+    //    std::cout << allClass[i].classID << std::endl;
+    //    std::cout << allClass[i].students[0].getID() << allClass[i].students[0].getFullname();
+    //}
+    vector<Button> displayBtn;
+    for (int i = 0; i < 4; i++) {
+        Button temp(1380.f + 140 * (i / 2), 584 + 60*(i % 2), 120, 40, allClass[i].classID, font, sf::Color(144, 44, 44));
+        displayBtn.push_back(temp);
     }
 
     if (!texture.loadFromFile("Assets/HomePageStaff.png"))
         std::cout << "Could not load the HomePageStaff image" << std::endl;
     std::cout << "Generate staff sucess" << std::endl;
     sf::Sprite background(texture);
-
-    //for (int i = 0; i < existedSchoolYear.size(); i++) {
-    //    std::cout << existedSchoolYear[i].getYear() << std::endl;
-    //    for (int j = 0; j < existedSchoolYear[i].semester.size(); j++) {
-    //        std::cout << existedSchoolYear[i].semester[j].getName() << std::endl;
-    //        //std::cout << j << std::endl;
-
-    //        existedSchoolYear[i].semester[j].loadCourse();
-    //        vector<Course> allCourse = existedSchoolYear[i].semester[j].getCourses();
-    //        std::cout << "Number of course: " << allCourse.size() << std::endl;
-    //    }
-    //}
-
 
     while (window.isOpen())
     {
@@ -505,16 +493,34 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                     Activity2::createNewSchoolYearStaff();
                 }
 
-                for (int i = 0; i < min(existedSchoolYear.size(), 3LL); ++i)
-                {
-                    //if (schoolYearButton[i].isClicked(mousePos))
-                    //{
-
-                    //    // 
-
-                    //}
+                if (viewAllCoursesBtn.isClicked(mousePos)) {
+                    Activity2::viewAllCourseStaff(existedCourse);
                 }
 
+                if (viewAllClassBtn.isClicked(mousePos)) {
+                    Activity2::viewAllClassStaff(allClass);
+                }
+
+                for (int i = displaySY; i < tempSY; ++i){
+                    if (schoolyearBtn[i].sem1.isClick(mousePos)) {
+                        Activity2::viewCourseInSemester(schoolyearBtn[i].sem1.semester);
+                    }
+
+                    if (schoolyearBtn[i].sem2.isClick(mousePos)) {
+                        Activity2::viewCourseInSemester(schoolyearBtn[i].sem2.semester);
+                    }
+
+                    if (schoolyearBtn[i].sem3.isClick(mousePos)) {
+                        Activity2::viewCourseInSemester(schoolyearBtn[i].sem3.semester);
+                    }
+                }
+
+                for (int i = 0; i < 4; i++) {
+                    if (displayBtn[i].isClicked(mousePos))
+                        Activity2::viewOneClass(allClass[i]);
+                }
+
+                
             }
 
         }
@@ -531,7 +537,11 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         viewAllCoursesBtn.draw(window);
         days.draw(window);
         newCalendar.draw(window);
-
+        viewAllClassBtn.draw(window);
+        for (int i = 0; i < 4; i++) {
+            
+            displayBtn[i].draw(window);
+        }
         
 
         for (int i = displaySY; i < tempSY; i++) {

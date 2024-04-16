@@ -52,7 +52,7 @@ public:
 	std::string getClass() { return basic_info[0]; }
 	std::string getID() { return basic_info[1]; }
 	std::string getFullname() { return basic_info[2]; }
-	
+	std::string getGender() { return basic_info[3]; }
 
 	void getScoreBoard();
 };
