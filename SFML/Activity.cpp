@@ -7,13 +7,15 @@
 User user;
 Calendar calendar;
 
-vector<SchoolYear> existedSchoolYear = getExistedSchoolYear(); 
 
+vector<SchoolYear> existedSchoolYear = getExistedSchoolYear(); 
+vector<Course> existedCourse = getAllCourse(existedSchoolYear);
 
 //Finished
 void Activity::initLoginWindow(sf::RenderWindow &window)
 {    
-
+    for (int i = 0; i < existedCourse.size(); ++i)
+        std::cout << existedCourse[i].getID() << "\n";
     if (!texture.loadFromFile("Assets/Login.png"))
         std::cout << "Could not load the Login image" << std::endl;
 

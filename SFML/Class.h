@@ -31,7 +31,7 @@ public:
 	Class(fsys::path filepath)
 	{
 		classPath = filepath;
-		std::string cls = filepath.u8string();
+		std::string cls = filepath.generic_string();
 		classID = cls.substr(cls.find_last_of('/') + 1, 6);
 
 		csvFile studentList(filepath);

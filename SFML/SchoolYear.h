@@ -60,5 +60,18 @@ static vector<SchoolYear> getExistedSchoolYear()
 	return realClassYear;
 	
 }
-
+static vector<Course> getAllCourse(vector <SchoolYear>& existingSchoolYear)
+{
+	vector<Course> allCourse;
+	for (int i = 0; i < existingSchoolYear.size(); ++i)
+	{
+		for (int j = 0; j < existingSchoolYear[i].semester.size(); ++j)
+		{
+			existingSchoolYear[i].semester[j].loadCourse();
+			for (int k = 0; k < existingSchoolYear[i].semester[j].courses.size(); ++k)
+				allCourse.push_back(existingSchoolYear[i].semester[j].courses[k]);
+		}
+	}
+	return allCourse;
+}
 

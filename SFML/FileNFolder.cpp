@@ -25,7 +25,7 @@ void csvFile::readFile() {
     }
     fin.open(stringPath);
     if (!fin.is_open()) {
-        std::cerr << "Error opening input file " << filePath << ".\n";
+        std::cerr << "Error opening input file " << stringPath << ".\n";
         return;
     }
 
@@ -54,7 +54,7 @@ bool csvFile::writeFile()
     }
     fout.open(stringPath);
     if (!fout.is_open()) {
-        std::cerr << "Cannot open " << filePath << " to write.\n";
+        std::cerr << "Cannot open " << stringPath << " to write.\n";
     }
     ll rowNum = this->cnt.size();
     for (ll i = 0; i < rowNum; i++) {

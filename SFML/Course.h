@@ -3,8 +3,6 @@
 #include "Requirement.h"
 #include "vector.h"
 #include "Student.h"
-
-
 //Run pressEnter function when Proceed Button is click: Save changes to the files
 //Run pressBack function when Back Button is click: Discard changes to the files
 
@@ -86,12 +84,18 @@ public:
     }
     Course(fsys::path folderPath)
     {
+        std::string courseID = folderPath.generic_string(); 
+        for (auto& c : courseID)
+            if (c == 92) c = '/'; 
+        courseID = courseID.substr(courseID.find_last_of('/') + 1); 
+        this->id = courseID; 
         csvFile inf(folderPath / "info.csv");
         this->infoFile = inf;
         csvFile sco(folderPath / "score.csv");
         this->scoreFile = sco;
         infoFile.readFile();
         scoreFile.readFile();
+        if (infoFile.cnt.size() == 0) return; 
         setName(infoFile.cnt[1][0]);
         setTeacher(infoFile.cnt[1][1]);
         setCredit(stoi(infoFile.cnt[1][2]));

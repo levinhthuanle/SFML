@@ -5,12 +5,13 @@
 class Semester {
 private:
 	fsys::path semesterPath;
+	
+public:
 	std::string name = "";
-	std::string year = ""; 
+	std::string year = "";
 	Date startDate;
 	Date endDate;
 	vector<Course> courses;
-public:
 	Semester() {};
 
 	Semester(std::string directory) 
@@ -56,8 +57,11 @@ public:
 		for (auto const& dir_entry : std::filesystem::directory_iterator{semesterPath})
 		{
 			std::string coursename = dir_entry.path().generic_string(); 
+			for (auto& c : coursename)
+				if (c == 92) c = '/';
 			std::string classname = coursename.substr(coursename.find_last_of('/') + 1); 
-			if (classname == "start_end_date.txt") continue; 
+			if (classname == "start_end_time.txt") 
+				continue; 
 			else
 			{
 				Course tempcourse(semesterPath / classname);
