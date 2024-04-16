@@ -1,15 +1,6 @@
 #include "FileNFolder.h"
 
-bool createFolder(fsys::path folderPath)
-{
-    if (fsys::exists(folderPath)) {
-        std::cerr << folderPath << " already exists.\n";
-        return false;
-    }
 
-    fsys::create_directories(folderPath);
-    return true;
-}
 
 bool csvFile::isCreate()
 {
@@ -17,16 +8,20 @@ bool csvFile::isCreate()
         std::cerr << filePath << " already exists.\n";
         return false;
     }
-    std::ofstream fout;
-    fout.open(filePath);
-    fout.close();
+
     return true;
 }
 
-void csvFile::readFile(){
+void csvFile::readFile() {
     cnt.clear();
     std::ifstream fin;
-    fin.open(filePath);
+    std::string stringPath = filePath.generic_string();
+
+    for (auto& c : stringPath)
+    {
+        if (c == 92) c = '/';
+    }
+    fin.open(stringPath);
     if (!fin.is_open()) {
         std::cerr << "Error opening input file " << filePath << ".\n";
         return;
@@ -49,7 +44,13 @@ void csvFile::readFile(){
 bool csvFile::writeFile()
 {                  //Any change to the file's cnt, please call the suitable function, then call the write function to chage the file
     std::ofstream fout;
-    fout.open(filePath);
+    std::string stringPath = filePath.generic_string();
+
+    for (auto& c : stringPath)
+    {
+        if (c == 92) c = '/';
+    }
+    fout.open(stringPath);
     if (!fout.is_open()) {
         std::cerr << "Cannot open " << filePath << " to write.\n";
     }

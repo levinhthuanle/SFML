@@ -1,42 +1,6 @@
 #include "Student.h"
-#include "Requirement.h"
 #include "FileNFolder.h"
-//Student::Student(std::string ID){
-//	std::string clas(ID.begin(), ID.begin() + 5 + (ID.size() == 9));
-//	std::string num(ID.begin() + 5 + (ID.size() == 9), ID.begin() + 8 + (ID.size() == 9));
-//	this->studentPath = this->studentPath / clas / num;
-//	std::ifstream fin; 
-//	fin.open(studentPath); 
-//	assert(fin.is_open()); 
-//	fin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-//	getline(fin,id); 
-//	getline(fin,fullname);
-//	getline(fin,classname); 
-//	fin.close(); 
-//}
-//
-//void Student::updateCourse(std::string newcoursename)
-//{
-//	std::fstream fout(studentPath, std::ios::app);
-//	std::string unnecessary;
-//	do
-//	{
-//		getline(fout, unnecessary);
-//	} while (unnecessary != "\n");
-//	char newcoursename_c[10];
-//	strcpy_s(newcoursename_c, newcoursename.c_str());
-//	strcat_s(newcoursename_c, "\n");
-//	fout.seekp(-1, std::ios::cur);
-//	fout.write(newcoursename_c, strlen(newcoursename_c));
-//
-//	return;
-//}
-////need more information.
-//void Student::getScoreBoard()
-//{
-//	return;
-//}
-//
+
 vector<std::string> Student::getUnfinishedCourse()
 {
 	std::ifstream fin(studentPath); 

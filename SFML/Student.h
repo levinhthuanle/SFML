@@ -11,9 +11,10 @@ private:
 
 
 
-	// a vector containing basic information of a student, has 6 element: 
+	// a vector containing basic information of a student, has 6+ element: 
 	// index 0 is class, index  1 is id, index 2 is fullname
 	// index 3 is gender, index 4 is DoB, index 5 is social ID. 
+	// from index 5 are courses of that student
 	vector<std::string> basic_info;
 
 	//more information about student

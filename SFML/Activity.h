@@ -19,7 +19,8 @@
 #include "Course.h"
 #include "User.h"
 #include "Activity2.h"
-
+#include "ExtraFunction.h"
+#include <algorithm>
 
 class Activity {
 public:

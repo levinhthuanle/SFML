@@ -5,6 +5,7 @@
 class Subject
 {
 public:
+	std::string id;
 	std::string name = "";
 	int midScore = -1, finalScore = -1;
 	int plusScore = -1, practiceScore = -1, aveScore = -1, otherScore = -1;
@@ -25,7 +26,8 @@ public:
 
 	Subject() {}
 
-	Subject(std::string unsolved) {
+	Subject(std::string id, std::string unsolved) {
+
 		int isComplete;
 		std::istringstream iss(unsolved);
 		iss >> isComplete >> midScore >> practiceScore >> plusScore >> otherScore >> finalScore >> aveScore;
@@ -40,6 +42,10 @@ public:
 		name = "";
 		midScore = finalScore = plusScore = practiceScore = aveScore = otherScore == -1;
 		completed = false;
+	}
+
+	void getScore() {
+
 	}
 };
 

@@ -45,7 +45,7 @@ void getSubjectData(User& user, fsys::path url)
 	
 
 		getline(sub, temp);
-		Subject tempSubject(temp);
+		Subject tempSubject(temp, "");
 
 		tempSubject.courseId = courseId;
 		tempSubject.courseName = courseName;
