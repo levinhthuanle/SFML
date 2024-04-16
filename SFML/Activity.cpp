@@ -10,7 +10,7 @@ Calendar calendar;
 
 vector<SchoolYear> existedSchoolYear = getExistedSchoolYear(); 
 vector<Course> existedCourse = getAllCourse(existedSchoolYear);
-//vector<Class> allClass = Class::getAllClassName();
+vector<Class> allClass = getAllClassName();
 
 //Finished
 void Activity::initLoginWindow(sf::RenderWindow &window)
@@ -439,9 +439,10 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         schoolYearButton.push_back(newButton); 
     }
     
-    //for (int i = 0; i < allClass.size(); i++) {
-    //    std::cout << allClass[i].classID << std::endl;
-    //}
+    for (int i = 0; i < allClass.size(); i++) {
+        std::cout << allClass[i].classID << std::endl;
+        std::cout << allClass[i].students[0].getID() << allClass[i].students[0].getFullname();
+    }
 
     if (!texture.loadFromFile("Assets/HomePageStaff.png"))
         std::cout << "Could not load the HomePageStaff image" << std::endl;

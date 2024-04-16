@@ -16,20 +16,21 @@ public:
 	{
 		this->classID = classID;
 		classPath /= classID; 
-		if (fsys::exists(classPath))
+		if (fsys::exists(classPath) && !fsys::is_empty(classPath))
 		{
-			getStudent(classPath);
-			
+			for (const auto& dir_entry : std::filesystem::directory_iterator{ classPath })
+			{
+				std::string stringPath = dir_entry.path().generic_string(); 
+				std::string ID = stringPath.substr(stringPath.find_last_of('/') + 1);
+				students.push_back(Student(classID + ID));
+			}
 		}
+
 	}
 
 	//get a class from a special csv file (for task 4)
 	void getStudent (fsys::path filepath)
 	{
-		classPath = filepath;
-		std::string cls = filepath.generic_string();
-		classID = cls.substr(cls.find_last_of('/') + 1, 6);
-
 		csvFile studentList(filepath);
 		studentList.readFile();
 
@@ -37,9 +38,9 @@ public:
 		{
 			vector<std::string> info(6);
 			info[0] = classID;
-			for (int j = 0; j < 5; ++i)
+			for (int j = 0; j < 6; ++i)
 			{
-				info[j + 1] = studentList.cnt[i][j];
+				info[j] = studentList.cnt[i][j];
 			}
 			students.push_back(Student(info));
 		}
@@ -78,29 +79,30 @@ public:
 		}
 	}
 
-	//static vector<Class> getAllClassName() {
-	//	vector < std::string> temp;
-	//	vector <Class> allClass;
-	//	fsys::path student("data/student");
-
-	//	std::string className;
-
-	//	for (auto const& dir_entry : std::filesystem::directory_iterator{ student })
-	//	{
-	//		className = dir_entry.path().generic_string();
-	//		
-
-	//		className = className.substr(className.find_last_of('/') + 1);
-
-	//		temp.push_back(className);
-	//	}
-	//	temp.decrease_sort();
-	//	for (int i = 0; i < temp.size(); ++i)
-	//	{
-	//		allClass.push_back(Class(temp[i]));
-	//	}
-
-	//	return allClass;
-	//}
+	
 };
 
+static vector<Class> getAllClassName() {
+	vector < std::string> temp;
+	vector <Class> allClass;
+	fsys::path student("data/student");
+
+	std::string className;
+
+	for (auto const& dir_entry : std::filesystem::directory_iterator{ student })
+	{
+		className = dir_entry.path().generic_string();
+
+
+		className = className.substr(className.find_last_of('/') + 1);
+
+		temp.push_back(className);
+	}
+	temp.decrease_sort();
+	for (int i = 0; i < temp.size(); ++i)
+	{
+		allClass.push_back(Class(temp[i]));
+	}
+
+	return allClass;
+}
