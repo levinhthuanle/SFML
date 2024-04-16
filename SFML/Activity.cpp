@@ -10,6 +10,7 @@ Calendar calendar;
 
 vector<SchoolYear> existedSchoolYear = getExistedSchoolYear(); 
 vector<Course> existedCourse = getAllCourse(existedSchoolYear);
+//vector<Class> allClass = Class::getAllClassName();
 
 //Finished
 void Activity::initLoginWindow(sf::RenderWindow &window)
@@ -427,7 +428,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
     Text newCalendar(1384, 169, calendar.text.getString().toAnsiString(), font, sf::Color(26, 114, 98), 25);
 
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
-    Button createSYButn(89.f, 106.f, 393, 55.f, "Create School Year", font, sf::Color(144, 44, 44));
+    Button createNewSYBtn(89.f, 106.f, 393, 55.f, "Create School Year", font, sf::Color(218, 110, 50));
     Button viewAllCoursesBtn(1375.f, 436.f, 300, 55, "View all courses", font, sf::Color(144, 44, 44));
     
 
@@ -438,6 +439,10 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         schoolYearButton.push_back(newButton); 
     }
     
+    //for (int i = 0; i < allClass.size(); i++) {
+    //    std::cout << allClass[i].classID << std::endl;
+    //}
+
     if (!texture.loadFromFile("Assets/HomePageStaff.png"))
         std::cout << "Could not load the HomePageStaff image" << std::endl;
     std::cout << "Generate staff sucess" << std::endl;
@@ -462,10 +467,10 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                     type = 12; // initInformationWindow
                     return;
                 }
-                if (createSYButn.isClicked(mousePos))
+                if (createNewSYBtn.isClicked(mousePos))
                 {
                   
-
+                    Activity2::createNewSchoolYearStaff();
                     //create second window to handle the work to create school year.
                 }
                 for (int i = 0; i < min(existedSchoolYear.size(), 3LL); ++i)
@@ -490,23 +495,14 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         datetime.draw(window);
         userIcon.draw(window);
         name.draw(window);
-        createSYButn.draw(window);
+        createNewSYBtn.draw(window);
         viewAllCoursesBtn.draw(window);
         days.draw(window);
         newCalendar.draw(window);
 
-        std::cout << "School year list: " << std::endl;
+        
         for (int i = 0; i < existedSchoolYear.size(); ++i)
-        {
-            std::cout << existedSchoolYear[i].getYear() << std::endl;
-            
-            for (int j = 0; j < existedSchoolYear[i].semester.size(); j++) {
-                SchoolYear& temp = existedSchoolYear[i];
-                std::cout << "Semester " << temp.semester[j].getName() << std::endl;
-            }
             schoolYearButton[i].draw(window); 
-
-        }
         
         
         window.display();

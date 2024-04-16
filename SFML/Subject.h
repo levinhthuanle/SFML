@@ -1,6 +1,5 @@
 #pragma once
 #include "Requirement.h"
-#include "Subject.h"
 
 // Subject represent ONE course of the student
 class Subject

@@ -1,4 +1,5 @@
 #include "BuiltClasses.h"
+
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(1700, 950), "Course management system", sf::Style::Close | sf::Style::Titlebar);
