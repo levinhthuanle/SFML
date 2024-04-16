@@ -26,10 +26,6 @@ public:
 		startDate = Date(line);
 		std::getline(file, line);
 		endDate = Date(line);
-
-		//for (const auto& entry : std::filesystem::directory_iterator(directory + "/courses")) {
-		//    courses.push(Course(entry.path()));
-		//}
 	}
 	 
 
