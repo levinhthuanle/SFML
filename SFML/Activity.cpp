@@ -435,9 +435,13 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
     
 
     int displaySY = 0;
+    
     vector<schoolyearButton> schoolyearBtn;
     for (int i = 0; i < existedSchoolYear.size(); ++i)
     {
+        std::cout << existedSchoolYear[i].getYear() << "\n";
+        std::cout << existedSchoolYear[i].semester[1].name; 
+
          //newButton(89.0f , 106.0F +(i + 1) * 200, 393.f, 54.f, existedSchoolYear[i].getYear(), font, sf::Color(144, 44, 44));
         schoolyearButton tempBtn(53.f, 190.f + 170.f * (i % 4), existedSchoolYear[i], font);
         schoolyearBtn.push_back(tempBtn); 
