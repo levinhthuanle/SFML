@@ -8,9 +8,14 @@ static void fileExistError(fsys::path fileName) {
     std::cerr << fileName << " already exists.\n";
 }
 
-
-bool createFolder(fsys::path folderPath);
-
+static bool createFolder(fsys::path folderPath) {
+    if (fsys::exists(folderPath)) {
+        fileExistError(folderPath);
+        return false;
+    }
+    fsys::create_directories(folderPath);
+    return true;
+}
 
 // void createMultipleDirectories(fsys::path path, Stack <std::string> list_name);
 
@@ -47,8 +52,11 @@ public:
 
     bool deleteCol(ll index);
 
-    csvFile operator=(csvFile& b) {
-        return std::move(b);
+    csvFile operator=(const csvFile& b) {
+        if (this == &b) return *this;
+        this->filePath = b.filePath;
+        this->cnt = b.cnt;
+        return *this;
     }
 };
 

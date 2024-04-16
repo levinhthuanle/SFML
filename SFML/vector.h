@@ -112,8 +112,4 @@ public:
         for (int i = 0; i < n; i++)
             this->push_back(def[i]);
     }
-
-    vector<T> operator=(vector<T>& b) {
-        return std::move(b);
-    }
 };

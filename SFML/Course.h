@@ -43,8 +43,13 @@ public:
     vector<vector<std::string>>& score = scoreFile.cnt;
 
 
-    Course operator=(Course& b) {
-        return std::move(b);
+    Course operator=(const Course& b) {
+        if (this == &b) return *this;
+        this->id = b.id;
+        this->folderPath = b.folderPath;
+        this->infoFile = b.infoFile;
+        this->scoreFile = b.scoreFile;
+        return *this;
     }
 
 	Course() {}
@@ -183,4 +188,4 @@ public:
         }
         file.writeFile();
     }
-}
+};

@@ -1,10 +1,9 @@
 #pragma once
-#include "Requirement.h"
 #include "Date.h"
-#include "Vector.h"
 #include "Course.h"
+
 class Semester {
-public:
+private:
 	fsys::path semesterPath;
 	std::string name = "";
 	std::string year = ""; 
