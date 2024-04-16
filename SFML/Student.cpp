@@ -5,10 +5,8 @@ vector<std::string> Student::getUnfinishedCourse()
 {
 	std::ifstream fin(studentPath); 
 	std::string unnecessary; 
-	for (int i = 0; i < 4; ++i)
-	{
-		std::getline(fin, unnecessary);
-	}
+	for (int i = 0; i < 6; ++i)
+		getline(fin, unnecessary);
 	std::string classcode;  //class code here means that student will have a class name classcode, equivalent to coursename.
 	vector <std::string> course; 
 	while (std::getline(fin, classcode))
@@ -28,7 +26,6 @@ vector<std::string> Student::getFinishedCourse()
 		while (std::getline(fin, classcode))
 		{
 			if (classcode == "\n") break;
-			else course.push_back(classcode);
 		}
 		while (std::getline(fin, classcode))
 		{
@@ -46,7 +43,27 @@ Student::Student(std::string ID)
 {
 	for (int i = 0; i < 6; ++i)
 		basic_info.push_back("");
+	std::string clss = ID.substr(0, 6); 
+	std::string order = ID.substr(6); 
+	basic_info[0] = clss; 
 	basic_info[1] = ID; 
+
+	studentPath /= clss + "/" + order;
+	if (fsys::exists(studentPath) || !fsys::is_empty(studentPath))
+	{
+		std::string studentPathString = studentPath.generic_string();
+		studentPathString += "/" + order + ".csv";
+
+
+		for (auto& c : studentPathString)
+			if (c == 92) c = '/';
+		std::ifstream fin(studentPathString);
+		for (int i = 0; i < 6; ++i)
+		{
+			getline(fin, basic_info[i]);
+			std::cout << basic_info[i];
+		}
+	}
 }
 Student::Student(vector<std::string> fullBasicInfo)
 {
@@ -72,16 +89,17 @@ void Student::updateBasic(vector<std::string> fullBasicInfo)
 }
 void Student::create()
 {
-	
-	csvFile studentFile(studentPath); 
-	vector<std::string> defaultPass(1,"123"); 
-	studentFile.cnt.push_back(defaultPass); 
+	std::ofstream fout(studentPath / "password.txt"); 
+	fout << "!23";
+	fout.close(); 
+
+	csvFile studentFile(studentPath/ basic_info[1].substr(6));
 
 
 	for (long long i = 0; i < 6; ++i)
 	{
 		studentFile.addRow(); 
-		studentFile.cnt[i + 1] = vector<std::string>(1,basic_info[i]); 
+		studentFile.cnt[i] = vector<std::string>(1,basic_info[i]); 
 	}
 	studentFile.isCreate(); 
 	studentFile.writeFile(); 

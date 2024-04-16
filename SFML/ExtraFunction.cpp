@@ -79,7 +79,7 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 
 	std::cout << cla << std::endl;
 	//try to open path
-	std::string stringUser = User + ".csv";
+	std::string stringUser = User + "/" + User + ".csv";
 	std::string type(username.begin(), username.begin() + 2);
 
 	if (type != "00")
@@ -90,20 +90,20 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 		}
 		else
 		{
-			std::string subjectUrl = User + "_subject.csv";
+			std::string subjectUrl = User + "/" + User + "_subject.csv";
 			getSubjectData(user, "data/student" / cla / subjectUrl);
 
 			std::ifstream fin;
-			fin.open("data/student" / cla / stringUser);
+			fin.open("data/student" / cla / User / "password.txt");
 
 			if (!fin.is_open()) 
 				return 0;
 			std::string p; fin >> p;
-
+			fin.close(); 
 			//check valid
 			if (p != password) return 0;
 
-			getline(fin, user.id); // Eat the carrier
+			fin.open("data/student" / cla / stringUser);
 
 			getline(fin, user.id);
 			getline(fin, user.className);
@@ -111,6 +111,7 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 			getline(fin, user.gender);
 			getline(fin, user.socialId);
 			std::cout << user.id << '\n' << user.fullname << '\n' << user.className << '\n';
+
 			std::cout << "Numer of courses:" << user.listOfFinCourse.size() << " " << user.listOfUnfinCourse.size() << std::endl;
 
 			// Need to be change to private and use setter
