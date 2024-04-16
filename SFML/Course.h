@@ -70,10 +70,6 @@ public:
 		scoreTit.setDefault(9, this->scoreTitle);
 		score.push_back(scoreTit);
 
-		infoFile.writeFile();
-
-		scoreFile.writeFile();
-
 		setName(name);
 		setTeacher(teacher);
 		setCredit(credit);
@@ -81,6 +77,11 @@ public:
 		setCurStu(0);
 		setDay(day);
 		setSession(session);
+
+		infoFile.writeFile();
+
+		scoreFile.writeFile();
+
 	}
 	Course(fsys::path folderPath)
 	{
