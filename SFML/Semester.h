@@ -3,6 +3,7 @@
 #include "Date.h"
 #include "Vector.h"
 #include "Course.h"
+
 class Semester {
 public:
 	fsys::path semesterPath;
