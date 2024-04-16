@@ -148,6 +148,7 @@ void Activity2::viewAllCourseStaff(vector<Course>& course)
         goBackBtn.draw(windowNext);
         windowNext.display();
     }
+    return; 
 }
 
 void Activity2::viewCourseInSemester(Semester& semester)

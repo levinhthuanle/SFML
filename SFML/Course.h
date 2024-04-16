@@ -95,7 +95,7 @@ public:
 		this->scoreFile = sco;
 		infoFile.readFile();
 		scoreFile.readFile();
-		if (infoFile.cnt.size() == 0) return;
+		if (infoFile.cnt.size() <= 1) return;
 		setName(infoFile.cnt[1][0]);
 		setTeacher(infoFile.cnt[1][1]);
 		setCredit(stoi(infoFile.cnt[1][2]));

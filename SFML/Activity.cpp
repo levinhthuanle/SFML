@@ -448,7 +448,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
     //    std::cout << allClass[i].students[0].getID() << allClass[i].students[0].getFullname();
     //}
     vector<Button> displayBtn;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < min(allClass.size(),4LL); i++) {
         Button temp(1380.f + 140 * (i / 2), 584 + 60*(i % 2), 120, 40, allClass[i].classID, font, sf::Color(144, 44, 44));
         displayBtn.push_back(temp);
     }
@@ -515,7 +515,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                     }
                 }
 
-                for (int i = 0; i < 4; i++) {
+                for (int i = 0; i < displayBtn.size(); i++) {
                     if (displayBtn[i].isClicked(mousePos))
                         Activity2::viewOneClass(allClass[i]);
                 }
@@ -538,7 +538,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         days.draw(window);
         newCalendar.draw(window);
         viewAllClassBtn.draw(window);
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < displayBtn.size(); i++) {
             
             displayBtn[i].draw(window);
         }
