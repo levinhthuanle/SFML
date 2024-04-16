@@ -124,6 +124,8 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 	}
 	else
 	{
+		stringUser = stringUser.substr(0, 3); 
+		stringUser += ".csv";
 		if (!fsys::exists("data/staff" / cla / stringUser))
 		{
 			return 0;
