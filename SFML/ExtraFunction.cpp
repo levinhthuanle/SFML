@@ -77,31 +77,36 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 	fsys::path cla(username.begin(), username.begin() + 6);
 	std::string User(username.begin() + 6, username.begin() + 9);
 
-	std::cout << cla << std::endl;
+	std::cout << "cla: " << cla << std::endl;
 	//try to open path
-	std::string stringUser = User + "/" + User + ".csv";
+	std::string stringUser = User + "/" + User + ".txt";
 	std::string type(username.begin(), username.begin() + 2);
+
+	std::cout << "User: " << User << std::endl;
 
 	if (type != "00")
 	{
-		if (!fsys::exists("data/student" / cla / stringUser))
+		fsys::path finPath("data/student" / cla / User / "password.txt");
+		std::cout << finPath << std::endl;
+		if (!fsys::exists(finPath))
 		{
 			return 0;
 		}
 		else
 		{
-			std::string subjectUrl = User + "/" + User + "_subject.csv";
-			getSubjectData(user, "data/student" / cla / subjectUrl);
-
 			std::ifstream fin;
 			fin.open("data/student" / cla / User / "password.txt");
 
 			if (!fin.is_open()) 
 				return 0;
 			std::string p; fin >> p;
+			std::cout << "pass: " << p << std::endl;
 			fin.close(); 
 			//check valid
 			if (p != password) return 0;
+
+			std::string subjectUrl = User + "/" + User + "_subject.csv";
+			getSubjectData(user, "data/student" / cla / subjectUrl);
 
 			fin.open("data/student" / cla / stringUser);
 
@@ -124,22 +129,25 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 	}
 	else
 	{
-		if (!fsys::exists("data/staff" / cla / stringUser))
+		User += ".csv";
+		fsys::path finPath("data/staff" / cla / User);
+		std::cout << finPath << std::endl;
+
+		if (!fsys::exists(finPath))
 		{
 			return 0;
 		}
 
 		else
 		{
-
 			//try to open file and get password.
 
 			std::ifstream fin;
-			fin.open("data/staff" / cla / stringUser);
+			fin.open(finPath);
 
 			if (!fin.is_open()) return 0;
-			std::string p; fin >> p;
-
+			std::string p; std::getline(fin, p, ',');
+			std::cout << "pass: " << p << std::endl;
 			//check valid
 			if (p != password) return 0;
 			user.setType("Staff");
