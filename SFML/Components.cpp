@@ -313,3 +313,74 @@ void courseButton::draw(sf::RenderWindow& window){
 bool courseButton::isClicked(const sf::Vector2i& mousePos){
     return shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
 }
+
+semesterButton::semesterButton(float x, float y, Semester infor, sf::Font& font)
+{
+    semester = infor;
+    const float width = 181.f, height = 55.f, thickness = 2.f;
+    const sf::Color fillColor = sf::Color(218, 110, 50), outlineColor = sf::Color(255, 255, 255);
+
+    shape.setPosition(sf::Vector2f(x, y));
+    shape.setSize(sf::Vector2f(width, height));
+    shape.setFillColor(fillColor);
+
+
+    text.setFont(font);
+    text.setString(infor.getName());
+    text.setCharacterSize(30);
+    text.setFillColor(outlineColor);
+    text.setPosition(x + 10.f, y + 10.f);
+
+}
+
+void semesterButton::draw(sf::RenderWindow& window)
+{
+    window.draw(shape);
+    window.draw(text);
+}
+
+bool semesterButton::isClick(const sf::Vector2i& mousePos)
+{
+    return shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
+}
+
+schoolyearButton::schoolyearButton(float x, float y, SchoolYear infor, sf::Font& font)
+{
+    schoolYear = infor;
+
+    const float width = 1220.f, height = 2.f, thickness = 2.f;
+    const sf::Color black = sf::Color(30, 30, 30);
+
+    std::string fiY = infor.getYear().substr(0, 2);
+    std::string seY = infor.getYear().substr(3, 2);
+    std::string YEAR = "20" + fiY + " - 20" + seY;
+
+    shape.setPosition(sf::Vector2f(x, y + 50));
+    shape.setSize(sf::Vector2f(width, height));
+    shape.setFillColor(black);
+
+    text.setFont(font);
+    text.setString(YEAR);
+    text.setCharacterSize(36);
+    text.setFillColor(black);
+    text.setPosition(x, y);
+
+    if (infor.semester.size() == 3) {
+        s1 = s2 = s3 = true;
+        sem1 = semesterButton(x + 15, y + 70, infor.semester[0], font);
+        sem2 = semesterButton(x + 15 + 220, y + 70, infor.semester[1], font);
+        sem3 = semesterButton(x + 15  + 220 + 220, y + 70, infor.semester[2], font);
+    }
+
+
+}
+
+void schoolyearButton::draw(sf::RenderWindow& window)
+{
+    window.draw(shape);
+    window.draw(text);
+
+    if (s1) sem1.draw(window);
+    if (s2) sem2.draw(window);
+    if (s3) sem3.draw(window);
+}

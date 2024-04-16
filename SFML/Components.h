@@ -1,5 +1,7 @@
 #pragma once
 #include "Subject.h"
+#include "Semester.h"
+#include "SchoolYear.h"
 #include <iomanip>
 
 class InputField {
@@ -114,4 +116,35 @@ public:
     void draw(sf::RenderWindow& window);
 
     bool isClicked(const sf::Vector2i& mousePos);
+};
+
+class semesterButton {
+public:
+    sf::Text text;
+    sf::RectangleShape shape;
+    Semester semester;
+
+    semesterButton() {}
+
+    semesterButton(float x, float y, Semester infor, sf::Font& font);
+
+    void draw(sf::RenderWindow& window);
+
+    bool isClick(const sf::Vector2i& mousePos);
+};
+
+class schoolyearButton {
+public:
+
+    sf::Text text;
+    sf::RectangleShape shape;
+    semesterButton sem1, sem2, sem3;
+    bool s1 = false, s2 = false, s3 = false;
+    SchoolYear schoolYear;
+
+    schoolyearButton() {}
+
+    schoolyearButton(float x, float y, SchoolYear infor, sf::Font& font);
+
+    void draw(sf::RenderWindow& window);
 };

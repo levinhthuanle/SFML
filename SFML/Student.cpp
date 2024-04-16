@@ -38,45 +38,7 @@ vector<std::string> Student::getFinishedCourse()
 void Student::getScoreBoard()
 {
 }
-//void Student::create()
-//{
-//	studentPath = studentPath / classname;
-//	if (!fsys::exists(studentPath))
-//	{
-//		std::cerr << "Don't find out the year";
-//		return;
-//	}
-//	std::string num(id.begin() + 6, id.begin() + 9);
-//	studentPath /= num;
-//	if (!fsys::exists(studentPath))
-//	{
-//		std::cerr << "This student have already been added. ";
-//		return;
-//	}
-//	else
-//	{
-//
-//
-//		std::ofstream fout;
-//		fout.open(studentPath);
-//		fout << "123\n" << id << "\n" << fullname << "\n" << classname << "\n";
-//		return;
-//	}
-//}
-//Student::Student(User user)
-//{
-//	fullname = user.fullname;
-//	id = user.id;
-//	classname = user.className;
-//	this->studentPath = user.getUrl();
-//
-//}
-//void updateBasic(std::string name, std::string ID) // takes 2 arguments, if you don't want to input some thing, pass "")
-//{
-//	fullname = name;
-//	id = ID;
-//	classname.assign(ID.begin(), ID.begin() + 6);
-//}
+
 Student::Student(std::string ID)
 {
 	for (int i = 0; i < 6; ++i)

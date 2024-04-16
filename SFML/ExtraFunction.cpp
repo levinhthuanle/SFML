@@ -45,7 +45,7 @@ void getSubjectData(User& user, fsys::path url)
 	
 
 		getline(sub, temp);
-		Subject tempSubject(temp, "");
+		Subject tempSubject("", temp);
 
 		tempSubject.courseId = courseId;
 		tempSubject.courseName = courseName;
@@ -56,7 +56,7 @@ void getSubjectData(User& user, fsys::path url)
 		tempSubject.numOfStudents = numOfStudents;
 		tempSubject.sessions = sessions;
 
-		std::cout << temp << std::endl;
+		std::cout << "temp: " <<  temp << std::endl;
 		if (tempSubject.completed)
 			user.listOfFinCourse.push_back(tempSubject);
 		else

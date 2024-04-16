@@ -78,8 +78,6 @@ public:
 			students.push_back(Student(info));
 		}
 	}
-
-	
 };
 
 static vector<Class> getAllClassName() {
