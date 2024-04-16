@@ -302,7 +302,7 @@ courseButton::courseButton(float x, float y, Subject& infor, sf::Font& font){
 
 courseButton::courseButton(float x, float y, Course& infor, sf::Font& font)
 {
-    //crs = infor;
+    crs = infor;
 
     const float width = 250.f, height = 186.f, thickness = 6.f;
     const sf::Color fillColor = sf::Color(245, 244, 244), outlineColor = sf::Color(81, 161, 147);

@@ -41,7 +41,7 @@ public:
 public:
 
 	vector<vector<std::string>>& score = scoreFile.cnt;
-	Course operator=(const Course& b) {
+	Course& operator=(const Course& b) {
 		if (this == &b) return *this;
 		this->id = b.id;
 		this->folderPath = b.folderPath;
@@ -85,6 +85,7 @@ public:
 	}
 	Course(fsys::path folderPath)
 	{
+		this->folderPath = folderPath; 
 		std::string courseID = folderPath.generic_string();
 		for (auto& c : courseID)
 			if (c == 92) c = '/';
