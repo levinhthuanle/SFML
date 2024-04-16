@@ -314,7 +314,7 @@ bool courseButton::isClicked(const sf::Vector2i& mousePos){
     return shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
 }
 
-semesterButton::semesterButton(float x, float y, Semester infor, sf::Font& font)
+semesterButton::semesterButton(float x, float y, Semester& infor, sf::Font& font)
 {
     semester = infor;
     const float width = 181.f, height = 55.f, thickness = 2.f;
@@ -344,7 +344,7 @@ bool semesterButton::isClick(const sf::Vector2i& mousePos)
     return shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
 }
 
-schoolyearButton::schoolyearButton(float x, float y, SchoolYear infor, sf::Font& font)
+schoolyearButton::schoolyearButton(float x, float y, SchoolYear& infor, sf::Font& font)
 {
     schoolYear = infor;
 

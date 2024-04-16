@@ -126,7 +126,7 @@ public:
 
     semesterButton() {}
 
-    semesterButton(float x, float y, Semester infor, sf::Font& font);
+    semesterButton(float x, float y, Semester& infor, sf::Font& font);
 
     void draw(sf::RenderWindow& window);
 
@@ -144,7 +144,7 @@ public:
 
     schoolyearButton() {}
 
-    schoolyearButton(float x, float y, SchoolYear infor, sf::Font& font);
+    schoolyearButton(float x, float y, SchoolYear& infor, sf::Font& font);
 
     void draw(sf::RenderWindow& window);
 };
