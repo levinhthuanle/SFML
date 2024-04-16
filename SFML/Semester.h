@@ -27,7 +27,7 @@ public:
 		endDate = Date(line);
 
 		//for (const auto& entry : std::filesystem::directory_iterator(directory + "/courses")) {
-		//    courses.push(Course(entry.path()));
+		//    courses.push_back(Course(entry.path()));
 		//}
 	}
 	 

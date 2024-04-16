@@ -423,17 +423,21 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Text days(1390, 133, "Mo Tu We Th Fr Sa Su", font, sf::Color(26, 114, 98), 25);
     Text newCalendar(1384, 169, calendar.text.getString().toAnsiString(), font, sf::Color(26, 114, 98), 25);
+    Button nextPageBtn(1226.f, 750.f, 92.f, 62.f, "Next", font, sf::Color(218, 110, 50));
+    Button prevPageBtn(1226.f, 827.f, 92.f, 62.f, "Prev", font, sf::Color(218, 110, 50));
 
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
-    Button createNewSYBtn(89.f, 106.f, 393, 55.f, "Create School Year", font, sf::Color(218, 110, 50));
+    Button createNewSYBtn(51.f, 106.f, 450.f, 55.f, "Create School Year", font, sf::Color(218, 110, 50));
     Button viewAllCoursesBtn(1375.f, 436.f, 300, 55, "View all courses", font, sf::Color(144, 44, 44));
     
 
-    vector<Button> schoolYearButton; 
-    for (int i = 0; i < min(existedSchoolYear.size(), 3LL); ++i)
+    int displaySY = 0;
+    vector<schoolyearButton> schoolyearBtn;
+    for (int i = 0; i < existedSchoolYear.size(); ++i)
     {
-        Button newButton(89.0f , 106.0F +(i + 1) * 200, 393.f, 54.f, existedSchoolYear[i].getYear(), font, sf::Color(144, 44, 44));
-        schoolYearButton.push_back(newButton); 
+         //newButton(89.0f , 106.0F +(i + 1) * 200, 393.f, 54.f, existedSchoolYear[i].getYear(), font, sf::Color(144, 44, 44));
+        schoolyearButton tempBtn(53.f, 190.f + 170.f * (i % 4), existedSchoolYear[i], font);
+        schoolyearBtn.push_back(tempBtn); 
     }
     
     //for (int i = 0; i < allClass.size(); i++) {
@@ -445,9 +449,22 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
     std::cout << "Generate staff sucess" << std::endl;
     sf::Sprite background(texture);
 
-    
+    //for (int i = 0; i < existedSchoolYear.size(); i++) {
+    //    std::cout << existedSchoolYear[i].getYear() << std::endl;
+    //    for (int j = 0; j < existedSchoolYear[i].semester.size(); j++) {
+    //        std::cout << existedSchoolYear[i].semester[j].getName() << std::endl;
+    //        //std::cout << j << std::endl;
+
+    //        existedSchoolYear[i].semester[j].loadCourse();
+    //        vector<Course> allCourse = existedSchoolYear[i].semester[j].getCourses();
+    //        std::cout << "Number of course: " << allCourse.size() << std::endl;
+    //    }
+    //}
+
+
     while (window.isOpen())
     {
+        long long tempSY = (displaySY + 4) > existedSchoolYear.size() ? existedSchoolYear.size() : (displaySY + 4);
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -464,20 +481,30 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                     type = 12; // initInformationWindow
                     return;
                 }
+
+                if (nextPageBtn.isClicked(mousePos)) {
+                    if (displaySY + 4 <= existedSchoolYear.size())
+                        displaySY += 4;
+                }
+
+                if (prevPageBtn.isClicked(mousePos)) {
+                    if (displaySY - 4 >= 0)
+                        displaySY -= 4;
+                }
+
                 if (createNewSYBtn.isClicked(mousePos))
                 {
-                  
                     Activity2::createNewSchoolYearStaff();
-                    //create second window to handle the work to create school year.
                 }
+
                 for (int i = 0; i < min(existedSchoolYear.size(), 3LL); ++i)
                 {
-                    if (schoolYearButton[i].isClicked(mousePos))
-                    {
+                    //if (schoolYearButton[i].isClicked(mousePos))
+                    //{
 
-                        // 
+                    //    // 
 
-                    }
+                    //}
                 }
 
             }
@@ -498,9 +525,10 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         newCalendar.draw(window);
 
         
-        for (int i = 0; i < existedSchoolYear.size(); ++i)
-            schoolYearButton[i].draw(window); 
-        
+
+        for (int i = displaySY; i < tempSY; i++) {
+            schoolyearBtn[i].draw(window);
+        }
         
         window.display();
 
