@@ -34,13 +34,16 @@ private:
     std::string infoTitle[7] = { "Name", "Teacher", "Credits", "Max Students", "Current Student", "Day", "Session" };
     std::string scoreTitle[9] = { "Student ID", "Class", "Full Name", "Practice Score", "Midterm Score", "Final Score", "Plus Score", "Other Score", "Average Score" };
 
+
     void displayErrorExceedMaxStu() {
         std::cerr << "Max students exceeded.\n";
     }
 
+
 public:
 
     vector<vector<std::string>>& score = scoreFile.cnt;
+
 
 
     Course operator=(const Course& b) {
