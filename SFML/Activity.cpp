@@ -13,7 +13,7 @@ vector<Course> existedCourse = getAllCourse(existedSchoolYear);
 vector<Class> allClass = getAllClassName();
 
 //Finished
-void Activity::initLoginWindow(sf::RenderWindow &window)
+void Activity::initLoginWindow(sf::RenderWindow &window, static bool& invalidLogin)
 {    
     for (int i = 0; i < existedCourse.size(); ++i)
         std::cout << existedCourse[i].getID() << "\n";
@@ -27,6 +27,11 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
     Button loginBtn(692.f, 671.f, 313.f, 60.f, "Login", font, sf::Color(218, 100, 50));
     std::cout << "Generate the main window success" << std::endl;
 
+    sf::Texture invalid;
+    if (!invalid.loadFromFile("Assets/Invalid Login.png"))
+        std::cout << "Could not load the Invalid Login image" << std::endl;
+    sf::Sprite invalidLoginNoti(invalid);
+    invalidLoginNoti.setPosition(652.f, 604.4f);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -46,7 +51,9 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
 
                     user.setUsername(username.getInput());
                     user.setPassword(password.getInput());
-                    type += checkLoginType(user);
+                    int check = checkLoginType(user);
+                    if (!check) invalidLogin = true;
+                    else type += check;
                     //if (type != 0) loginLogic(user, username, password, type);
                     return; 
                 }
@@ -60,7 +67,9 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
             if (password.chooseNextField()) {
                 user.setUsername(username.getInput());
                 user.setPassword(password.getInput());
-                type += checkLoginType(user);
+                int check = checkLoginType(user);
+                if (!check) invalidLogin = true;
+                else type += check;
                 /*if (type != 0) loginLogic(user, username, password, type);*/
                 return;
             }
@@ -76,6 +85,7 @@ void Activity::initLoginWindow(sf::RenderWindow &window)
         username.draw(window);
         password.draw(window);
         loginBtn.draw(window);
+        if (invalidLogin) window.draw(invalidLoginNoti);
         window.display();
     }
 }

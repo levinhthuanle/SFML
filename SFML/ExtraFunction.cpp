@@ -154,7 +154,7 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 
 			getline(fin, user.fullname);
 			getline(fin, user.fullname);
-			fsys::path temp = "data/staff" / cla / stringUser;
+			fsys::path temp = "data/staff" / cla / User;
 			user.url = temp;
 
 			return 11; // return the correct number of activity type.
@@ -202,7 +202,7 @@ bool changePassword(User& user, std::string oldPassword, std::string newPassword
 		return false;
 	}
 
-	fout << user.getPassword() << std::endl;
+	fout << user.getPassword() << ',' << std::endl;
 	if (user.getType() == "Student") {
 		fout << user.className << std::endl;
 		fout << user.id << std::endl;
