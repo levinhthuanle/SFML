@@ -108,7 +108,7 @@ public:
 		{
 			courses[i].create(); 
 		}
-		std::cout << "\nDone creating folder semester."
+		std::cout << "\nDone creating folder semester.";
 
 	}
 };
