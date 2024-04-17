@@ -1,6 +1,9 @@
 #pragma once
 #include "Requirement.h"
+#include "vector.h"
 #include "Subject.h"
+#include "Student.h"
+
 class User
 {
 //private:
@@ -26,6 +29,14 @@ public:
 		this->url = url;
 	}
 
+	User(Student& stu) {
+		this->username = stu.getID();
+		this->password = "";
+		this->url = stu.studentPath;
+	}
+
+	void updateSubjectData();
+
 	void setUrl(fsys::path url);
 
 	void setUsername(std::string username);
@@ -43,8 +54,6 @@ public:
 	std::string getPassword();
 
 	std::string getType();
-
-	
 
 	~User() {
 		username = "";

@@ -3,6 +3,7 @@
 #include "Requirement.h"
 #include "Student.h"
 #include "vector.h"
+#include "ExtraFunction.h"
 //Run pressEnter function when Proceed Button is click: Save changes to the files
 //Run pressBack function when Back Button is click: Discard changes to the files
 
@@ -14,7 +15,7 @@
 //
 //__score.csv__
 //Stu ID,       Class,      Name,       Practice Score, Midterm Score,      Final Score,    Plus Score, Other Score,    Average Score,
-//23125000      23TT2,      ABCDee      9.0             9.8
+//23CTT1045     23TT2,      ABCDee      9.0             9.8
 
 
 
@@ -167,6 +168,21 @@ public:
 		this->info[1][6] = session;
 	}
 
+	void subjectByCourse(Subject& subject, User& user) {
+		subject.completed = false;
+		subject.courseId = this->getID();
+		subject.courseName = this->getName();
+		subject.teacherName = this->getTeacher();
+		subject.credits = this->getCredit();
+		subject.numOfStudents = this->getCurStu();
+		subject.sessions = static_cast<int>(this->getSession()[1]);
+		subject.days = this->getDay();
+		subject.time = "Time";
+		subject.midScore = subject.practiceScore = subject.plusScore = subject.otherScore = subject.finalScore = subject.aveScore = -1;
+
+		subject.id = user.getUsername();
+	}
+
 	//Add one student
 
 	bool addStudent(Student& student) {
@@ -185,12 +201,31 @@ public:
 			score.push_back(newStu);
 			return true;
 		}
+
+		User user(student);
+		getSubjectData(user, user.url / "subject.csv");
+
+		Subject subject;
+		subjectByCourse(subject, user);
+		user.listOfUnfinCourse.push_back(subject);
+		user.updateSubjectData();
 	}
 
 
 	//Add students by csv file
 	bool importStudentsFile(fsys::path filePath) {
-		return fsys::copy_file(filePath, this->folderPath / "score.csv");
+		csvFile file(filePath);
+		file.readFile();
+		if (file.cnt.size() > this->getMaxStu()) {
+			displayErrorExceedMaxStu();
+			return false;
+		}
+		score.clear();
+		vector<Student> stuList = this->getStudiedStudent();
+		for (Student stu : stuList) {
+			this->addStudent(stu);
+		}
+		return true;
 	}
 
 	//Export scoreboard file
@@ -199,28 +234,42 @@ public:
 		fsys::copy_file(this->folderPath / "score.csv", filePath);
 	}
 
-    //Export student list
-    vector<Student> getStudentList() {
-        vector<Student> list;
-        for (int i = 0; i < this->getCurStu(); ++i) {
-            Student stu;
-            stu.setClass(score[i + 1][1]);
-            stu.setID(score[i + 1][0]);
-            stu.setFullname(score[i + 1][2]);
-            list.push_back(stu);
-        }
-        return list;
-    }
+	//Export student list
+	void exportStudentList(fsys::path& filePath) {
+		csvFile file(filePath);
+		vector <std::string> row;
+		for (int i = 0; i < this->getCurStu(); ++i) {
+			for (int j = 0; j < 3; j++) {
+				row.push_back(score[i + 1][j]);
+			}
+			file.cnt.push_back(row);
+		}
+		file.writeFile();
+	}
+	//create new course folder.
+	void create()
+	{
+		fsys::create_directories(folderPath); 
+		infoFile.writeFile(); 
+		scoreFile.writeFile(); 
+		std::cout << "Done creating course folder."; 
+		return; 
+	}
 
-    void exportStudentList(fsys::path& filePath) {
-        csvFile file(filePath);
-        vector <std::string> row;
-        for (int i = 0; i < this->getCurStu(); ++i) {
-            for (int j = 0; j < 3; j++) {
-                row.push_back(score[i + 1][j]);
-            }
-            file.cnt.push_back(row);
-        }
-        file.writeFile();
-    }
+	//Get Student list
+	vector<Student> getStudiedStudent()
+	{
+		vector<Student> studiedStudent; 
+		for (int i = 1; i < score.size(); ++i)
+		{
+			Student tempStudent(score[i][0]);
+			if (!tempStudent.is_exist())
+			{
+				std::cerr << "A student here is not existed."; 
+				break; 
+			}
+			studiedStudent.push_back(tempStudent); 
+		}
+		return studiedStudent; 
+	}
 };

@@ -1,4 +1,4 @@
-#include "BuiltClasses.h"
+#include "ExtraFunction.h"
 
 std::string EF::getDateTime()
 {
@@ -105,7 +105,7 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 			//check valid
 			if (p != password) return 0;
 
-			std::string subjectUrl = User + "/" + User + "_subject.csv";
+			std::string subjectUrl = User + "/subject.csv";
 			getSubjectData(user, "data/student" / cla / subjectUrl);
 
 			fin.open("data/student" / cla / stringUser);
