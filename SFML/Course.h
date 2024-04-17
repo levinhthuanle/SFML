@@ -80,7 +80,40 @@ public:
 
 		infoFile.writeFile();
 
+<<<<<<< Updated upstream
 		scoreFile.writeFile();
+=======
+        setName(name);
+        setTeacher(teacher);
+        setCredit(credit);
+        setMaxStu(maxStu);
+        setCurStu(0);
+        setDay(day);
+        setSession(session);
+    }
+
+    Course(fsys::path folderPath)
+    {
+        std::string courseID = folderPath.generic_string(); 
+        for (auto& c : courseID)
+            if (c == 92) c = '/'; 
+        courseID = courseID.substr(courseID.find_last_of('/') + 1); 
+        this->id = courseID; 
+        csvFile inf(folderPath / "info.csv");
+        this->infoFile = inf;
+        csvFile sco(folderPath / "score.csv");
+        this->scoreFile = sco;
+        infoFile.readFile();
+        scoreFile.readFile();
+        if (infoFile.cnt.size() <= 1) return; 
+        setName(infoFile.cnt[1][0]);
+        setTeacher(infoFile.cnt[1][1]);
+        setCredit(stoi(infoFile.cnt[1][2]));
+        setMaxStu(stoi(infoFile.cnt[1][3]));
+        setCurStu(stoi(infoFile.cnt[1][4]));
+        setDay(infoFile.cnt[1][5]);
+        setSession(infoFile.cnt[1][6]);
+>>>>>>> Stashed changes
 
 	}
 	Course(fsys::path folderPath)
@@ -194,6 +227,7 @@ public:
 		fsys::copy_file(this->folderPath / "score.csv", filePath);
 	}
 
+<<<<<<< Updated upstream
 	//Export student list
 	void exportStudentList(fsys::path& filePath) {
 		csvFile file(filePath);
@@ -206,4 +240,30 @@ public:
 		}
 		file.writeFile();
 	}
+=======
+    //Export student list
+    vector<Student> getStudentList() {
+        vector<Student> list;
+        for (int i = 0; i < this->getCurStu(); ++i) {
+            Student stu;
+            stu.setClass(score[i + 1][1]);
+            stu.setID(score[i + 1][0]);
+            stu.setFullname(score[i + 1][2]);
+            list.push_back(stu);
+        }
+        return list;
+    }
+
+    void exportStudentList(fsys::path& filePath) {
+        csvFile file(filePath);
+        vector <std::string> row;
+        for (int i = 0; i < this->getCurStu(); ++i) {
+            for (int j = 0; j < 3; j++) {
+                row.push_back(score[i + 1][j]);
+            }
+            file.cnt.push_back(row);
+        }
+        file.writeFile();
+    }
+>>>>>>> Stashed changes
 };

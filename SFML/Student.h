@@ -52,9 +52,31 @@ public:
 	std::string getClass() { return basic_info[0]; }
 	std::string getID() { return basic_info[1]; }
 	std::string getFullname() { return basic_info[2]; }
+<<<<<<< Updated upstream
 	std::string getGender() { return basic_info[3]; }
+=======
+	
+	void setClass(std::string cla) {
+		basic_info[0] = cla;
+	}
+
+	void setID(std::string id) {
+		basic_info[1] = id;
+	}
+
+	void setFullname(std::string name) {
+		basic_info[2] = name;
+ 	}
+>>>>>>> Stashed changes
 
 	void getScoreBoard();
+
+	Student& operator=(const Student& rhs) {
+		this->basic_info = rhs.basic_info;
+		this->studentPath = rhs.studentPath;
+
+		return *this;
+	}
 };
 
 
