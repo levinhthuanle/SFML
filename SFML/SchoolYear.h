@@ -6,7 +6,7 @@
 class SchoolYear {
 public:
 	std::string year;
-	vector<Semester> semester; 
+	vector<Semester> semester;
 	vector<Class> firstYearClasses;
 
 public:
@@ -14,17 +14,17 @@ public:
 
 	SchoolYear(std::string year) {
 		this->year = year;
-		
-		std::string schoolYearDir = "data/courses/" + year; 
-		
+
+		std::string schoolYearDir = "data/courses/" + year;
+
 		for (int i = 1; i <= 3; ++i)
 		{
 			std::string dir = schoolYearDir + "/Semester" + std::to_string(i);
-			fsys::path realDir(dir); 
+			fsys::path realDir(dir);
 			if (fsys::exists(realDir))
 				semester.push_back(Semester(dir));
 			else
-				break; 
+				break;
 		}
 	}
 
@@ -34,6 +34,49 @@ public:
 
 	void setYear(std::string year) {
 		this->year = year;
+	}
+	void addsemester(Semester sem)
+	{
+		for (int i = 0; i < semester.size(); ++i)
+		{
+			if (semester[i].getName() == sem.getName())
+			{
+				std::cout << "Semester is existed.";
+				return;
+			}
+		}
+		semester.push_back(sem);
+		return;
+	}
+	void addFirstYearClass(Class newClass)
+	{
+		for (int i = 0; i < firstYearClasses.size(); ++i)
+		{
+			if (firstYearClasses[i].classID == newClass.classID)
+			{
+				std::cout << "This class is existed.";
+				return;
+			}
+		}
+
+		firstYearClasses.push_back(newClass);
+		return;
+	}
+	void createNewSchoolYear()
+	{
+
+		fsys::create_directories("data/courses" + year);
+		for (int i = 0; i < semester.size(); ++i)
+		{
+			semester[i].create();
+		}
+	}
+	void createFirstYearClass()
+	{
+		for (int i = 0; i < firstYearClasses.size(); ++i)
+		{
+			firstYearClasses[i].create(); 
+		}
 	}
 
 };

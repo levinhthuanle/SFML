@@ -80,6 +80,7 @@ public:
 
 	void addCourse(Course course) 
 	{
+		
 		courses.push_back(course); 
 
 	}
@@ -99,15 +100,15 @@ public:
 		}
 	}
 
-	void save() {
-	    //std::ofstream file("semesters/" + name + "/start_end_time.txt");
-	    //file << startDate.toString() << std::endl;
-	    //file << endDate.toString() << std::endl;
-	    //file.close();
-	    //std::filesystem::create_directory("semesters/" + name + "/courses");
-	    //while (!courses.empty()) {
-	    //    courses.top().save();
-	    //    courses.pop();
-	    //}
+	void create() 
+	{
+		fsys::create_directories(semesterPath); 
+
+		for (int i = 0; i < courses.size(); ++i)
+		{
+			courses[i].create(); 
+		}
+		std::cout << "\nDone creating folder semester."
+
 	}
 };

@@ -49,7 +49,7 @@ Student::Student(std::string ID)
 	basic_info[1] = ID; 
 
 	studentPath /= clss + "/" + order;
-	if (fsys::exists(studentPath) || !fsys::is_empty(studentPath))
+	if (fsys::exists(studentPath) && !fsys::is_empty(studentPath))
 	{
 		std::string studentPathString = studentPath.generic_string();
 		studentPathString += "/" + order + ".csv";

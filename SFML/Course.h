@@ -206,4 +206,28 @@ public:
 		}
 		file.writeFile();
 	}
+	//create new course folder.
+	void create()
+	{
+		fsys::create_directories(folderPath); 
+		infoFile.writeFile(); 
+		scoreFile.writeFile(); 
+		std::cout << "Done creating course folder."; 
+		return; 
+	}
+	vector<Student> getStudiedStudent()
+	{
+		vector<Student> studiedStudent; 
+		for (int i = 1; i < score.size(); ++i)
+		{
+			Student tempStudent(score[i][1]);
+			if (!tempStudent.is_exist())
+			{
+				std::cerr << "A student here is not existed."; 
+				break; 
+			}
+			studiedStudent.push_back(tempStudent); 
+		}
+		return studiedStudent; 
+	}
 };
