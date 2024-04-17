@@ -1,6 +1,4 @@
 #include "Activity.h"
-
-
 // Global variables
 
 
@@ -210,6 +208,7 @@ void Activity::initInformationStudentWindow(sf::RenderWindow& window)
     std::cout << "Generate Student Information sucess" << std::endl;
     sf::Sprite background(texture);
 
+    std::cout << user.url << std::endl;
 
     while (window.isOpen()) {
         sf::Event event;
@@ -443,6 +442,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
     Button createNewSYBtn(51.f, 106.f, 450.f, 55.f, "Create School Year", font, sf::Color(218, 110, 50));
     Button viewAllCoursesBtn(1375.f, 436.f, 300, 55, "View all courses", font, sf::Color(144, 44, 44));
     Button viewAllClassBtn(1380.f, 700.f, 250, 40, "View all >>", font, sf::Color(144, 44, 44));
+    Button createSemester(1046.f, 270.f, 230.f, 55.f, "Add semester", font, sf::Color(144, 44, 44));
 
     int displaySY = 0;
     
@@ -459,7 +459,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
     //}
     vector<Button> displayBtn;
     for (int i = 0; i < min(allClass.size(),4LL); i++) {
-        Button temp(1380.f + 140 * (i / 2), 584 + 60*(i % 2), 120, 40, allClass[i].classID, font, sf::Color(144, 44, 44));
+        Button temp(1380.f + 140 * (i / 2), 584.f + 60*(i % 2), 120, 40, allClass[i].classID, font, sf::Color(144, 44, 44));
         displayBtn.push_back(temp);
     }
 
@@ -500,6 +500,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 
                 if (createNewSYBtn.isClicked(mousePos))
                 {
+                    // Implement a function to create a new Schoolyear folder
                     Activity2::createNewSchoolYearStaff();
                 }
 
@@ -509,6 +510,11 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 
                 if (viewAllClassBtn.isClicked(mousePos)) {
                     Activity2::viewAllClassStaff(allClass);
+                }
+
+                if (createSemester.isClicked(mousePos))
+                    if (displaySY == 0 && (!schoolyearBtn[0].s1 || !schoolyearBtn[0].s2 || !schoolyearBtn[0].s3)) {
+                        Activity2::createSemesterStaff(existedSchoolYear[0]);
                 }
 
                 for (int i = displaySY; i < tempSY; ++i){
@@ -528,9 +534,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                 for (int i = 0; i < displayBtn.size(); i++) {
                     if (displayBtn[i].isClicked(mousePos))
                         Activity2::viewOneClass(allClass[i]);
-                }
-
-                
+                }             
             }
 
         }
@@ -558,6 +562,9 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
             schoolyearBtn[i].draw(window);
         }
         
+        if (displaySY == 0 && (!schoolyearBtn[0].s1 || !schoolyearBtn[0].s2 || !schoolyearBtn[0].s3))
+            createSemester.draw(window);
+
         window.display();
 
         

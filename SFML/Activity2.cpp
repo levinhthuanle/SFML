@@ -104,6 +104,46 @@ void Activity2::createNewSchoolYearStaff()
     }
 }
 
+void Activity2::createSemesterStaff(SchoolYear& SY)
+{
+    //CreateSemesterStaff.png
+    sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "Create Semester", sf::Style::Close | sf::Style::Titlebar);
+
+    sf::Font fontNext;
+    if (!fontNext.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    sf::Texture textureNext;
+    if (!textureNext.loadFromFile("Assets/CreateSemesterStaff.png"))
+        std::cout << "Could not load the CreateSemesterStaff image" << std::endl;
+    std::cout << "Generate Create Semester Staff sucess" << std::endl;
+    sf::Sprite background(textureNext);
+
+    Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, orange);
+
+
+    while (windowNext.isOpen()) {
+        sf::Event event;
+        while (windowNext.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                windowNext.close();  // Close 
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+
+                if (goBackBtn.isClicked(mousePos))
+                    windowNext.close();
+            }
+
+        }
+
+        windowNext.clear(sf::Color::White);
+        windowNext.draw(background);
+
+        goBackBtn.draw(windowNext);
+        windowNext.display();
+    }
+}
+
 void Activity2::viewAllCourseStaff(vector<Course>& course)
 {
     sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "All Course", sf::Style::Close | sf::Style::Titlebar);
@@ -121,7 +161,7 @@ void Activity2::viewAllCourseStaff(vector<Course>& course)
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, orange);
     vector<Text> allOfCourse;
     for (int i = 0; i < course.size(); i++) {
-        Text temp(100, 100 + 30 * i, course[i].getID(), fontNext, sf::Color(30, 30, 30), 25);
+        Text temp(100.f, 100.f + 30 * i, course[i].getID(), fontNext, sf::Color(30, 30, 30), 25);
         allOfCourse.push_back(temp);
     }
 
@@ -153,7 +193,7 @@ void Activity2::viewAllCourseStaff(vector<Course>& course)
 
 void Activity2::viewCourseInSemester(Semester& semester)
 {
-
+    int displayFrom = 0;
     const sf::Color GREEN = sf::Color(26, 114, 98);
     sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "View a semester", sf::Style::Close | sf::Style::Titlebar);
     sf::Texture textureNext;
@@ -167,6 +207,8 @@ void Activity2::viewCourseInSemester(Semester& semester)
     std::cout << "Generate Your course student sucess" << std::endl;
     sf::Sprite background(textureNext);
 
+    Button nextPageBtn(1226.f, 750.f, 92.f, 62.f, "Next", fontNext, sf::Color(218, 110, 50));
+    Button prevPageBtn(1226.f, 827.f, 92.f, 62.f, "Prev", fontNext, sf::Color(218, 110, 50));
     
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, orange);
@@ -175,18 +217,19 @@ void Activity2::viewCourseInSemester(Semester& semester)
     vector<courseButton> allOfCourse;
     //std::cout << semester.courses[0].getID() << std::endl;
     
-    courseButton temp(65, 209, semester.courses[0], fontNext);
+    //courseButton temp(65, 209, semester.courses[0], fontNext);
 
-    //for (int i = 0; i < semester.courses.size(); i++) {
-    //    //Text temp(150, 300 + 150 * i, semester.courses[i].getID(), fontNext, sf::Color(30, 30, 30), 25);
-    //    courseButton temp(65 + 273*(i % 5), 209 + 210 * (i/5), semester.courses[i], fontNext);
-    //    allOfCourse.push_back(temp);
+    for (int i = 0; i < semester.courses.size(); i++) {
+        courseButton temp(65 + 273*(i % 5), 209 + 210 * (i/5), semester.courses[i], fontNext);
+        allOfCourse.push_back(temp);
 
-    //    std::cout << semester.courses[i].getID() << std::endl;
-    //    //std::cout << semester.courses[i].
-    //}
+        std::cout << semester.courses[i].getID() << std::endl;
+        //std::cout << semester.courses[i].
+    }
 
     while (windowNext.isOpen()) {
+        long long limitDisplay = (displayFrom + 4) > allOfCourse.size() ? allOfCourse.size() : (displayFrom + 4);
+
         sf::Event event;
         while (windowNext.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
@@ -196,6 +239,16 @@ void Activity2::viewCourseInSemester(Semester& semester)
 
                 if (goBackBtn.isClicked(mousePos))
                     windowNext.close();
+
+                if (prevPageBtn.isClicked(mousePos)) {
+                    if (displayFrom - 4 >= 0)
+                        displayFrom -= 4;
+                }
+
+                if (nextPageBtn.isClicked(mousePos)) {
+                    if (displayFrom + 4 <= allOfCourse.size())
+                        displayFrom += 4;
+                }
             }
 
         }
@@ -204,9 +257,9 @@ void Activity2::viewCourseInSemester(Semester& semester)
         windowNext.draw(background);
 
         text.draw(windowNext);
-        //for (int i = 0; i < semester.courses.size(); i++) {
-        //    allOfCourse[i].draw(windowNext);
-        //}
+        for (int i = displayFrom; i < limitDisplay; i++) {
+            allOfCourse[i].draw(windowNext);
+        }
 
         goBackBtn.draw(windowNext);
         windowNext.display();
@@ -251,7 +304,7 @@ void Activity2::viewOneClass(Class& oneclass)
             temp += ' ';
         temp += oneclass.students[i].getGender();
         
-        Text text(82, 188 + 32*i, temp, fontNext, BLACK, 32);
+        Text text(82.f, 188.f + 32*i, temp, fontNext, BLACK, 32);
 
         listOfStudent.push_back(text);
     }
@@ -305,14 +358,17 @@ void Activity2::viewAllClassStaff(vector<Class>& allClass)
         std::cout << "Could not load the font" << std::endl;
 
     sf::Texture textureNext;
-    if (!textureNext.loadFromFile("Assets/ViewAllClassesStaff.png"))
-        std::cout << "Could not load the YourCourseStudent image" << std::endl;
+    if (!textureNext.loadFromFile("Assets/ViewAllClassStaff.png"))
+        std::cout << "Could not load the ViewAllClassStaff image" << std::endl;
     std::cout << "Generate View all class sucess" << std::endl;
     sf::Sprite background(textureNext);
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, orange);
-    //vector<Text> allOfCourse;
-
+    vector<Button> allOfClasses;
+    for (int i = 0; i < allClass.size(); i++) {
+        Button temp(100.f + 315*(i % 5), 135.f + 90*(i / 5), 245.f, 66.f, allClass[i].classID, fontNext, sf::Color(26, 114, 96));
+        allOfClasses.push_back(temp);
+    }
 
 
     while (windowNext.isOpen()) {
@@ -325,12 +381,21 @@ void Activity2::viewAllClassStaff(vector<Class>& allClass)
 
                 if (goBackBtn.isClicked(mousePos))
                     windowNext.close();
+
+                for (int i = 0; i < allOfClasses.size(); i++) {
+                    if (allOfClasses[i].isClicked(mousePos))
+                        viewOneClass(allClass[i]);
+                }
             }
 
         }
 
         windowNext.clear(sf::Color::White);
         windowNext.draw(background);
+
+        for (int i = 0; i < allOfClasses.size(); i++) {
+            allOfClasses[i].draw(windowNext);
+        }
 
         goBackBtn.draw(windowNext);
         windowNext.display();

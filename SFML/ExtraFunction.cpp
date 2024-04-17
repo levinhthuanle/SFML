@@ -17,8 +17,6 @@ std::string EF::getDateTime()
 	return ss.str();
 }
 
-
-
 void getSubjectData(User& user, fsys::path url)
 {
 	std::ifstream sub;
@@ -108,7 +106,7 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 			std::string subjectUrl = User + "/" + User + "_subject.csv";
 			getSubjectData(user, "data/student" / cla / subjectUrl);
 
-			fin.open("data/student" / cla / stringUser);
+			fin.open("data/student" / cla / User / (User +".csv"));
 
 			getline(fin, user.id);
 			getline(fin, user.className);
@@ -121,8 +119,8 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 
 			// Need to be change to private and use setter
 			user.type = "Student";
-			fsys::path temp = "data/student" / cla / stringUser;
-			user.url = temp;
+			
+			user.url = "data / student" / cla / User;
 			fin.close();
 			return 1;
 		}
@@ -180,46 +178,32 @@ bool changePassword(User& user, std::string oldPassword, std::string newPassword
 	// Read all the course in the student file
 	if (user.getType() == "Student") {
 
-		std::ifstream fin;
-		fin.open(user.url);
-		if (!fin.is_open())
-			std::cout << "Can not open information file to change password" << std::endl;
-
-		std::string temp;
-		for (int i = 1; i <= 5; i++)
-			getline(fin, temp); // Pass the usser information
-		while (!fin.eof()) {
-			getline(fin, temp);
-			listOfCourse.push_back(temp);
+		std::ofstream fout;
+		fout.open(user.url / "password.txt");
+		if (!fout.is_open()) {
+			std::cout << "Can not open password.txt to change password" << std::endl;
+			return false;
 		}
-		fin.close();
-	}
+		fout << user.password;
 
-	std::ofstream fout;
-	fout.open(user.url);
-	if (!fout.is_open()) {
-		std::cout << "Can not open the user information file!" << std::endl;
-		return false;
-	}
-
-	fout << user.getPassword() << ',' << std::endl;
-	if (user.getType() == "Student") {
-		fout << user.className << std::endl;
-		fout << user.id << std::endl;
-		fout << user.fullname << std::endl;
-		fout << user.dayOfBirth << std::endl;
-
-		for (int i = 0; i < listOfCourse.size(); i++)
-			fout << listOfCourse[i] << std::endl;
+		fout.close();
+		std::cout << "Succesful change the password" << std::endl;
 	}
 
 	else {
+		std::ofstream fout;
+		fout.open(user.url);
+		if (!fout.is_open()) {
+			std::cout << "Can not open the staff information file!" << std::endl;
+			return false;
+		}
+
+		fout << user.getPassword() << ',' << std::endl;		
 		fout << user.fullname << std::endl;
+		fout.close();
+
+		std::cout << "Succesful change the password" << std::endl;
 	}
-
-	fout.close();
-
-	std::cout << "Succesful change the password" << std::endl;
 	return true;
 }
 

@@ -21,6 +21,8 @@ public:
 
 	static void createNewSchoolYearStaff();
 
+	static void createSemesterStaff(SchoolYear& SY);
+
 	static void viewAllCourseStaff(vector<Course>& course);
 
 	static void viewCourseInSemester(Semester& semester);
@@ -28,5 +30,7 @@ public:
 	static void viewOneClass(Class& oneclass);
 
 	static void viewAllClassStaff(vector<Class>& allClass);
+
+	
 };
 

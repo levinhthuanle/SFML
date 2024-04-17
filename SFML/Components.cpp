@@ -423,7 +423,16 @@ schoolyearButton::schoolyearButton(float x, float y, SchoolYear& infor, sf::Font
         sem2 = semesterButton(x + 15 + 220, y + 70, infor.semester[1], font);
         sem3 = semesterButton(x + 15  + 220 + 220, y + 70, infor.semester[2], font);
     }
+    else if (infor.semester.size() == 2) {
+        s1 = s2 = true;
+        sem1 = semesterButton(x + 15, y + 70, infor.semester[0], font);
+        sem2 = semesterButton(x + 15 + 220, y + 70, infor.semester[1], font);
 
+    }
+    else if (infor.semester.size() == 1) {
+        s1 = true;
+        sem1 = semesterButton(x + 15, y + 70, infor.semester[0], font);
+    }
 
 }
 
