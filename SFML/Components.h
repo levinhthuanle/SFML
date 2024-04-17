@@ -109,9 +109,12 @@ private:
     
 public:
     Subject cnt;
+    Course crs;
     courseButton() {}
 
-    courseButton(float x, float y, const Subject infor, sf::Font& font);
+    courseButton(float x, float y, Subject& infor, sf::Font& font);
+
+    courseButton(float x, float y, Course& infor, sf::Font& font);
 
     void draw(sf::RenderWindow& window);
 

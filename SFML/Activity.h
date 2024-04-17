@@ -34,7 +34,7 @@ public:
 	}
 
 	// Student
-	void initLoginWindow(sf::RenderWindow &window);
+	void initLoginWindow(sf::RenderWindow &window, static bool& invalidLogin);
 
 	void initHomePageStudentWindow(sf::RenderWindow& window);
 

@@ -4,12 +4,13 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(1700, 950), "Course management system", sf::Style::Close | sf::Style::Titlebar);
 	Activity activity;
+	bool invalidLogin = false;
 	while (window.isOpen())
 	{
 		switch (activity.type)
 		{
 		case 0:
-			activity.initLoginWindow(window);
+			activity.initLoginWindow(window, invalidLogin);
 			break;
 		case 1:
 			activity.initHomePageStudentWindow(window);

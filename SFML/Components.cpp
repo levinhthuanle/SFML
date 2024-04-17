@@ -250,7 +250,7 @@ void Calendar::draw(sf::RenderWindow& window){
     window.draw(text);
 }
 
-courseButton::courseButton(float x, float y, const Subject infor, sf::Font& font){
+courseButton::courseButton(float x, float y, Subject& infor, sf::Font& font){
     cnt = infor;
     const float width = 250.f, height = 186.f, thickness = 6.f;
     const sf::Color fillColor = sf::Color(245, 244, 244), outlineColor = sf::Color(81, 161, 147);
@@ -289,6 +289,58 @@ courseButton::courseButton(float x, float y, const Subject infor, sf::Font& font
 
     credits.setFont(font);
     credits.setString("Number of credit: " + std::to_string(infor.credits));
+    credits.setCharacterSize(16);
+    credits.setFillColor(sf::Color(218, 110, 50));
+    credits.setPosition(x + 10.f, y + 140.f);
+
+    seeMore.setFont(font);
+    seeMore.setString("See more >> ");
+    seeMore.setCharacterSize(16);
+    seeMore.setFillColor(sf::Color(218, 110, 50));
+    seeMore.setPosition(x + 10.f, y + 160.f);
+}
+
+courseButton::courseButton(float x, float y, Course& infor, sf::Font& font)
+{
+    crs = infor;
+
+    const float width = 250.f, height = 186.f, thickness = 6.f;
+    const sf::Color fillColor = sf::Color(245, 244, 244), outlineColor = sf::Color(81, 161, 147);
+
+    shape.setPosition(sf::Vector2f(x, y));
+    shape.setSize(sf::Vector2f(width, height)); 
+    shape.setFillColor(fillColor); 
+    shape.setOutlineThickness(thickness); 
+    shape.setOutlineColor(outlineColor); 
+
+    courseId.setFont(font); 
+    courseId.setString(infor.getID()); 
+    courseId.setCharacterSize(36);
+    courseId.setFillColor(outlineColor);
+    courseId.setPosition(x + 10.f, y + 10.f);
+    courseId.setOutlineColor(outlineColor);
+    courseId.setOutlineThickness(1.f);
+
+    courseName.setFont(font);
+    courseName.setString(infor.getName());
+    courseName.setCharacterSize(16);
+    courseName.setFillColor(outlineColor);
+    courseName.setPosition(x + 10.f, y + 50.f);
+
+    teacherName.setFont(font);
+    teacherName.setString(infor.getTeacher());
+    teacherName.setCharacterSize(16);
+    teacherName.setFillColor(outlineColor);
+    teacherName.setPosition(x + 10.f, y + 100.f);
+
+    time.setFont(font);
+    time.setString(infor.getDay());
+    time.setCharacterSize(16);
+    time.setFillColor(sf::Color(218, 110, 50));
+    time.setPosition(x + 10.f, y + 120.f);
+
+    credits.setFont(font);
+    credits.setString("Number of credit: " + std::to_string(infor.getCredit()));
     credits.setCharacterSize(16);
     credits.setFillColor(sf::Color(218, 110, 50));
     credits.setPosition(x + 10.f, y + 140.f);

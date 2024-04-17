@@ -51,7 +51,7 @@ public:
 
     bool deleteCol(ll index);
 
-    csvFile operator=(const csvFile& b) {
+    csvFile& operator=(const csvFile& b) {
         if (this == &b) return *this;
         this->filePath = b.filePath;
         this->cnt = b.cnt;

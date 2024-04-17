@@ -2,6 +2,8 @@
 #include "Subject.h"
 #include "Components.h"
 #include "vector.h"
+#include "Course.h"
+
 //I assume that this class create sub-activity for student. 
 const sf::Color black = sf::Color(18, 2, 2);
 const sf::Color green = sf::Color(81, 161, 147);
@@ -10,15 +12,21 @@ class Activity2
 {
 public:
 
-
 	Activity2() {
 
 	}
 
 	//courseInformationStudent(unfinBtn[i].cnt)
-	static void courseInformationStudent(Subject subject);
+	static void courseInformationStudent(Subject& subject);
 
 	static void createNewSchoolYearStaff();
 
+	static void viewAllCourseStaff(vector<Course>& course);
+
+	static void viewCourseInSemester(Semester& semester);
+
+	static void viewOneClass(Class& oneclass);
+
+	static void viewAllClassStaff(vector<Class>& allClass);
 };
 
