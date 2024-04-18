@@ -64,12 +64,7 @@ public:
 	}
 	void createNewSchoolYear()
 	{
-
-		fsys::create_directories("data/courses" + year);
-		for (int i = 0; i < semester.size(); ++i)
-		{
-			semester[i].create();
-		}
+		fsys::create_directories("data/courses/" + year);
 	}
 	void createFirstYearClass()
 	{
@@ -78,7 +73,12 @@ public:
 			firstYearClasses[i].create(); 
 		}
 	}
-
+	SchoolYear getNextPossibleYear()
+	{
+		int currYear = std::stoi(year.substr(0, 2)); 
+		std::string  nextSchoolYear = std::to_string(currYear + 1) + "-" + std::to_string(currYear + 2); 
+		return SchoolYear(nextSchoolYear); 
+	}
 };
 
 static vector<SchoolYear> getExistedSchoolYear()
@@ -117,4 +117,5 @@ static vector<Course> getAllCourse(vector <SchoolYear>& existingSchoolYear)
 	}
 	return allCourse;
 }
+
 

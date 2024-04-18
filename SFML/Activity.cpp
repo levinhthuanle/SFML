@@ -7,6 +7,7 @@ Calendar calendar;
 
 
 vector<SchoolYear> existedSchoolYear = getExistedSchoolYear(); 
+
 vector<Course> existedCourse = getAllCourse(existedSchoolYear);
 vector<Class> allClass = getAllClassName();
 
@@ -504,7 +505,23 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                 if (createNewSYBtn.isClicked(mousePos))
                 {
                     // Implement a function to create a new Schoolyear folder
-                    Activity2::createNewSchoolYearStaff();
+                    if (existedSchoolYear[0].semester.size() == 3)
+                    {
+                        SchoolYear nextYear = existedSchoolYear[0].getNextPossibleYear(); 
+                        nextYear.createNewSchoolYear(); 
+                        existedSchoolYear.insert(nextYear, 0); 
+                        schoolyearBtn.clear(); 
+                        for (int i = 0; i < existedSchoolYear.size(); ++i)
+                        {
+                            schoolyearButton tempBtn(53.f, 190.f + 170.f * (i % 4), existedSchoolYear[i], font);
+                            schoolyearBtn.push_back(tempBtn);
+                        }
+                    }
+                    else
+                    {
+                        //show the error. 
+                        std::cerr << "Thes latest year hasn't been finished yet."; 
+                    }
                 }
 
                 if (addClassBtn.isClicked(mousePos)) {

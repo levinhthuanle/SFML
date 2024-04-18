@@ -39,7 +39,7 @@ public:
         }
         _data[s++] = val;
     }
-
+    
     void push_back(T&& val) {
         if (s == capacity) {
             upsize();
@@ -47,6 +47,34 @@ public:
         _data[s++] = std::move(val);
     }
 
+    void insert(const T& val, long long index) 
+    {
+        assert(index >= 0); 
+        assert(index <= s); 
+        if (s == capacity) {
+            upsize();
+        }
+        ++s;
+        for (int i = s; i > index; --i)
+        {
+            _data[i] = _data[i - 1]; 
+        }
+        _data[index] = val; 
+    }
+    void insert(T&& val, long long index)
+    {
+        assert(index >= 0);
+        assert(index <= s);
+        if (s == capacity) {
+            upsize();
+        }
+        ++s; 
+        for (int i = s; i > 0; --i)
+        {
+            _data[i] = _data[i - 1];
+        }
+        _data[0] = val;
+    }
     T& operator[] (ll __offset) {
         assert(__offset < s);
         return _data[__offset];
