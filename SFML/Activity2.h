@@ -32,6 +32,6 @@ public:
 
 	static void viewAllClassStaff(vector<Class>& allClass);
 
-	static void addClassStaff();
+	static void addClassStaff(std::string lastYear, Class &tempClass);
 };
 

@@ -491,7 +491,7 @@ void Activity2::viewAllClassStaff(vector<Class>& allClass)
     }
 }
 
-void Activity2::addClassStaff()
+void Activity2::addClassStaff(std::string lastYear, Class &tempClass)
 {
     sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "Add a class", sf::Style::Close | sf::Style::Titlebar);
 
@@ -507,6 +507,7 @@ void Activity2::addClassStaff()
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, orange);
     Text enterClasstxt(120.f, 137.f, "Enter new Class:", fontNext, sf::Color(26, 114, 98), 36);
+    Text lastYeartxt(450, 131,lastYear, fontNext, sf::Color::Red, 45);
     InputField enterClassInput(503, 131, 454, 66, fontNext);
     Button enterBtn(1011.f, 131.f, 245.f, 66.f, "Submit", fontNext, sf::Color(218, 110, 50));
 
@@ -524,6 +525,32 @@ void Activity2::addClassStaff()
                 enterClassInput.handleMouseClick(mousePos);
                 if (goBackBtn.isClicked(mousePos))
                     windowNext.close();
+                else if (enterBtn.isClicked(mousePos))
+                {
+                   
+                    std::string ClassCourse = enterClassInput.getInput(); 
+                    if (ClassCourse.size() != 4)
+                    {
+                        std::cerr << "Wrong format of a year. Try again";
+                        //clear the input field.  
+                        break; 
+                    }
+                   
+                    else
+                    {
+                        Class actualClass(lastYear + ClassCourse); 
+                        
+                        if (actualClass.is_existed())
+                        {
+                            std::cerr << "This class is existed. Try again. "; 
+                            break; 
+                        }
+                        tempClass = actualClass; 
+                        
+                        windowNext.close(); 
+                    }
+                }
+                
             }
             enterClassInput.processInput(event);
         }
@@ -533,6 +560,7 @@ void Activity2::addClassStaff()
         enterClassInput.draw(windowNext);
         enterBtn.draw(windowNext);
         enterClasstxt.draw(windowNext);
+        lastYeartxt.draw(windowNext); 
         goBackBtn.draw(windowNext);
         windowNext.display();
     }

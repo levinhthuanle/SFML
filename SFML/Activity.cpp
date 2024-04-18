@@ -525,7 +525,21 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                 }
 
                 if (addClassBtn.isClicked(mousePos)) {
-                    Activity2::addClassStaff();
+                    std::string lastYear = existedSchoolYear[0].year.substr(0, 2); 
+                    Class tempClass; 
+                    Activity2::addClassStaff(lastYear, tempClass);
+                    if (tempClass.classID != "")
+                    {
+                        tempClass.create(); 
+                        allClass.insert(tempClass, 0);
+                        displayBtn.clear(); 
+                        for (int i = 0; i < min(allClass.size(), 4LL); i++) 
+                        {
+                            Button temp(1380.f + 140 * (i / 2), 584.f + 60 * (i % 2), 120, 40, allClass[i].classID, font, sf::Color(144, 44, 44));
+                            displayBtn.push_back(temp);
+                        }
+                        
+                    }
                 }
 
                 if (viewAllCoursesBtn.isClicked(mousePos)) {

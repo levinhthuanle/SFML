@@ -50,16 +50,13 @@ public:
 	{
 		students = listOfStudent;
 	}
-
+	bool is_existed()
+	{
+		return fsys::exists(classPath); 
+	}
 	void create()
 	{
 		fsys::create_directories(classPath); 
-		for (int i = 0; i < students.size(); ++i)
-		{
-			Student& tempStudent = students[i]; 
-			tempStudent.studentPath = tempStudent.studentPath / (classID + "/" + tempStudent.getID().substr(6));
-			students[i].create();
-		}
 	}
 
 	void readData(fsys::path filepath) {
