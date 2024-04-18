@@ -19,53 +19,6 @@ std::string EF::getDateTime()
 
 
 
-void getSubjectData(User& user, fsys::path url)
-{
-	std::ifstream sub;
-	
-	sub.open(url); 
-
-	if (!sub.is_open()) {
-		std::cout << "Can not open subject.csv file" << std::endl;
-		return;
-	}
-
-	while(!sub.eof()){
-		std::string courseId, courseName, teacherName, days, time, temp;
-		int credits, numOfStudents, sessions;
-
-		getline(sub, courseId);
-		getline(sub, courseName);
-		getline(sub, teacherName);
-		sub >> credits; getline(sub, temp);
-		sub >> numOfStudents; getline(sub, temp);
-		sub >> sessions; getline(sub, temp);
-		getline(sub, days);
-		getline(sub, time);
-	
-
-		getline(sub, temp);
-		Subject tempSubject("", temp);
-
-		tempSubject.courseId = courseId;
-		tempSubject.courseName = courseName;
-		tempSubject.teacherName = teacherName;
-		tempSubject.days = days;
-		tempSubject.time = time;
-		tempSubject.credits = credits;
-		tempSubject.numOfStudents = numOfStudents;
-		tempSubject.sessions = sessions;
-
-		std::cout << "temp: " <<  temp << std::endl;
-		if (tempSubject.completed)
-			user.listOfFinCourse.push_back(tempSubject);
-		else
-			user.listOfUnfinCourse.push_back(tempSubject);
-
-		
-	}
-	sub.close();
-}
 
 int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if student, return 2 if teacher
 {

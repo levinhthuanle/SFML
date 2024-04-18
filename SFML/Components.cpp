@@ -350,6 +350,7 @@ courseButton::courseButton(float x, float y, Course& infor, sf::Font& font)
     seeMore.setCharacterSize(16);
     seeMore.setFillColor(sf::Color(218, 110, 50));
     seeMore.setPosition(x + 10.f, y + 160.f);
+    return; 
 }
 
 void courseButton::draw(sf::RenderWindow& window){
@@ -382,6 +383,7 @@ semesterButton::semesterButton(float x, float y, Semester& infor, sf::Font& font
     text.setCharacterSize(30);
     text.setFillColor(outlineColor);
     text.setPosition(x + 10.f, y + 10.f);
+    return; 
 
 }
 
@@ -395,7 +397,6 @@ bool semesterButton::isClick(const sf::Vector2i& mousePos)
 {
     return shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
 }
-
 schoolyearButton::schoolyearButton(float x, float y, SchoolYear& infor, sf::Font& font)
 {
     schoolYear = infor;
@@ -423,6 +424,7 @@ schoolyearButton::schoolyearButton(float x, float y, SchoolYear& infor, sf::Font
         sem2 = semesterButton(x + 15 + 220, y + 70, infor.semester[1], font);
         sem3 = semesterButton(x + 15  + 220 + 220, y + 70, infor.semester[2], font);
     }
+    return; 
 
 
 }

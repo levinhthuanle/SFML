@@ -4,6 +4,7 @@
 #include "Student.h"
 #include "vector.h"
 #include "ExtraFunction.h"
+#include "User.h"
 //Run pressEnter function when Proceed Button is click: Save changes to the files
 //Run pressBack function when Back Button is click: Discard changes to the files
 
@@ -17,7 +18,7 @@
 //Stu ID,       Class,      Name,       Practice Score, Midterm Score,      Final Score,    Plus Score, Other Score,    Average Score,
 //23CTT1045     23TT2,      ABCDee      9.0             9.8
 
-
+static void getSubjectData(User& user, fsys::path url);
 
 class Course
 {
@@ -51,7 +52,9 @@ public:
 		return *this;
 	}
 
-	Course() {}
+	Course() {
+		return; 
+	}
 
 
 	Course(fsys::path motherFolder, std::string id, std::string name, std::string teacher, int credit, int maxStu, std::string day, std::string session) {

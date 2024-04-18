@@ -1,7 +1,12 @@
 #pragma once
+#include "ExtraFunction.h"
 #include "Subject.h"
-#include "Semester.h"
+
+
+
 #include "SchoolYear.h"
+
+
 #include <iomanip>
 
 class InputField {
