@@ -92,10 +92,38 @@ public:
 			if (course.getID() == courses[i].getID())
 			{
 				std::error_code errorCode;
-				if (!std::filesystem::remove(semesterPath/course.getID(), errorCode)) {
+				if (!fsys::remove(semesterPath/course.getID(), errorCode)) {
 					std::cout << errorCode.message() << std::endl;
 				}
-				return; 
+				else {
+					vector<Student> stuList = course.getStudiedStudent();
+					for (Student stu : stuList) {
+						User user(stu);
+						getSubjectData(user, user.url / "subject.csv");
+						vector<Subject>& unFinSub = user.listOfUnfinCourse;
+						for (int j = 0; j < unFinSub.size(); ++j) {
+							if (unFinSub[j].courseId == course.getID()) {
+								unFinSub[j].deleteSubject();
+								for (int k = j; k < unFinSub.size(); ++k)
+									unFinSub[k] = unFinSub[k + 1];
+								unFinSub.pop_back();
+								user.updateSubjectData();
+								return;
+							}
+						}
+						vector<Subject>& finSub = user.listOfFinCourse;
+						for (int j = 0; j < finSub.size(); ++j) {
+							if (finSub[j].courseId == course.getID()) {
+								finSub[j].deleteSubject();
+								for (int k = j; k < finSub.size(); ++k)
+									finSub[k] = finSub[k + 1];
+								finSub.pop_back();
+								user.updateSubjectData();
+								return;
+							}
+						}
+					}
+				}
 			}
 		}
 	}

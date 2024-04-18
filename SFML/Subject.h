@@ -44,8 +44,36 @@ public:
 		completed = false;
 	}
 
+	Subject& operator=(const Subject& rhs) {
+		id = rhs.id;
+		name = rhs.name;
+		midScore = rhs.midScore;
+		finalScore = rhs.finalScore;
+		plusScore = rhs.plusScore;
+		practiceScore = rhs.practiceScore;
+		aveScore = rhs.aveScore;
+		otherScore = rhs.otherScore;
+		courseId = rhs.courseId;
+		courseName = rhs.courseName;
+		teacherName = rhs.teacherName;
+		days = rhs.days;
+		time = rhs.time;
+		credits = rhs.credits;
+		numOfStudents = rhs.numOfStudents;
+		sessions = rhs.sessions;
+		completed = rhs.completed;
+
+		return *this;
+	}
+
 	void getScore() {
 
+	}
+
+	void deleteSubject() {
+		name = "";
+		midScore = finalScore = plusScore = practiceScore = aveScore = otherScore == -1;
+		completed = false;
 	}
 };
 
