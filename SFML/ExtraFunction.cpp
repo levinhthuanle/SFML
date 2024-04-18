@@ -17,10 +17,8 @@ std::string EF::getDateTime()
 	return ss.str();
 }
 
-		std::string courseId, courseName, teacherName, days, time, temp;
-		int credits, numOfStudents, sessions;
-		std::string courseId, courseName, teacherName, days, time, temp;
-		int credits, numOfStudents, sessions;
+		
+		
 
 
 

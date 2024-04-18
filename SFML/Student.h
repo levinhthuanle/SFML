@@ -39,10 +39,6 @@ public:
 
 	////update from existing information.
 	void updateCourse(std::string newcoursename);
-	bool is_exist()
-	{
-		return (fsys::exists(studentPath) && !fsys::is_empty(studentPath)); 
-	}
 	//method for student
 	vector<std::string> getUnfinishedCourse();
 
