@@ -14,12 +14,13 @@ private:
     sf::RectangleShape shape;
     sf::Text text;
     bool selected;
-    std::string input;
+    
     sf::Clock clock;
     bool showCursor;    //When selected, if the text cursor "|" is shown
     bool nextField;     //Automatically choose the next field
 
 public:
+    std::string input;
     InputField(float x, float y, float width, float height, sf::Font& font);
 
     InputField(float x, float y, float width, float height, sf::Font& font, std::string defaultText);

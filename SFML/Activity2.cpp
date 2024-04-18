@@ -507,7 +507,7 @@ void Activity2::addClassStaff(std::string lastYear, Class &tempClass)
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, orange);
     Text enterClasstxt(120.f, 137.f, "Enter new Class:", fontNext, sf::Color(26, 114, 98), 36);
-    Text lastYeartxt(450, 131,lastYear, fontNext, sf::Color::Red, 45);
+    Text lastYeartxt(450, 135,lastYear, fontNext, sf::Color(11, 10, 10), 45);
     InputField enterClassInput(503, 131, 454, 66, fontNext);
     Button enterBtn(1011.f, 131.f, 245.f, 66.f, "Submit", fontNext, sf::Color(218, 110, 50));
 
@@ -531,8 +531,9 @@ void Activity2::addClassStaff(std::string lastYear, Class &tempClass)
                     std::string ClassCourse = enterClassInput.getInput(); 
                     if (ClassCourse.size() != 4)
                     {
-                        std::cerr << "Wrong format of a year. Try again";
-                        //clear the input field.  
+                        std::cerr << "Wrong format of a Class. Try again";
+                        popup("Wrong format of a Class. Try again!");
+                        enterClassInput.input = "";
                         break; 
                     }
                    
@@ -543,6 +544,8 @@ void Activity2::addClassStaff(std::string lastYear, Class &tempClass)
                         if (actualClass.is_existed())
                         {
                             std::cerr << "This class is existed. Try again. "; 
+                            enterClassInput.input = "";
+                            popup("This class is existed. Try again!");
                             break; 
                         }
                         tempClass = actualClass; 
