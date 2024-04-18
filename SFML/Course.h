@@ -1,9 +1,11 @@
 #pragma once
+#include "ExtraFunction.h"
 #include "FileNFolder.h"
 #include "Requirement.h"
 #include "Student.h"
 #include "vector.h"
 #include "ExtraFunction.h"
+#include "User.h"
 #include "User.h"
 //Run pressEnter function when Proceed Button is click: Save changes to the files
 //Run pressBack function when Back Button is click: Discard changes to the files
@@ -18,8 +20,8 @@
 //Stu ID,       Class,      Name,       Practice Score, Midterm Score,      Final Score,    Plus Score, Other Score,    Average Score,
 //23CTT1045     23TT2,      ABCDee      9.0             9.8
 
-static void getSubjectData(User& user, fsys::path url);
 
+void getSubjectData(User& user, fsys::path url);
 class Course
 {
 public:

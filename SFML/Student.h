@@ -71,6 +71,7 @@ public:
 		return *this;
 	}
 	bool is_exist()
+
 	{
 		return (fsys::exists(studentPath) && !fsys::is_empty(studentPath));
 	}
