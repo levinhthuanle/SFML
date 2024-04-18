@@ -1,4 +1,4 @@
-#include "BuiltClasses.h"
+#include "ExtraFunction.h"
 
 std::string EF::getDateTime()
 {
@@ -17,53 +17,12 @@ std::string EF::getDateTime()
 	return ss.str();
 }
 
-void getSubjectData(User& user, fsys::path url)
-{
-	std::ifstream sub;
-	
-	sub.open(url); 
-
-	if (!sub.is_open()) {
-		std::cout << "Can not open subject.csv file" << std::endl;
-		return;
-	}
-
-	while(!sub.eof()){
+		std::string courseId, courseName, teacherName, days, time, temp;
+		int credits, numOfStudents, sessions;
 		std::string courseId, courseName, teacherName, days, time, temp;
 		int credits, numOfStudents, sessions;
 
-		getline(sub, courseId);
-		getline(sub, courseName);
-		getline(sub, teacherName);
-		sub >> credits; getline(sub, temp);
-		sub >> numOfStudents; getline(sub, temp);
-		sub >> sessions; getline(sub, temp);
-		getline(sub, days);
-		getline(sub, time);
-	
 
-		getline(sub, temp);
-		Subject tempSubject("", temp);
-
-		tempSubject.courseId = courseId;
-		tempSubject.courseName = courseName;
-		tempSubject.teacherName = teacherName;
-		tempSubject.days = days;
-		tempSubject.time = time;
-		tempSubject.credits = credits;
-		tempSubject.numOfStudents = numOfStudents;
-		tempSubject.sessions = sessions;
-
-		std::cout << "temp: " <<  temp << std::endl;
-		if (tempSubject.completed)
-			user.listOfFinCourse.push_back(tempSubject);
-		else
-			user.listOfUnfinCourse.push_back(tempSubject);
-
-		
-	}
-	sub.close();
-}
 
 int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if student, return 2 if teacher
 {
@@ -103,10 +62,10 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 			//check valid
 			if (p != password) return 0;
 
-			std::string subjectUrl = User + "/" + User + "_subject.csv";
+			std::string subjectUrl = User + "/subject.csv";
 			getSubjectData(user, "data/student" / cla / subjectUrl);
 
-			fin.open("data/student" / cla / User / (User +".csv"));
+			fin.open("data/student" / cla / stringUser);
 
 			getline(fin, user.id);
 			getline(fin, user.className);
@@ -119,8 +78,8 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 
 			// Need to be change to private and use setter
 			user.type = "Student";
-			
-			user.url = "data / student" / cla / User;
+			fsys::path temp = "data/student" / cla / stringUser;
+			user.url = temp;
 			fin.close();
 			return 1;
 		}
@@ -178,32 +137,46 @@ bool changePassword(User& user, std::string oldPassword, std::string newPassword
 	// Read all the course in the student file
 	if (user.getType() == "Student") {
 
-		std::ofstream fout;
-		fout.open(user.url / "password.txt");
-		if (!fout.is_open()) {
-			std::cout << "Can not open password.txt to change password" << std::endl;
-			return false;
-		}
-		fout << user.password;
+		std::ifstream fin;
+		fin.open(user.url);
+		if (!fin.is_open())
+			std::cout << "Can not open information file to change password" << std::endl;
 
-		fout.close();
-		std::cout << "Succesful change the password" << std::endl;
+		std::string temp;
+		for (int i = 1; i <= 5; i++)
+			getline(fin, temp); // Pass the usser information
+		while (!fin.eof()) {
+			getline(fin, temp);
+			listOfCourse.push_back(temp);
+		}
+		fin.close();
+	}
+
+	std::ofstream fout;
+	fout.open(user.url);
+	if (!fout.is_open()) {
+		std::cout << "Can not open the user information file!" << std::endl;
+		return false;
+	}
+
+	fout << user.getPassword() << ',' << std::endl;
+	if (user.getType() == "Student") {
+		fout << user.className << std::endl;
+		fout << user.id << std::endl;
+		fout << user.fullname << std::endl;
+		fout << user.dayOfBirth << std::endl;
+
+		for (int i = 0; i < listOfCourse.size(); i++)
+			fout << listOfCourse[i] << std::endl;
 	}
 
 	else {
-		std::ofstream fout;
-		fout.open(user.url);
-		if (!fout.is_open()) {
-			std::cout << "Can not open the staff information file!" << std::endl;
-			return false;
-		}
-
-		fout << user.getPassword() << ',' << std::endl;		
 		fout << user.fullname << std::endl;
-		fout.close();
-
-		std::cout << "Succesful change the password" << std::endl;
 	}
+
+	fout.close();
+
+	std::cout << "Succesful change the password" << std::endl;
 	return true;
 }
 

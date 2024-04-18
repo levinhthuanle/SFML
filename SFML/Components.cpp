@@ -395,7 +395,6 @@ bool semesterButton::isClick(const sf::Vector2i& mousePos)
 {
     return shape.getGlobalBounds().contains(static_cast<sf::Vector2f>(mousePos));
 }
-
 schoolyearButton::schoolyearButton(float x, float y, SchoolYear& infor, sf::Font& font)
 {
     schoolYear = infor;

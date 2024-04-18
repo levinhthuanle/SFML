@@ -1,8 +1,12 @@
 #pragma once
+#include "ExtraFunction.h"
 #include "FileNFolder.h"
 #include "Requirement.h"
 #include "Student.h"
 #include "vector.h"
+#include "ExtraFunction.h"
+#include "User.h"
+#include "User.h"
 //Run pressEnter function when Proceed Button is click: Save changes to the files
 //Run pressBack function when Back Button is click: Discard changes to the files
 
@@ -14,10 +18,10 @@
 //
 //__score.csv__
 //Stu ID,       Class,      Name,       Practice Score, Midterm Score,      Final Score,    Plus Score, Other Score,    Average Score,
-//23125000      23TT2,      ABCDee      9.0             9.8
+//23CTT1045     23TT2,      ABCDee      9.0             9.8
 
 
-
+void getSubjectData(User& user, fsys::path url);
 class Course
 {
 public:
@@ -50,7 +54,9 @@ public:
 		return *this;
 	}
 
-	Course() {}
+	Course() {
+		return; 
+	}
 
 
 	Course(fsys::path motherFolder, std::string id, std::string name, std::string teacher, int credit, int maxStu, std::string day, std::string session) {
@@ -79,13 +85,19 @@ public:
 		setSession(session);
 
 		infoFile.writeFile();
-
 		scoreFile.writeFile();
 
-	}
+        setName(name);
+        setTeacher(teacher);
+        setCredit(credit);
+        setMaxStu(maxStu);
+        setCurStu(0);
+        setDay(day);
+        setSession(session);
+    }
+
 	Course(fsys::path folderPath)
 	{
-		this->folderPath = folderPath; 
 		std::string courseID = folderPath.generic_string();
 		for (auto& c : courseID)
 			if (c == 92) c = '/';
@@ -105,7 +117,6 @@ public:
 		setCurStu(stoi(infoFile.cnt[1][4]));
 		setDay(infoFile.cnt[1][5]);
 		setSession(infoFile.cnt[1][6]);
-
 	}
 
 	void pressEnter() {                                         //When press Enter or Continue Button after some changes, this function runs, save changes to the file.
@@ -162,6 +173,21 @@ public:
 		this->info[1][6] = session;
 	}
 
+	void subjectByCourse(Subject& subject, User& user) {
+		subject.completed = false;
+		subject.courseId = this->getID();
+		subject.courseName = this->getName();
+		subject.teacherName = this->getTeacher();
+		subject.credits = this->getCredit();
+		subject.numOfStudents = this->getCurStu();
+		subject.sessions = static_cast<int>(this->getSession()[1]);
+		subject.days = this->getDay();
+		subject.time = "Time";
+		subject.midScore = subject.practiceScore = subject.plusScore = subject.otherScore = subject.finalScore = subject.aveScore = -1;
+
+		subject.id = user.getUsername();
+	}
+
 	//Add one student
 
 	bool addStudent(Student& student) {
@@ -180,12 +206,31 @@ public:
 			score.push_back(newStu);
 			return true;
 		}
+
+		User user(student);
+		getSubjectData(user, user.url / "subject.csv");
+
+		Subject subject;
+		subjectByCourse(subject, user);
+		user.listOfUnfinCourse.push_back(subject);
+		user.updateSubjectData();
 	}
 
 
 	//Add students by csv file
 	bool importStudentsFile(fsys::path filePath) {
-		return fsys::copy_file(filePath, this->folderPath / "score.csv");
+		csvFile file(filePath);
+		file.readFile();
+		if (file.cnt.size() > this->getMaxStu()) {
+			displayErrorExceedMaxStu();
+			return false;
+		}
+		score.clear();
+		vector<Student> stuList = this->getStudiedStudent();
+		for (Student stu : stuList) {
+			this->addStudent(stu);
+		}
+		return true;
 	}
 
 	//Export scoreboard file
@@ -215,12 +260,14 @@ public:
 		std::cout << "Done creating course folder."; 
 		return; 
 	}
+
+	//Get Student list
 	vector<Student> getStudiedStudent()
 	{
 		vector<Student> studiedStudent; 
 		for (int i = 1; i < score.size(); ++i)
 		{
-			Student tempStudent(score[i][1]);
+			Student tempStudent(score[i][0]);
 			if (!tempStudent.is_exist())
 			{
 				std::cerr << "A student here is not existed."; 

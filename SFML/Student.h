@@ -1,7 +1,6 @@
 #pragma once
 #include "Requirement.h"
 #include "Vector.h"
-#include "User.h"
 namespace fsys = std::filesystem;
 
 //this class contain ONLY INFORMATION about a student.
@@ -30,9 +29,6 @@ public:
 
 	Student(vector<std::string> fullBasicInfo); //complex construction with full of basic info  
 
-	//constructor for student running the file. 
-	Student(User user);
-
 	//method for teacher
 	////adding basic information to prepare for creating new folder  
 
@@ -56,8 +52,32 @@ public:
 	std::string getID() { return basic_info[1]; }
 	std::string getFullname() { return basic_info[2]; }
 	std::string getGender() { return basic_info[3]; }
+	
+	void setClass(std::string cla) {
+		basic_info[0] = cla;
+	}
+
+	void setID(std::string id) {
+		basic_info[1] = id;
+	}
+
+	void setFullname(std::string name) {
+		basic_info[2] = name;
+ 	}
 
 	void getScoreBoard();
+
+	Student& operator=(const Student& rhs) {
+		this->basic_info = rhs.basic_info;
+		this->studentPath = rhs.studentPath;
+
+		return *this;
+	}
+	bool is_exist()
+
+	{
+		return (fsys::exists(studentPath) && !fsys::is_empty(studentPath));
+	}
 };
 
 

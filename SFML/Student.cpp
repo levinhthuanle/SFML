@@ -72,14 +72,14 @@ Student::Student(vector<std::string> fullBasicInfo)
 	std::string num(ID.begin() + 6, ID.begin() + 9);
 	studentPath = studentPath / basic_info[0] / num;
 }
-Student::Student(User user)
-{
-	for (int i = 0; i < 6; ++i)
-		basic_info.push_back("");
-	basic_info[0] = user.className; 
-	basic_info[1] = user.id; 
-	basic_info[2] = user.fullname;
-}
+//Student::Student(User user)
+//{
+//	for (int i = 0; i < 6; ++i)
+//		basic_info.push_back("");
+//	basic_info[0] = user.className; 
+//	basic_info[1] = user.id; 
+//	basic_info[2] = user.fullname;
+//}
 void Student::updateBasic(vector<std::string> fullBasicInfo)
 {
 	basic_info = fullBasicInfo;
