@@ -86,7 +86,7 @@ public:
     }
     T* end()
     {
-        return _data + size; 
+        return _data + s; 
     }
 private:
     void upsize() {
