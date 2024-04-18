@@ -15,6 +15,7 @@ public:
 	Activity2() {
 
 	}
+	static void popup(std::string content);
 
 	//courseInformationStudent(unfinBtn[i].cnt)
 	static void courseInformationStudent(Subject& subject);
@@ -31,6 +32,6 @@ public:
 
 	static void viewAllClassStaff(vector<Class>& allClass);
 
-	
+	static void addClassStaff();
 };
 

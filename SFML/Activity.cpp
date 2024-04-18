@@ -431,18 +431,21 @@ void Activity::viewScoreStudentWindow(sf::RenderWindow& window)
 
 void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 {
+    const sf::Color RED = sf::Color(144, 44, 44);
+    const sf::Color ORANGE = sf::Color(218, 110, 50);
     Text name(1446, 10, "Hello, " + user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Text days(1390, 133, "Mo Tu We Th Fr Sa Su", font, sf::Color(26, 114, 98), 25);
     Text newCalendar(1384, 169, calendar.text.getString().toAnsiString(), font, sf::Color(26, 114, 98), 25);
-    Button nextPageBtn(1226.f, 750.f, 92.f, 62.f, "Next", font, sf::Color(218, 110, 50));
-    Button prevPageBtn(1226.f, 827.f, 92.f, 62.f, "Prev", font, sf::Color(218, 110, 50));
+    Button nextPageBtn(1226.f, 750.f, 92.f, 62.f, "Next", font, ORANGE);
+    Button prevPageBtn(1226.f, 827.f, 92.f, 62.f, "Prev", font, ORANGE);
 
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
-    Button createNewSYBtn(51.f, 106.f, 450.f, 55.f, "Create School Year", font, sf::Color(218, 110, 50));
-    Button viewAllCoursesBtn(1375.f, 436.f, 300, 55, "View all courses", font, sf::Color(144, 44, 44));
-    Button viewAllClassBtn(1380.f, 700.f, 250, 40, "View all >>", font, sf::Color(144, 44, 44));
-    Button createSemester(1046.f, 270.f, 230.f, 55.f, "Add semester", font, sf::Color(144, 44, 44));
+    Button createNewSYBtn(51.f, 106.f, 450.f, 55.f, "Create School Year", font, ORANGE);
+    Button viewAllCoursesBtn(1375.f, 436.f, 300, 55, "View all courses", font, RED);
+    Button viewAllClassBtn(1380.f, 700.f, 250, 40, "View all >>", font, RED);
+    Button createSemesterBtn(1046.f, 260.f, 230.f, 55.f, "Add semester", font, RED);
+    Button addClassBtn(1093, 187, 181, 50, "Add Class", font, RED);
 
     int displaySY = 0;
     
@@ -504,6 +507,10 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                     Activity2::createNewSchoolYearStaff();
                 }
 
+                if (addClassBtn.isClicked(mousePos)) {
+                    Activity2::addClassStaff();
+                }
+
                 if (viewAllCoursesBtn.isClicked(mousePos)) {
                     Activity2::viewAllCourseStaff(existedCourse);
                 }
@@ -512,7 +519,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                     Activity2::viewAllClassStaff(allClass);
                 }
 
-                if (createSemester.isClicked(mousePos))
+                if (createSemesterBtn.isClicked(mousePos))
                     if (displaySY == 0 && (!schoolyearBtn[0].s1 || !schoolyearBtn[0].s2 || !schoolyearBtn[0].s3)) {
                         Activity2::createSemesterStaff(existedSchoolYear[0]);
                 }
@@ -552,6 +559,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         days.draw(window);
         newCalendar.draw(window);
         viewAllClassBtn.draw(window);
+        addClassBtn.draw(window);
         for (int i = 0; i < displayBtn.size(); i++) {
             
             displayBtn[i].draw(window);
@@ -563,7 +571,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         }
         
         if (displaySY == 0 && (!schoolyearBtn[0].s1 || !schoolyearBtn[0].s2 || !schoolyearBtn[0].s3))
-            createSemester.draw(window);
+            createSemesterBtn.draw(window);
 
         window.display();
 

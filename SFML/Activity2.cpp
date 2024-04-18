@@ -1,5 +1,48 @@
 #include "Activity2.h"
 
+void Activity2::popup(std::string content)
+{
+    //PopUp.png
+    sf::RenderWindow windowNext(sf::VideoMode(636, 301), "Notification", sf::Style::Close | sf::Style::Titlebar);
+    windowNext.setPosition(sf::Vector2i(500, 400));
+
+    sf::Font fontNext;
+    if (!fontNext.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    sf::Texture textureNext;
+    if (!textureNext.loadFromFile("Assets/PopUp.png"))
+        std::cout << "Could not load the popup image" << std::endl;
+    std::cout << "Generate popup sucess" << std::endl;
+    sf::Sprite background(textureNext);
+    Button okBtn(246.f, 241.f, 143, 45, "OKAY", fontNext, sf::Color(144, 44, 44));
+    Text text(140, 95, content, fontNext, sf::Color(18, 2, 2), 20);
+
+    
+    while (windowNext.isOpen()) {
+        sf::Event event;
+
+        while (windowNext.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                windowNext.close();  // Close 
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+
+                if (okBtn.isClicked(mousePos))
+                    windowNext.close();
+            }
+
+        }
+
+        windowNext.clear(sf::Color::White);
+        windowNext.draw(background);
+        text.draw(windowNext);
+        okBtn.draw(windowNext);
+
+        windowNext.display();
+    }
+}
+
 void Activity2::courseInformationStudent(Subject& subject)
 {
     sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "View Course", sf::Style::Close | sf::Style::Titlebar);
@@ -80,25 +123,39 @@ void Activity2::createNewSchoolYearStaff()
     sf::Sprite background(textureNext);
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, orange);
-    
+    Text enterSYtxt(120.f, 137.f, "Enter new schoolyear:", fontNext, sf::Color(26, 114, 98), 36);
+    InputField enterSYinput(503, 131, 454, 66, fontNext);
+    Button enterBtn(1011.f, 131.f, 245.f, 66.f, "Submit", fontNext, sf::Color(218, 110, 50));
 
     while (windowNext.isOpen()) {
         sf::Event event;
+        if (enterSYinput.isSelected())
+            enterSYinput.textCursor(enterSYinput.getInput());
+
         while (windowNext.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 windowNext.close();  // Close 
             else if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
 
+                enterSYinput.handleMouseClick(mousePos);
                 if (goBackBtn.isClicked(mousePos))
                     windowNext.close();
+
+                if (enterBtn.isClicked(mousePos)) {
+                    std::cout << enterSYinput.getInput() << std::endl;
+                    popup("Create succesful");
+                }
             }
 
+            enterSYinput.processInput(event);
         }
 
         windowNext.clear(sf::Color::White);
         windowNext.draw(background);
-
+        enterSYinput.draw(windowNext);
+        enterSYtxt.draw(windowNext);
+        enterBtn.draw(windowNext);
         goBackBtn.draw(windowNext);
         windowNext.display();
     }
@@ -120,24 +177,48 @@ void Activity2::createSemesterStaff(SchoolYear& SY)
     sf::Sprite background(textureNext);
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, orange);
-
+    Text enterStarttxt(120.f, 137.f, "Enter start date:", fontNext, sf::Color(26, 114, 98), 36);
+    Text enterEndtxt(120.f, 220.f, "Enter end date:", fontNext, sf::Color(26, 114, 98), 36);
+    InputField enterStartInput(503, 131, 454, 66, fontNext);
+    InputField enterEndInput(503, 220, 454, 66, fontNext);
+    Button enterBtn(1011.f, 151.f, 245.f, 66.f, "Submit", fontNext, sf::Color(218, 110, 50));
 
     while (windowNext.isOpen()) {
         sf::Event event;
+        if (enterStartInput.isSelected()) enterStartInput.textCursor(enterStartInput.getInput());
+        if (enterEndInput.isSelected()) enterEndInput.textCursor(enterEndInput.getInput());
         while (windowNext.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 windowNext.close();  // Close 
             else if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+                enterStartInput.handleMouseClick(mousePos);
+                enterEndInput.handleMouseClick(mousePos);
 
                 if (goBackBtn.isClicked(mousePos))
                     windowNext.close();
-            }
 
+                if (enterBtn.isClicked(mousePos)) {
+                    std::cout << enterStartInput.getInput() << std::endl;
+                    std::cout << enterEndInput.getInput() << std::endl;
+                    
+                }
+            }
+            enterStartInput.processInput(event);
+            if (enterStartInput.chooseNextField()) {
+                event.type = sf::Event::MouseButtonReleased;
+                enterEndInput.setSelected(true);
+            }
+            enterEndInput.processInput(event);
         }
 
         windowNext.clear(sf::Color::White);
         windowNext.draw(background);
+        enterStartInput.draw(windowNext);
+        enterEndInput.draw(windowNext);
+        enterStarttxt.draw(windowNext);
+        enterEndtxt.draw(windowNext);
+        enterBtn.draw(windowNext);
 
         goBackBtn.draw(windowNext);
         windowNext.display();
@@ -283,6 +364,8 @@ void Activity2::viewOneClass(Class& oneclass)
 
     const sf::Color BLACK = sf::Color(18, 2, 2);
     const sf::Color GREEN = sf::Color(26, 114, 98);
+    const sf::Color RED = sf::Color(144, 44, 44);
+    const sf::Color ORANGE = sf::Color(218, 110, 50);
     Text no(82, 136, "No", fontNext, GREEN, 32);
     Text studentID(152, 136, "Student's ID", fontNext, GREEN, 32);
     Text studentName(536, 136, "Student's Name", fontNext, GREEN, 32);
@@ -291,6 +374,9 @@ void Activity2::viewOneClass(Class& oneclass)
     Button line2(135, 136, 0, 630, "", fontNext, BLACK);
     Button line3(513, 136, 0, 630, "", fontNext, BLACK);
     Button line4(1044, 136, 0, 630, "", fontNext, BLACK);
+
+    Button addStudentBtn(1470.f, 117.f, 163.f, 57.f, "Add", fontNext, RED);
+    Button removeStudentBtn(1470.f, 191.f, 163.f, 57.f, "Remove", fontNext, RED);
 
     vector<Text> listOfStudent;
     for (int i = 0; i < oneclass.students.size(); i++) {
@@ -340,6 +426,9 @@ void Activity2::viewOneClass(Class& oneclass)
         line2.draw(windowNext);
         line3.draw(windowNext);
         line4.draw(windowNext);
+
+        addStudentBtn.draw(windowNext);
+        removeStudentBtn.draw(windowNext);
 
         for (int i = 0; i < listOfStudent.size(); i++)
             listOfStudent[i].draw(windowNext);
@@ -397,6 +486,53 @@ void Activity2::viewAllClassStaff(vector<Class>& allClass)
             allOfClasses[i].draw(windowNext);
         }
 
+        goBackBtn.draw(windowNext);
+        windowNext.display();
+    }
+}
+
+void Activity2::addClassStaff()
+{
+    sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "Add a class", sf::Style::Close | sf::Style::Titlebar);
+
+    sf::Font fontNext;
+    if (!fontNext.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    sf::Texture textureNext;
+    if (!textureNext.loadFromFile("Assets/AddClassStaff.png"))
+        std::cout << "Could not load the AddClassStaff image" << std::endl;
+    std::cout << "Generate The Add Class sucess" << std::endl;
+    sf::Sprite background(textureNext);
+
+    Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, orange);
+    Text enterClasstxt(120.f, 137.f, "Enter new Class:", fontNext, sf::Color(26, 114, 98), 36);
+    InputField enterClassInput(503, 131, 454, 66, fontNext);
+    Button enterBtn(1011.f, 131.f, 245.f, 66.f, "Submit", fontNext, sf::Color(218, 110, 50));
+
+
+    while (windowNext.isOpen()) {
+        sf::Event event;
+        if (enterClassInput.isSelected())
+            enterClassInput.textCursor(enterClassInput.getInput());
+        while (windowNext.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                windowNext.close();  
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+
+                enterClassInput.handleMouseClick(mousePos);
+                if (goBackBtn.isClicked(mousePos))
+                    windowNext.close();
+            }
+            enterClassInput.processInput(event);
+        }
+
+        windowNext.clear(sf::Color::White);
+        windowNext.draw(background);
+        enterClassInput.draw(windowNext);
+        enterBtn.draw(windowNext);
+        enterClasstxt.draw(windowNext);
         goBackBtn.draw(windowNext);
         windowNext.display();
     }
