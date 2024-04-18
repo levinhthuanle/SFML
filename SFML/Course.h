@@ -204,7 +204,6 @@ public:
 			for (int i = 0; i < 6; i++)
 				newStu.push_back("");
 			score.push_back(newStu);
-			return true;
 		}
 
 		User user(student);
@@ -214,6 +213,7 @@ public:
 		subjectByCourse(subject, user);
 		user.listOfUnfinCourse.push_back(subject);
 		user.updateSubjectData();
+		return true;
 	}
 
 
@@ -225,8 +225,9 @@ public:
 			displayErrorExceedMaxStu();
 			return false;
 		}
-		score.clear();
+		score = file.cnt;
 		vector<Student> stuList = this->getStudiedStudent();
+		score.clear();
 		for (Student stu : stuList) {
 			this->addStudent(stu);
 		}

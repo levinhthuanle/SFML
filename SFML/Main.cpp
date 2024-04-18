@@ -44,11 +44,16 @@ int main()
 
 	return 0;
 }
-
-//int main() {
-//	Course course("data/courses/23_24/Semester3/CS162");
 //
-//	vector<Student> stu = course.getStudentList();
+//int main() {
+//	Course course("data/courses/22_23/Semester3/CS162");
+//
+//	Student student("23CTT1045");
+//
+//	course.addStudent(student);
+//	course.pressEnter();
+//
+//	vector<Student> stu = course.getStudiedStudent();
 //
 //	for (int i = 0; i < stu.size(); ++i)
 //		std::cout << stu[i].getID() << std::endl;

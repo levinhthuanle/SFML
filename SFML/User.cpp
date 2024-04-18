@@ -39,14 +39,14 @@ std::string User::getType()
 }
 
 void User::updateSubjectData() {
-	std::fstream sub(this->url / "subject.csv", std::ios::trunc);
+	std::fstream sub(this->url / "subject.csv", std::ios::out);
 
 	if (!sub.is_open()) {
 		std::cout << "Can not open " << this->getUsername() << " subject.csv file" << std::endl;
 		return;
 	}
 
-	for (Subject i : this->listOfFinCourse) {
+	for (Subject i : this->listOfUnfinCourse) {
 		sub << i.courseId << '\n'
 			<< i.courseName << '\n'
 			<< i.credits << '\n'
@@ -59,7 +59,7 @@ void User::updateSubjectData() {
 		sub << i.midScore << " " << i.practiceScore << " " << i.plusScore << " " << i.otherScore << " " << i.finalScore << " " << i.aveScore << '\n';
 	}
 
-	for (Subject i : this->listOfUnfinCourse) {
+	for (Subject i : this->listOfFinCourse) {
 		sub << i.courseId << '\n'
 			<< i.courseName << '\n'
 			<< i.credits << '\n'

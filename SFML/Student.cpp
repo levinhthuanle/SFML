@@ -61,8 +61,9 @@ Student::Student(std::string ID)
 		for (int i = 0; i < 6; ++i)
 		{
 			getline(fin, basic_info[i]);
-			std::cout << basic_info[i];
+			std::cout << basic_info[i] << std::endl;
 		}
+		std::cout << studentPath << std::endl;
 	}
 }
 Student::Student(vector<std::string> fullBasicInfo)
