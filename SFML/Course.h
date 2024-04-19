@@ -216,6 +216,43 @@ public:
 		return true;
 	}
 
+	//Remove one student
+	bool removeStudent(std::string id) {
+		for (int i = 0; i < score.size(); i++) {
+			if (score[i][0] == id) {
+				Student stu(id);
+				User user(stu);
+				getSubjectData(user, user.url / "subject.csv");
+				vector<Subject>& unFinSub = user.listOfUnfinCourse;
+				for (int j = 0; j < unFinSub.size(); ++j) {
+					if (unFinSub[j].courseId == this->getID()) {
+						unFinSub[j].deleteSubject();
+						for (int k = j; k < unFinSub.size(); ++k)
+							unFinSub[k] = unFinSub[k + 1];
+						unFinSub.pop_back();
+						user.updateSubjectData();
+						return true;
+					}
+				}
+				vector<Subject>& finSub = user.listOfFinCourse;
+				for (int j = 0; j < finSub.size(); ++j) {
+					if (finSub[j].courseId == this->getID()) {
+						finSub[j].deleteSubject();
+						for (int k = j; k < finSub.size(); ++k)
+							finSub[k] = finSub[k + 1];
+						finSub.pop_back();
+						user.updateSubjectData();
+						return true;
+					}
+				}
+			}
+		}
+		displayErrorStudentNotFound();
+		return false;
+	}
+	void displayErrorStudentNotFound() {
+		std::cout << "Student Not Found.\n";
+	}
 
 	//Add students by csv file
 	bool importStudentsFile(fsys::path filePath) {
@@ -232,6 +269,12 @@ public:
 			this->addStudent(stu);
 		}
 		return true;
+	}
+
+	//Import scoreboard
+	void importScoreBoard(fsys::path& filePath) {
+		fsys::copy_file(filePath, this->folderPath / "score.csv");
+		scoreFile.readFile();
 	}
 
 	//Export scoreboard file
