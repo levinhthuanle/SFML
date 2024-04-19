@@ -8,6 +8,7 @@
 const sf::Color BLACK = sf::Color(18, 2, 2);
 const sf::Color GREEN = sf::Color(81, 161, 147);
 const sf::Color ORANGE = sf::Color(218, 110, 50);
+const sf::Color RED = sf::Color(144, 44, 44);
 class Activity2
 {
 public:
@@ -15,6 +16,8 @@ public:
 	Activity2() {
 
 	}
+	static bool confirm(std::string content);
+
 	static void popup(std::string content);
 
 	//courseInformationStudent(unfinBtn[i].cnt)
@@ -41,5 +44,7 @@ public:
 	static void removeStudent(Class& oneclass);
 
 	static void addStudent(Class& oneclass);
+
+	static void scoreBoardOfClassStaff(Class& oneclass);
 };
 

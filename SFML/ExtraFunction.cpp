@@ -61,9 +61,10 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 			if (p != password) return 0;
 
 			std::string subjectUrl = User + "/subject.csv";
+			std::string userInformationUrl = User + "/" + User + ".csv";
 			getSubjectData(user, "data/student" / cla / subjectUrl);
 
-			fin.open("data/student" / cla / stringUser);
+			fin.open("data/student" / cla / userInformationUrl);
 
 			getline(fin, user.id);
 			getline(fin, user.className);

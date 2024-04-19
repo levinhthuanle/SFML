@@ -1,5 +1,59 @@
 #include "Activity2.h"
 
+bool Activity2::confirm(std::string content)
+{
+    //PopUp.png
+    sf::RenderWindow windowNext(sf::VideoMode(636, 301), "Notification", sf::Style::Close | sf::Style::Titlebar);
+    windowNext.setPosition(sf::Vector2i(500, 400));
+
+    sf::Font fontNext;
+    if (!fontNext.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    sf::Texture textureNext;
+    if (!textureNext.loadFromFile("Assets/PopUp.png"))
+        std::cout << "Could not load the popup image" << std::endl;
+    std::cout << "Generate popup sucess" << std::endl;
+    sf::Sprite background(textureNext);
+    Button yesBtn(310.f, 241.f, 60, 45, "Yes", fontNext, RED);
+    Button noBtn(230, 241.f, 60, 45, "No", fontNext, GREEN);
+    Text text(140, 95, content, fontNext, sf::Color(18, 2, 2), 20);
+
+
+    while (windowNext.isOpen()) {
+        sf::Event event;
+
+        while (windowNext.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                windowNext.close();  // Close 
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+
+                if (yesBtn.isClicked(mousePos)) {
+                    windowNext.close();
+                    return true;
+                }
+                if (noBtn.isClicked(mousePos)) {
+                    windowNext.close();
+                    return false;
+                }
+            }
+
+        }
+
+        windowNext.clear(sf::Color::White);
+        windowNext.draw(background);
+        text.draw(windowNext);
+        yesBtn.draw(windowNext);
+        noBtn.draw(windowNext);
+
+        windowNext.display();
+
+        
+    }
+    return false;
+}
+
 void Activity2::popup(std::string content)
 {
     //PopUp.png
@@ -396,9 +450,10 @@ void Activity2::addCourse(Semester& semester)
     Text courseNameTxt(72, 275, "Course name: ", fontNext, BLACK, 26);
     Text teacherNameTxt(72, 348, "Teacher Name: ", fontNext, BLACK, 26);
     Text sessionTxt(72, 421, "Session:", fontNext, BLACK, 26);
-    Text numberCreditTxt(858, 218, "Maximum students", fontNext, BLACK, 26);
-    Text maxStudentTxt(858, 290, "Date Of Birth:", fontNext, BLACK, 26);
+    Text numberCreditTxt(858, 218, "Credits:", fontNext, BLACK, 26);
+    Text maxStudentTxt(858, 290, "Max Student:", fontNext, BLACK, 26);
     Text dayTxt(858, 364, "Days in a week", fontNext, BLACK, 26);
+    Text csvTxt(72, 110, "Path to the list of students enroled in the course:", fontNext, GREEN, 26);
     
 
     InputField courseIdInput(411, 202, 385, 47, fontNext);
@@ -408,6 +463,7 @@ void Activity2::addCourse(Semester& semester)
     InputField numberCreditInput(1189, 202, 385, 47, fontNext);
     InputField maxStudentInput(1189, 275, 385, 47, fontNext);
     InputField dayInput(1189, 348, 385, 47, fontNext);
+    InputField csvInput(650, 105, 555, 47, fontNext);
 
     Button submitBtn(859, 416, 245, 50, "Submit", fontNext, ORANGE);
 
@@ -420,6 +476,7 @@ void Activity2::addCourse(Semester& semester)
         if (numberCreditInput.isSelected()) numberCreditInput.textCursor(numberCreditInput.getInput());
         if (maxStudentInput.isSelected()) maxStudentInput.textCursor(maxStudentInput.getInput());
         if (dayInput.isSelected()) dayInput.textCursor(dayInput.getInput());
+        if (csvInput.isSelected()) csvInput.textCursor(csvInput.getInput());
 
 
         while (windowNext.pollEvent(event)) {
@@ -435,6 +492,7 @@ void Activity2::addCourse(Semester& semester)
                 numberCreditInput.handleMouseClick(mousePos);
                 maxStudentInput.handleMouseClick(mousePos);
                 dayInput.handleMouseClick(mousePos);
+                csvInput.handleMouseClick(mousePos);
 
                 if (goBackBtn.isClicked(mousePos))
                     windowNext.close();
@@ -451,6 +509,7 @@ void Activity2::addCourse(Semester& semester)
             numberCreditInput.processInput(event);
             maxStudentInput.processInput(event);
             dayInput.processInput(event);
+            csvInput.processInput(event);
 
 
         }
@@ -466,6 +525,7 @@ void Activity2::addCourse(Semester& semester)
         numberCreditTxt.draw(windowNext);
         maxStudentTxt.draw(windowNext);
         dayTxt.draw(windowNext);
+        csvTxt.draw(windowNext);
 
         courseIdInput.draw(windowNext);
         courseNameInput.draw(windowNext);
@@ -474,7 +534,7 @@ void Activity2::addCourse(Semester& semester)
         numberCreditInput.draw(windowNext);
         maxStudentInput.draw(windowNext);
         dayInput.draw(windowNext);
-
+        csvInput.draw(windowNext);
 
         submitBtn.draw(windowNext);
 
@@ -498,6 +558,16 @@ void Activity2::courseInformation(Course& course)
     sf::Sprite background(textureNext);
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
+    Text courseIdTxt(47, 107, "Course Id: " + course.getID(), fontNext, BLACK, 26);
+    Text courseNameTxt(47, 137, "Course Name: " + course.getName(), fontNext, BLACK, 26);
+    Text teacherNameTxt(47, 167, "Teacher name: " + course.getTeacher(), fontNext, BLACK, 26);
+    Text sessionTxt(47, 197, "Session: 1", fontNext, BLACK, 26);
+    Text creditTxt(721, 107, "Number of credits: 4", fontNext, BLACK, 26);
+    Text maxStudentTxt(721, 137, "Max students: 50", fontNext, BLACK, 26);
+    Text dayTxt(721, 167, "Day: " + course.getDay(), fontNext, BLACK, 26);
+
+    Button deleteCourseBtn(1305, 100, 300, 54, "Delete this course", fontNext, RED);
+    Button updateCourseBtn(1305, 179, 300, 54, "Update information", fontNext, RED);
 
     while (windowNext.isOpen()) {
         sf::Event event;
@@ -510,12 +580,31 @@ void Activity2::courseInformation(Course& course)
                 if (goBackBtn.isClicked(mousePos))
                     windowNext.close();
 
+                if (deleteCourseBtn.isClicked(mousePos)) {
+                    if (confirm("Do you really want to delete this course?")) {
+                        // Write function to delete the course
+                        popup("This course has been deleted");
+                        return;
+                    }
+
+                }
             }
         }
 
         windowNext.clear(sf::Color::White);
         windowNext.draw(background);
         goBackBtn.draw(windowNext);
+        deleteCourseBtn.draw(windowNext);
+        updateCourseBtn.draw(windowNext);
+
+        courseIdTxt.draw(windowNext);
+        courseNameTxt.draw(windowNext);
+        teacherNameTxt.draw(windowNext);
+        sessionTxt.draw(windowNext);
+        creditTxt.draw(windowNext);
+        maxStudentTxt.draw(windowNext);
+        dayTxt.draw(windowNext);
+
         windowNext.display();
     }
 }
@@ -548,9 +637,10 @@ void Activity2::viewOneClass(Class& oneclass)
     Button line3(513, 136, 0, 630, "", fontNext, BLACK);
     Button line4(1044, 136, 0, 630, "", fontNext, BLACK);
 
-    Button addStudentBtn(1470.f, 117.f, 163.f, 57.f, "Add", fontNext, RED);
-    Button removeStudentBtn(1470.f, 191.f, 163.f, 57.f, "Remove", fontNext, RED);
-
+    Button addStudentBtn(1420.f, 117.f, 240, 50.f, "Add student", fontNext, RED);
+    Button removeStudentBtn(1420.f, 191.f, 240.f, 50.f, "Remove Student", fontNext, RED);
+    Button exportListBtn(1420, 260, 240, 50, "Export list ", fontNext, RED);
+    Button scoreBoardBtn(1420, 330, 240, 50, "ScoreBoard ", fontNext, RED);
     vector<Text> listOfStudent;
     for (int i = 0; i < oneclass.students.size(); i++) {
         std::string temp = std::to_string(i + 1) + "    ";
@@ -590,6 +680,14 @@ void Activity2::viewOneClass(Class& oneclass)
 
                 if (addStudentBtn.isClicked(mousePos))
                     addStudent(oneclass);
+
+                if (exportListBtn.isClicked(mousePos)) {
+                    popup("Export the list of student succes");
+                }
+
+                if (scoreBoardBtn.isClicked(mousePos)) {
+                    scoreBoardOfClassStaff(oneclass);
+                }
             }
 
         }
@@ -608,6 +706,8 @@ void Activity2::viewOneClass(Class& oneclass)
 
         addStudentBtn.draw(windowNext);
         removeStudentBtn.draw(windowNext);
+        exportListBtn.draw(windowNext);
+        scoreBoardBtn.draw(windowNext);
 
         for (int i = 0; i < listOfStudent.size(); i++)
             listOfStudent[i].draw(windowNext);
@@ -921,6 +1021,43 @@ void Activity2::addStudent(Class& oneclass)
         csvBtn.draw(windowNext);
         byhandBtn.draw(windowNext);
 
+        goBackBtn.draw(windowNext);
+        windowNext.display();
+    }
+}
+
+void Activity2::scoreBoardOfClassStaff(Class& oneclass)
+{
+    sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "Remove a student", sf::Style::Close | sf::Style::Titlebar);
+
+    sf::Font fontNext;
+    if (!fontNext.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    sf::Texture textureNext;
+    if (!textureNext.loadFromFile("Assets/AddClassStaff.png"))
+        std::cout << "Could not load the Remove Student image" << std::endl;
+    std::cout << "Generate The Add Class sucess" << std::endl;
+    sf::Sprite background(textureNext);
+
+    Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
+
+    while (windowNext.isOpen()) {
+        sf::Event event;
+        while (windowNext.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                windowNext.close();
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+
+                if (goBackBtn.isClicked(mousePos))
+                    windowNext.close();
+
+            }
+        }
+
+        windowNext.clear(sf::Color::White);
+        windowNext.draw(background);
         goBackBtn.draw(windowNext);
         windowNext.display();
     }
