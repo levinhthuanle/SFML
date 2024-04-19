@@ -22,7 +22,7 @@ public:
 
 	static void createNewSchoolYearStaff();
 
-	static void createSemesterStaff(SchoolYear& SY);
+	static void createSemesterStaff(Semester & semester);
 
 	static void viewAllCourseStaff(vector<Course>& course);
 
