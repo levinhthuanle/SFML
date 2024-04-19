@@ -55,7 +55,7 @@ public:
             upsize();
         }
         ++s;
-        for (int i = s; i > index; --i)
+        for (int i = s - 1; i > index; --i)
         {
             _data[i] = _data[i - 1]; 
         }
@@ -68,12 +68,12 @@ public:
         if (s == capacity) {
             upsize();
         }
-        ++s; 
-        for (int i = s; i > 0; --i)
+        ++s;
+        for (int i = s - 1; i > index; --i)
         {
             _data[i] = _data[i - 1];
         }
-        _data[0] = val;
+        _data[index] = val;
     }
     T& operator[] (ll __offset) {
         assert(__offset < s);

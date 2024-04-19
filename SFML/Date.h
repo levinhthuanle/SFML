@@ -29,8 +29,8 @@ public:
 
         //need to finish. 
        
-        bool isLeap = (year % 4) && (!(year % 100) || year % 400); 
-        if (month < 1 || month > 11 || day < 0 || day > daysInMonth[month -1] + (month == 2) ? isLeap : 0)
+        bool isLeap = (year % 4 == 0) && (!(year % 100 == 0) || year % 400 == 0); 
+        if (month < 1 || month > 12 || day < 0 || (day > daysInMonth[month -1] + (month == 2) ? isLeap : 0))
             return false;
         else return true; 
         
