@@ -586,8 +586,10 @@ void Activity2::courseInformation(Course& course)
                         popup("This course has been deleted");
                         return;
                     }
-
                 }
+
+                if (updateCourseBtn.isClicked(mousePos))
+                    updateCourseInformation(course);
             }
         }
 
@@ -604,6 +606,107 @@ void Activity2::courseInformation(Course& course)
         creditTxt.draw(windowNext);
         maxStudentTxt.draw(windowNext);
         dayTxt.draw(windowNext);
+
+        windowNext.display();
+    }
+}
+
+void Activity2::updateCourseInformation(Course& course)
+{
+    sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "Course information", sf::Style::Close | sf::Style::Titlebar);
+
+    sf::Font fontNext;
+    if (!fontNext.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    sf::Texture textureNext;
+    if (!textureNext.loadFromFile("Assets/AddClassStaff.png"))
+        std::cout << "Could not load the Course information image" << std::endl;
+    std::cout << "Generate The course information sucess" << std::endl;
+    sf::Sprite background(textureNext);
+
+    Button goBackBtn(519, 766, 245, 66, "Go back", fontNext, ORANGE);
+    Button acceptBtn(919, 766, 245, 66, "Accept", fontNext, RED);
+
+    Text courseIdTxt(72, 218, "Course ID: ", fontNext, BLACK, 26);
+    Text courseNameTxt(72, 275, "Course name: ", fontNext, BLACK, 26);
+    Text teacherNameTxt(72, 348, "Teacher Name: ", fontNext, BLACK, 26);
+    Text sessionTxt(72, 421, "Session:", fontNext, BLACK, 26);
+    Text numberCreditTxt(858, 218, "Credits:", fontNext, BLACK, 26);
+    Text maxStudentTxt(858, 290, "Max Student:", fontNext, BLACK, 26);
+    Text dayTxt(858, 364, "Days in a week", fontNext, BLACK, 26);
+
+    InputField courseIdInput(411, 202, 385, 47, fontNext); courseIdInput.input = course.getID();
+    InputField courseNameInput(411, 275, 385, 47, fontNext); courseNameInput.input = course.getName();
+    InputField teacherNameInput(411, 348, 385, 47, fontNext); teacherNameInput.input = course.getTeacher();
+    InputField sessionInput(411, 421, 385, 47, fontNext); sessionInput.input = course.getSession();
+    InputField numberCreditInput(1189, 202, 385, 47, fontNext); numberCreditInput.input = course.getCredit();
+    InputField maxStudentInput(1189, 275, 385, 47, fontNext); maxStudentInput.input = course.getMaxStu();
+    InputField dayInput(1189, 348, 385, 47, fontNext); dayInput.input = course.getDay();
+
+    while (windowNext.isOpen()) {
+        sf::Event event;
+        if (courseIdInput.isSelected()) courseIdInput.textCursor(courseIdInput.getInput());
+        if (courseNameInput.isSelected()) courseNameInput.textCursor(courseNameInput.getInput());
+        if (teacherNameInput.isSelected()) teacherNameInput.textCursor(teacherNameInput.getInput());
+        if (sessionInput.isSelected()) sessionInput.textCursor(sessionInput.getInput());
+        if (numberCreditInput.isSelected()) numberCreditInput.textCursor(numberCreditInput.getInput());
+        if (maxStudentInput.isSelected()) maxStudentInput.textCursor(maxStudentInput.getInput());
+        if (dayInput.isSelected()) dayInput.textCursor(dayInput.getInput());
+        while (windowNext.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                windowNext.close();
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+
+                courseIdInput.handleMouseClick(mousePos);
+                courseNameInput.handleMouseClick(mousePos);
+                teacherNameInput.handleMouseClick(mousePos);
+                sessionInput.handleMouseClick(mousePos);
+                numberCreditInput.handleMouseClick(mousePos);
+                maxStudentInput.handleMouseClick(mousePos);
+                dayInput.handleMouseClick(mousePos);
+                
+
+                if (goBackBtn.isClicked(mousePos))
+                    windowNext.close();
+
+                if (acceptBtn.isClicked(mousePos)) {
+                    // Change the course information here
+                    popup("Succesful change the information of the course");
+                    return;
+                }
+
+            }
+            courseIdInput.processInput(event);
+            courseNameInput.processInput(event);
+            teacherNameInput.processInput(event);
+            sessionInput.processInput(event);
+            numberCreditInput.processInput(event);
+            maxStudentInput.processInput(event);
+            dayInput.processInput(event);
+        }
+
+        windowNext.clear(sf::Color::White);
+        windowNext.draw(background);
+        goBackBtn.draw(windowNext);
+        acceptBtn.draw(windowNext);
+
+        courseIdTxt.draw(windowNext);
+        courseNameTxt.draw(windowNext);
+        teacherNameTxt.draw(windowNext);
+        sessionTxt.draw(windowNext);
+        numberCreditTxt.draw(windowNext);
+        maxStudentTxt.draw(windowNext);
+        dayTxt.draw(windowNext);
+
+        courseIdInput.draw(windowNext);
+        courseNameInput.draw(windowNext);
+        teacherNameInput.draw(windowNext);
+        sessionInput.draw(windowNext);
+        numberCreditInput.draw(windowNext);
+        maxStudentInput.draw(windowNext);
+        dayInput.draw(windowNext);
 
         windowNext.display();
     }

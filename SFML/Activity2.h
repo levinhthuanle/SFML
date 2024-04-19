@@ -35,6 +35,8 @@ public:
 
 	static void courseInformation(Course& course);
 
+	static void updateCourseInformation(Course& course);
+
 	static void viewOneClass(Class& oneclass);
 
 	static void viewAllClassStaff(vector<Class>& allClass);
