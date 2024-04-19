@@ -369,6 +369,8 @@ void Activity2::viewCourseInSemester(Semester& semester)
     Button addCourseBtn(1200, 114, 245, 66, "Add course", fontNext, ORANGE);
     Text text(65, 114, semester.getName() + ':', fontNext, GREEN, 36);
 
+    Text dayInfo(120, 150, "Start day: " + semester.startDate.date + "               End day: " + semester.endDate.date, fontNext, GREEN, 36); 
+
     vector<courseButton> allOfCourse;
     //std::cout << semester.courses[0].getID() << std::endl;
     
@@ -423,7 +425,7 @@ void Activity2::viewCourseInSemester(Semester& semester)
         for (int i = displayFrom; i < limitDisplay; i++) {
             allOfCourse[i].draw(windowNext);
         }
-
+        dayInfo.draw(windowNext);
         addCourseBtn.draw(windowNext);
         goBackBtn.draw(windowNext);
         windowNext.display();
