@@ -5,9 +5,9 @@
 #include "Course.h"
 
 //I assume that this class create sub-activity for student. 
-const sf::Color black = sf::Color(18, 2, 2);
-const sf::Color green = sf::Color(81, 161, 147);
-const sf::Color orange = sf::Color(218, 110, 50);
+const sf::Color BLACK = sf::Color(18, 2, 2);
+const sf::Color GREEN = sf::Color(81, 161, 147);
+const sf::Color ORANGE = sf::Color(218, 110, 50);
 class Activity2
 {
 public:
@@ -28,10 +28,18 @@ public:
 
 	static void viewCourseInSemester(Semester& semester);
 
+	static void addCourse(Semester& semester);
+
+	static void courseInformation(Course& course);
+
 	static void viewOneClass(Class& oneclass);
 
 	static void viewAllClassStaff(vector<Class>& allClass);
 
 	static void addClassStaff(std::string lastYear, Class &tempClass);
+
+	static void removeStudent(Class& oneclass);
+
+	static void addStudent(Class& oneclass);
 };
 

@@ -6,7 +6,7 @@ namespace fsys = std::filesystem;
 //this class contain ONLY INFORMATION about a student.
 class Student
 {
-private:
+public:
 
 
 
@@ -17,7 +17,6 @@ private:
 	vector<std::string> basic_info;
 
 	//more information about student
-public:
 	fsys::path studentPath = "data/student";
 	Student() {
 		for (int i = 0; i < 6; ++i)

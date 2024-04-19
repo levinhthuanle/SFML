@@ -520,7 +520,8 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                     else
                     {
                         //show the error. 
-                        std::cerr << "Thes latest year hasn't been finished yet."; 
+                        Activity2::popup("The latest year hasn't been finished yet");
+                        std::cerr << "The latest year hasn't been finished yet."; 
                     }
                 }
 
