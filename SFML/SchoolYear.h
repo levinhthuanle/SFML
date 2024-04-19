@@ -76,7 +76,7 @@ public:
 	SchoolYear getNextPossibleYear()
 	{
 		int currYear = std::stoi(year.substr(0, 2)); 
-		std::string  nextSchoolYear = std::to_string(currYear + 1) + "-" + std::to_string(currYear + 2); 
+		std::string  nextSchoolYear = std::to_string(currYear + 1) + "_" + std::to_string(currYear + 2); 
 		return SchoolYear(nextSchoolYear); 
 	}
 };

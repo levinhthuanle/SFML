@@ -13,7 +13,7 @@ public:
 	Date endDate;
 	vector<Course> courses;
 	Semester() {};
-
+	//load a semester from a existed directory
 	Semester(std::string directory) 
 	{
 		semesterPath = directory; 
@@ -27,12 +27,15 @@ public:
 		std::getline(file, line);
 		endDate = Date(line);
 	}
-	 
-
+	Semester(std::string latestYear, std::string name)
+	{
+		this->year = latestYear; 
+		this->name = name; 
+		semesterPath = "data/courses/" + latestYear  + "/" + name;
+	 }
 	~Semester() {
 		
 	}
-
 	Semester& operator=(const Semester& rhs) {
 		this->semesterPath = rhs.semesterPath;
 		this->name = rhs.name;
@@ -127,16 +130,21 @@ public:
 			}
 		}
 	}
-
-	void create() 
+	bool is_exist()
 	{
-		fsys::create_directories(semesterPath); 
-
-		for (int i = 0; i < courses.size(); ++i)
+		return fsys::exists(semesterPath);
+	}
+	void create()
+	{
+		fsys::create_directories(semesterPath);
+		std::ofstream fout;
+		fout.open(semesterPath / "start_end_time.txt");
+		if (!fout.is_open())
 		{
-			courses[i].create(); 
+			std::cerr << "Can not open file.";
+			return;
 		}
-		std::cout << "\nDone creating folder semester.";
-
+		fout << startDate.date << "\n" << endDate.date; 
+		fout.close(); 
 	}
 };

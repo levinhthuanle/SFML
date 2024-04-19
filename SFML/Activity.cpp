@@ -551,8 +551,24 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                 }
 
                 if (createSemesterBtn.isClicked(mousePos))
-                    if (displaySY == 0 && (!schoolyearBtn[0].s1 || !schoolyearBtn[0].s2 || !schoolyearBtn[0].s3)) {
-                        Activity2::createSemesterStaff(existedSchoolYear[0]);
+                    if (displaySY == 0) {
+                        if (existedSchoolYear[0].semester.size() < 3)
+                        {
+                            std::string lastYear = existedSchoolYear[0].year;
+                            Semester newSemester (lastYear, "Semester" + std::to_string(existedSchoolYear[0].semester.size() + 1));
+                            Activity2::createSemesterStaff(newSemester); 
+                            if (newSemester.getStartDate().is_valid())
+                            {
+                                newSemester.create(); 
+                                existedSchoolYear[0].semester.push_back(newSemester); 
+                                schoolyearBtn[0] = schoolyearButton(53.f, 190.f + 170.f * (0 % 4), existedSchoolYear[0], font);
+                                
+                            }
+                            
+       
+                        }
+
+                        else Activity2::popup("Full of semesters in a year.");
                 }
 
                 for (int i = displaySY; i < tempSY; ++i){

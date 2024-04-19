@@ -161,7 +161,7 @@ void Activity2::createNewSchoolYearStaff()
     }
 }
 
-void Activity2::createSemesterStaff(SchoolYear& SY)
+void Activity2::createSemesterStaff(Semester& semester)
 {
     //CreateSemesterStaff.png
     sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "Create Semester", sf::Style::Close | sf::Style::Titlebar);
@@ -179,6 +179,8 @@ void Activity2::createSemesterStaff(SchoolYear& SY)
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, orange);
     Text enterStarttxt(120.f, 137.f, "Enter start date:", fontNext, sf::Color(26, 114, 98), 36);
     Text enterEndtxt(120.f, 220.f, "Enter end date:", fontNext, sf::Color(26, 114, 98), 36);
+
+    //need to upgrade this later, by dividint the input field into 3 different part.
     InputField enterStartInput(503, 131, 454, 66, fontNext);
     InputField enterEndInput(503, 220, 454, 66, fontNext);
     Button enterBtn(1011.f, 151.f, 245.f, 66.f, "Submit", fontNext, sf::Color(218, 110, 50));
@@ -201,13 +203,32 @@ void Activity2::createSemesterStaff(SchoolYear& SY)
                 if (enterBtn.isClicked(mousePos)) {
                     std::cout << enterStartInput.getInput() << std::endl;
                     std::cout << enterEndInput.getInput() << std::endl;
-                    
+                    Date start(enterStartInput.getInput()); 
+                    Date end(enterEndInput.getInput()); 
+                    if (start.is_valid() && end.is_valid() && start < end)
+                    {
+                        semester.startDate = start;
+                        semester.endDate = end; 
+                        windowNext.close(); 
+                    }
+                    else
+                    {
+                        if (!start.is_valid())
+                            popup("Invalid start day");
+                        else if (!end.is_valid())
+                            popup("Invalid end day");
+                        else popup("The start day is bigger than the end day"); 
+
+                        break; 
+                    }
+      
                 }
             }
             enterStartInput.processInput(event);
             if (enterStartInput.chooseNextField()) {
                 event.type = sf::Event::MouseButtonReleased;
                 enterEndInput.setSelected(true);
+
             }
             enterEndInput.processInput(event);
         }
