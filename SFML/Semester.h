@@ -46,6 +46,10 @@ public:
 		return *this;
 	}
 
+	fsys::path getPath() {
+		return semesterPath;
+	}
+
 	std::string getName() {
 		return name;
 	}
@@ -81,55 +85,50 @@ public:
 		}
 	}
 
-	void addCourse(Course course) 
+	void addCourse(Course& course) 
 	{
 		
 		courses.push_back(course); 
 
 	}
 
-	void removeCourse(Course course) 
-	{
-		for (int i = 0; i < courses.size(); ++i)
-		{
-			if (course.getID() == courses[i].getID())
-			{
-				std::error_code errorCode;
-				if (!fsys::remove(semesterPath/course.getID(), errorCode)) {
-					std::cout << errorCode.message() << std::endl;
+	void removeCourse(Course& course) {
+		std::error_code errorCode;
+		if (!fsys::remove_all(semesterPath/course.getID(), errorCode)) {
+			std::cout << errorCode.message() << std::endl;
+		}
+		else {
+			course.deleteCourse();
+			vector<Student> stuList = course.getStudiedStudent();
+			for (Student stu : stuList) {
+				User user(stu);
+				getSubjectData(user, user.url / "subject.csv");
+				vector<Subject>& unFinSub = user.listOfUnfinCourse;
+				for (int j = 0; j < unFinSub.size(); ++j) {
+					if (unFinSub[j].courseId == course.getID()) {
+						unFinSub[j].deleteSubject();
+						for (int k = j; k < unFinSub.size()-1; ++k)
+							unFinSub[k] = unFinSub[k + 1];
+						unFinSub.pop_back();
+						user.updateSubjectData();
+						return;
+					}
 				}
-				else {
-					vector<Student> stuList = course.getStudiedStudent();
-					for (Student stu : stuList) {
-						User user(stu);
-						getSubjectData(user, user.url / "subject.csv");
-						vector<Subject>& unFinSub = user.listOfUnfinCourse;
-						for (int j = 0; j < unFinSub.size(); ++j) {
-							if (unFinSub[j].courseId == course.getID()) {
-								unFinSub[j].deleteSubject();
-								for (int k = j; k < unFinSub.size(); ++k)
-									unFinSub[k] = unFinSub[k + 1];
-								unFinSub.pop_back();
-								user.updateSubjectData();
-								return;
-							}
-						}
-						vector<Subject>& finSub = user.listOfFinCourse;
-						for (int j = 0; j < finSub.size(); ++j) {
-							if (finSub[j].courseId == course.getID()) {
-								finSub[j].deleteSubject();
-								for (int k = j; k < finSub.size(); ++k)
-									finSub[k] = finSub[k + 1];
-								finSub.pop_back();
-								user.updateSubjectData();
-								return;
-							}
-						}
+				vector<Subject>& finSub = user.listOfFinCourse;
+				for (int j = 0; j < finSub.size(); ++j) {
+					if (finSub[j].courseId == course.getID()) {
+						finSub[j].deleteSubject();
+						for (int k = j; k < finSub.size()-1; ++k)
+							finSub[k] = finSub[k + 1];
+						finSub.pop_back();
+						user.updateSubjectData();
+						return;
 					}
 				}
 			}
 		}
 	}
+
 	bool is_exist()
 	{
 		return fsys::exists(semesterPath);
