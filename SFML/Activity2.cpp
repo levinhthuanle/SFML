@@ -97,6 +97,80 @@ void Activity2::popup(std::string content)
     }
 }
 
+void Activity2::drawScoreBoard(Course& course, sf::RenderWindow& window, sf::Font& font)
+{
+    Button horizontalLine(22, 273, 1545, 0, "", font, BLACK);
+    Button verticalLine1(82, 239, 0, 452, "", font, BLACK);
+    Button verticalLine2(309, 239, 0, 452, "", font, BLACK);
+    Button verticalLine3(519, 239, 0, 452, "", font, BLACK);
+    Button verticalLine4(859, 239, 0, 452, "", font, BLACK);
+    Button verticalLine5(1000, 239, 0, 452, "", font, BLACK);
+    Button verticalLine6(1159, 239, 0, 452, "", font, BLACK);
+    Button verticalLine7(1266, 239, 0, 452, "", font, BLACK);
+    Button verticalLine8(1372, 239, 0, 452, "", font, BLACK);
+
+    Text noTxt(29, 232, "No", font, GREEN, 32);
+    Text studentNameTxt(103, 232, "Student's ID", font, GREEN, 32);
+    Text studentIdTxt(316, 232, "Class", font, GREEN, 32);
+    Text midtermTxt(529, 232, "Fullname", font, GREEN, 32);
+    Text finalTxt(862, 232, "Practice", font, GREEN, 32);
+    Text extraTxt(1002, 232, "Midterm", font, GREEN, 32);
+    Text overallTxt(1167, 232, "Final", font, GREEN, 32);
+    Text exTxt(1287, 232, "Plus", font, GREEN, 32);
+    Text ex1Txt(1420, 232, "Overall", font, GREEN, 32);
+
+    vector<Text> studentInformation;
+    for (int i = 1; i < course.score.size() ; i++) {
+        std::string noStr = (i < 10) ? ('0' + std::to_string(i)) : (std::to_string(i));
+        Text numTxt(37, (float)280 + 36 * ((i-1) % 10), noStr, font, GREEN, 32);
+
+        Text sIdTxt(105,(float) (280 + 36 * ((i-1) % 10)), course.score[i][0], font, BLACK, 32);
+        Text sCTxt(323, (float)280 + 36 * ((i-1) % 10), course.score[i][1], font, BLACK, 32);
+        Text sFTxt(525, (float)280 + 36 * ((i-1) % 10), course.score[i][2], font, BLACK, 32);
+        Text pracTxt(888, (float)280 + 36 * ((i-1) % 10), course.score[i][3], font, BLACK, 32);
+        Text midTxt(1037, (float)280 + 36 * ((i-1) % 10), course.score[i][4], font, BLACK, 32);
+        Text finTxt(1185, (float)280 + 36 * ((i-1) % 10), course.score[i][5], font, BLACK, 32);
+        Text plusTxt(1291, (float)280 + 36 * ((i-1) % 10), course.score[i][6], font, BLACK, 32);
+        Text overTxt(1437, (float)280 + 36 * ((i-1) % 10), course.score[i][7], font, RED, 32);
+
+        studentInformation.push_back(numTxt);
+        studentInformation.push_back(sIdTxt);
+        studentInformation.push_back(sCTxt);
+        studentInformation.push_back(sFTxt);
+        studentInformation.push_back(pracTxt);
+        studentInformation.push_back(midTxt);
+        studentInformation.push_back(finTxt);
+        studentInformation.push_back(plusTxt);
+        studentInformation.push_back(overTxt);
+
+    }
+
+
+
+    horizontalLine.draw(window);
+    verticalLine1.draw(window);
+    verticalLine2.draw(window);
+    verticalLine3.draw(window);
+    verticalLine4.draw(window);
+    verticalLine5.draw(window);
+    verticalLine6.draw(window);
+    verticalLine7.draw(window);
+    verticalLine8.draw(window);
+
+    noTxt.draw(window);
+    studentNameTxt.draw(window);
+    studentIdTxt.draw(window);
+    midtermTxt.draw(window);
+    finalTxt.draw(window);
+    extraTxt.draw(window);
+    overallTxt.draw(window);
+    exTxt.draw(window);
+    ex1Txt.draw(window);
+
+    for (int i = 0; i < studentInformation.size(); i++)
+        studentInformation[i].draw(window);
+}
+
 void Activity2::courseInformationStudent(Subject& subject)
 {
     sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "View Course", sf::Style::Close | sf::Style::Titlebar);
@@ -377,7 +451,7 @@ void Activity2::viewCourseInSemester(Semester& semester)
     //courseButton temp(65, 209, semester.courses[0], fontNext);
 
     for (int i = 0; i < semester.courses.size(); i++) {
-        courseButton temp(65 + 273*(i % 5), 209 + 210 * (i/5), semester.courses[i], fontNext);
+        courseButton temp((float)65 + 273*(i % 5), (float)209 + 210 * (i/5), semester.courses[i], fontNext);
         allOfCourse.push_back(temp);
 
         std::cout << semester.courses[i].getID() << std::endl;
@@ -428,13 +502,14 @@ void Activity2::viewCourseInSemester(Semester& semester)
 
                 if (addCourseBtn.isClicked(mousePos)) {
                     addCourse(semester);
-                    
-                    int i = semester.courses.size() - 1;
+                    long long i = semester.courses.size() - 1;
+
                     if (i > -1)
                     {
                         courseButton temp(65 + 273 * (i % 5), 209 + 210 * (i / 5), semester.courses[i], fontNext);
                         allOfCourse.push_back(temp);
                     }
+
                 }
             }
 
@@ -577,12 +652,12 @@ void Activity2::courseInformation(Semester& semester, Course& course)
         std::cout << "Could not load the font" << std::endl;
 
     sf::Texture textureNext;
-    if (!textureNext.loadFromFile("Assets/AddClassStaff.png"))
+    if (!textureNext.loadFromFile("Assets/CourseInformationStaff.png"))
         std::cout << "Could not load the Course information image" << std::endl;
     std::cout << "Generate The course information sucess" << std::endl;
     sf::Sprite background(textureNext);
 
-    Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
+    
     Text courseIdTxt(47, 107, "Course Id: " + course.getID(), fontNext, BLACK, 26);
     Text courseNameTxt(47, 137, "Course Name: " + course.getName(), fontNext, BLACK, 26);
     Text teacherNameTxt(47, 167, "Teacher name: " + course.getTeacher(), fontNext, BLACK, 26);
@@ -592,9 +667,13 @@ void Activity2::courseInformation(Semester& semester, Course& course)
     Text curStudentTxt(721, 167, "Current students: " + std::to_string(course.getCurStu()), fontNext, BLACK, 26);
     Text dayTxt(721, 197, "Day: " + course.getDay(), fontNext, BLACK, 26);
 
-    Button deleteCourseBtn(1305, 100, 300, 54, "Delete this course", fontNext, RED);
-    Button updateCourseBtn(1305, 179, 300, 54, "Update information", fontNext, RED);
-    Button studentListBtn(1305, 258, 300, 54, "Student list", fontNext, RED);
+    Button goBackBtn(686, 820, 245, 66, "Go back", fontNext, ORANGE);
+    Button deleteCourseBtn(1280, 96, 270, 40, "Delete this course", fontNext, RED);
+    Button updateCourseBtn(990, 96, 240, 40, "Update information", fontNext, RED);
+    Button importScoreBtn(1337, 723, 211, 50, "Import Score", fontNext, RED);
+    Button addStudentBtn(13, 724, 179, 50, "Add student", fontNext, RED);
+    Button removeStudentBtn(205, 724, 179, 50, "Add student", fontNext, RED);
+
 
     while (windowNext.isOpen()) {
         sf::Event event;
@@ -617,11 +696,10 @@ void Activity2::courseInformation(Semester& semester, Course& course)
 
                 if (updateCourseBtn.isClicked(mousePos)) {
                     updateCourseInformation(course);
-                    windowNext.close();
                 }
 
-                if (studentListBtn.isClicked(mousePos)) {
-                    viewCourseStudentList(course);
+                if (importScoreBtn.isClicked(mousePos)) {
+                    importScoreCourseStaff(semester, course);
                 }
             }
         }
@@ -631,7 +709,9 @@ void Activity2::courseInformation(Semester& semester, Course& course)
         goBackBtn.draw(windowNext);
         deleteCourseBtn.draw(windowNext);
         updateCourseBtn.draw(windowNext);
-        studentListBtn.draw(windowNext);
+        addStudentBtn.draw(windowNext);
+        removeStudentBtn.draw(windowNext);
+        importScoreBtn.draw(windowNext);
 
         courseIdTxt.draw(windowNext);
         courseNameTxt.draw(windowNext);
@@ -641,6 +721,8 @@ void Activity2::courseInformation(Semester& semester, Course& course)
         maxStudentTxt.draw(windowNext);
         curStudentTxt.draw(windowNext);
         dayTxt.draw(windowNext);
+        
+        drawScoreBoard(course, windowNext, fontNext);
 
         windowNext.display();
     }
@@ -1391,6 +1473,60 @@ void Activity2::scoreBoardOfClassStaff(Class& oneclass)
         
         windowNext.clear(sf::Color::White);
         windowNext.draw(background);
+        goBackBtn.draw(windowNext);
+        windowNext.display();
+    }
+}
+
+void Activity2::importScoreCourseStaff(Semester& semester, Course& course)
+{
+    sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "Import Scoreboard", sf::Style::Close | sf::Style::Titlebar);
+
+    sf::Font fontNext;
+    if (!fontNext.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    sf::Texture textureNext;
+    if (!textureNext.loadFromFile("Assets/AddClassStaff.png"))
+        std::cout << "Could not load the Import scoreboard image" << std::endl;
+    std::cout << "Generate The Import scoreboard sucess" << std::endl;
+    sf::Sprite background(textureNext);
+
+    Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
+    Text enterClasstxt(120.f, 137.f, "Enter the path:", fontNext, sf::Color(26, 114, 98), 36);
+    InputField Input(390, 131, 564, 66, fontNext);
+    Button enterBtn(1011.f, 131.f, 245.f, 66.f, "Submit", fontNext, sf::Color(218, 110, 50));
+
+
+    while (windowNext.isOpen()) {
+        sf::Event event;
+        if (Input.isSelected())
+            Input.textCursor(Input.getInput());
+        while (windowNext.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                windowNext.close();
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+
+                Input.handleMouseClick(mousePos);
+                if (goBackBtn.isClicked(mousePos))
+                    windowNext.close();
+                else if (enterBtn.isClicked(mousePos))
+                {
+                    std::string path = Input.getInput();
+                    popup("Import the scoreboard success! " + path);
+                    return;
+                }
+
+            }
+            Input.processInput(event);
+        }
+
+        windowNext.clear(sf::Color::White);
+        windowNext.draw(background);
+        Input.draw(windowNext);
+        enterBtn.draw(windowNext);
+        enterClasstxt.draw(windowNext);
         goBackBtn.draw(windowNext);
         windowNext.display();
     }

@@ -9,7 +9,6 @@ public:
 	vector<Semester> semester;
 	vector<Class> firstYearClasses;
 
-public:
 	SchoolYear() {}
 
 	SchoolYear(std::string year) {
@@ -100,6 +99,10 @@ static vector<SchoolYear> getExistedSchoolYear()
 	{
 		realClassYear.push_back(SchoolYear(classYear[i])); 
 	}
+
+	// Get the current year and semester
+	
+	
 	return realClassYear;
 	
 }
