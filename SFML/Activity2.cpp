@@ -373,7 +373,7 @@ void Activity2::createSemesterStaff(Semester& semester)
     }
 }
 
-void Activity2::viewAllCourseStaff(vector<Course>& course)
+void Activity2::viewAllCourseStaff(vector<SchoolYear>& schoolyear)
 {
     sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "All Course", sf::Style::Close | sf::Style::Titlebar);
 
@@ -384,18 +384,24 @@ void Activity2::viewAllCourseStaff(vector<Course>& course)
     sf::Texture textureNext;
     if (!textureNext.loadFromFile("Assets/ViewAllCourseStaff.png"))
         std::cout << "Could not load the YourCourseStudent image" << std::endl;
-    std::cout << "Generate Your course student sucess" << std::endl;
+    std::cout << "Generate View all course sucess" << std::endl;
     sf::Sprite background(textureNext);
 
+    Button nextPageBtn(1587.f, 753.f, 92.f, 62.f, "Next", fontNext, ORANGE);
+    Button prevPageBtn(1587.f, 815.f, 92.f, 62.f, "Prev", fontNext, ORANGE);
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
     vector<Text> allOfCourse;
-    for (int i = 0; i < course.size(); i++) {
-        Text temp(100.f, 100.f + 30 * i, course[i].getID(), fontNext, sf::Color(30, 30, 30), 25);
-        allOfCourse.push_back(temp);
-    }
 
+
+    vector<allCourseMenu> allCourseMenuBtn;
+    for (int i = 0; i < schoolyear.size(); i++) {
+        allCourseMenu temp(40, 90 + 230 * (i % 3), schoolyear[i], fontNext);
+        allCourseMenuBtn.push_back(temp);
+    }
+    int displayFrom = 0;
 
     while (windowNext.isOpen()) {
+        long long displayLimit = (displayFrom + 3) > allCourseMenuBtn.size() ? allCourseMenuBtn.size() : (displayFrom + 3);
         sf::Event event;
         while (windowNext.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
@@ -405,14 +411,47 @@ void Activity2::viewAllCourseStaff(vector<Course>& course)
 
                 if (goBackBtn.isClicked(mousePos))
                     windowNext.close();
+
+                if (nextPageBtn.isClicked(mousePos)) {
+                    if (displayFrom + 3 <= allCourseMenuBtn.size())
+                        displayFrom += 3;
+                }
+
+                if (prevPageBtn.isClicked(mousePos)) {
+                    if (displayFrom - 3 >= 0)
+                        displayFrom -= 3;
+                }
+
+                for (int i = displayFrom; i < displayLimit; i++) {
+                    for (int j = 0; j < allCourseMenuBtn[i].listCoursesBtn1.size(); j++) {
+                        if (allCourseMenuBtn[i].listCoursesBtn1[j].isClicked(mousePos)) {
+                            courseInformation(schoolyear[i].semester[0], schoolyear[i].semester[0].courses[j]);
+                            return;
+                        }
+                    }
+
+                    for (int j = 0; j < allCourseMenuBtn[i].listCoursesBtn2.size(); j++) {
+                        if (allCourseMenuBtn[i].listCoursesBtn2[j].isClicked(mousePos)) {
+                            courseInformation(schoolyear[i].semester[1], schoolyear[i].semester[1].courses[j]);
+                            return;
+                        }
+                    }
+
+                    for (int j = 0; j < allCourseMenuBtn[i].listCoursesBtn3.size(); j++) {
+                        if (allCourseMenuBtn[i].listCoursesBtn3[j].isClicked(mousePos)) {
+                            courseInformation(schoolyear[i].semester[2], schoolyear[i].semester[2].courses[j]);
+                            return;
+                        }
+                    }
+                }
             }
 
         }
 
         windowNext.clear(sf::Color::White);
         windowNext.draw(background);
-        for (int i = 0; i < course.size(); i++) {
-            allOfCourse[i].draw(windowNext);
+        for (int i = displayFrom; i < displayLimit; i++) {
+            allCourseMenuBtn[i].draw(windowNext);
         }
         goBackBtn.draw(windowNext);
         windowNext.display();

@@ -5,10 +5,7 @@
 #include "Semester.h"
 
 //I assume that this class create sub-activity for student. 
-const sf::Color BLACK = sf::Color(18, 2, 2);
-const sf::Color GREEN = sf::Color(81, 161, 147);
-const sf::Color ORANGE = sf::Color(218, 110, 50);
-const sf::Color RED = sf::Color(144, 44, 44);
+
 class Activity2
 {
 public:
@@ -28,7 +25,7 @@ public:
 
 	static void createSemesterStaff(Semester & semester);
 
-	static void viewAllCourseStaff(vector<Course>& course);
+	static void viewAllCourseStaff(vector<SchoolYear>& schoolyear);
 
 	static void viewCourseInSemester(Semester& semester);
 
