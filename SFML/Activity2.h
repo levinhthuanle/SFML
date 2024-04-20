@@ -3,7 +3,7 @@
 #include "Components.h"
 #include "vector.h"
 #include "Semester.h"
-
+#include "tinyfiledialogs/tinyfiledialogs.h"
 //I assume that this class create sub-activity for student. 
 const sf::Color BLACK = sf::Color(18, 2, 2);
 const sf::Color GREEN = sf::Color(81, 161, 147);
