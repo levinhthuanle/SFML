@@ -890,8 +890,8 @@ void Activity2::viewOneClass(Class& oneclass)
 
     Button addStudentBtn(1420.f, 117.f, 240, 50.f, "Add student", fontNext, RED);
     Button removeStudentBtn(1420.f, 191.f, 240.f, 50.f, "Remove Student", fontNext, RED);
-    Button exportListBtn(1420, 260, 240, 50, "Export list ", fontNext, RED);
-    Button scoreBoardBtn(1420, 330, 240, 50, "ScoreBoard ", fontNext, RED);
+    //Button exportListBtn(1420, 260, 240, 50, "Export list ", fontNext, RED);
+    //Button scoreBoardBtn(1420, 330, 240, 50, "ScoreBoard ", fontNext, RED);
     vector<Text> listOfStudent;
     for (int i = 0; i < oneclass.students.size(); i++) {
         std::string temp = std::to_string(i + 1) + "    ";
@@ -927,7 +927,31 @@ void Activity2::viewOneClass(Class& oneclass)
                     windowNext.close();
 
                 if (removeStudentBtn.isClicked(mousePos))
+                {
+                    int before = oneclass.students.size();
                     removeStudent(oneclass);
+                    int after = oneclass.students.size();
+                    if (before != after)
+                    {
+                        listOfStudent.clear(); 
+                        for (int i = 0; i < oneclass.students.size(); i++) {
+                            std::string temp = std::to_string(i + 1) + "    ";
+                            if (temp.size() == 5)
+                                temp = '0' + temp;
+
+                            temp = temp + oneclass.students[i].getID() + "                           ";
+                            temp += oneclass.students[i].getFullname();
+                            for (int j = 1; j <= 47 - oneclass.students[i].getFullname().size(); j++)
+                                temp += ' ';
+                            temp += oneclass.students[i].getGender();
+
+                            Text text(82.f, 188.f + 32 * i, temp, fontNext, BLACK, 32);
+
+                            listOfStudent.push_back(text);
+                        }
+                    }
+            
+                }
 
                 if (addStudentBtn.isClicked(mousePos))
                 {
@@ -953,13 +977,14 @@ void Activity2::viewOneClass(Class& oneclass)
                     }
                 }
 
-                if (exportListBtn.isClicked(mousePos)) {
-                    popup("Export the list of student succes");
-                }
+               /* if (exportListBtn.isClicked(mousePos)) {
 
-                if (scoreBoardBtn.isClicked(mousePos)) {
+                    popup("Export the list of student succes");
+                }*/
+
+                /*if (scoreBoardBtn.isClicked(mousePos)) {
                     scoreBoardOfClassStaff(oneclass);
-                }
+                }*/
             }
 
         }
@@ -978,8 +1003,8 @@ void Activity2::viewOneClass(Class& oneclass)
 
         addStudentBtn.draw(windowNext);
         removeStudentBtn.draw(windowNext);
-        exportListBtn.draw(windowNext);
-        scoreBoardBtn.draw(windowNext);
+        //exportListBtn.draw(windowNext);
+        //scoreBoardBtn.draw(windowNext);
 
         for (int i = 0; i < listOfStudent.size(); i++)
             listOfStudent[i].draw(windowNext);
@@ -1136,7 +1161,8 @@ void Activity2::removeStudent(Class& oneclasss)
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
     Text enterSYtxt(120.f, 137.f, "Enter Student's ID:", fontNext, sf::Color(26, 114, 98), 36);
-    InputField enterSYinput(503, 131, 454, 66, fontNext);
+    Text classID(480, 131, oneclasss.classID, fontNext, sf::Color(26, 114, 98), 36); 
+    InputField enterSYinput(620, 131, 454, 66, fontNext);
     Button enterBtn(1011.f, 131.f, 245.f, 66.f, "Submit", fontNext, sf::Color(218, 110, 50));
 
     while (windowNext.isOpen()) {
@@ -1154,11 +1180,20 @@ void Activity2::removeStudent(Class& oneclasss)
                     windowNext.close();
                 
                 if (enterBtn.isClicked(mousePos)) {
-                    std::cout << enterSYinput.getInput() << std::endl;
-                    // This is the id of the student that need to delete
-                    
-                    popup("Remove succesful");
-                    return;
+                    std::string classID = oneclasss.classID + enterSYinput.getInput(); 
+                    if (classID.size() == 9)
+                    {
+                        Student temp(classID); 
+                        if (temp.is_exist())
+                        {
+                            temp.self_destroy();
+                            oneclasss = Class(oneclasss.classID); 
+                            popup("Remove succesful");
+                            windowNext.close();
+                        }
+                        else popup("Can not find this student."); 
+                    }
+                    else popup("Invalid ID"); 
                 }
             }
             enterSYinput.processInput(event);
@@ -1168,6 +1203,7 @@ void Activity2::removeStudent(Class& oneclasss)
         windowNext.draw(background);
         enterSYinput.draw(windowNext);
         enterSYtxt.draw(windowNext);
+        classID.draw(windowNext); 
         enterBtn.draw(windowNext);
         goBackBtn.draw(windowNext);
         windowNext.display();

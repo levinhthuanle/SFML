@@ -73,6 +73,11 @@ public:
 	{
 		return (fsys::exists(studentPath) && !fsys::is_empty(studentPath));
 	}
+	void self_destroy()
+	{
+		fsys::remove_all (studentPath);
+		basic_info.clear();
+	}
 };
 
 

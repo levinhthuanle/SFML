@@ -75,6 +75,14 @@ public:
         }
         _data[index] = val;
     }
+    void erase(long long index)
+    {
+        for (int i = index; i < s-1; ++i)
+        {
+            _data[i] = _data[i + 1]; 
+        }
+        --s; 
+    }
     T& operator[] (ll __offset) {
         assert(__offset < s);
         return _data[__offset];
