@@ -503,8 +503,13 @@ void Activity2::viewCourseInSemester(Semester& semester)
                 if (addCourseBtn.isClicked(mousePos)) {
                     addCourse(semester);
                     long long i = semester.courses.size() - 1;
-                    courseButton temp((float) 65 + 273 * (i % 5), (float)209 + 210 * (i / 5), semester.courses[i], fontNext);
-                    allOfCourse.push_back(temp);
+
+                    if (i > -1)
+                    {
+                        courseButton temp(65 + 273 * (i % 5), 209 + 210 * (i / 5), semester.courses[i], fontNext);
+                        allOfCourse.push_back(temp);
+                    }
+
                 }
             }
 
@@ -1007,7 +1012,28 @@ void Activity2::viewOneClass(Class& oneclass)
                     removeStudent(oneclass);
 
                 if (addStudentBtn.isClicked(mousePos))
+                {
+                    int before = oneclass.students.size(); 
                     addStudent(oneclass);
+
+                    int after = oneclass.students.size(); 
+                    if (before != after)
+                    {
+                        int i = after - 1;
+                        std::string temp = std::to_string(i + 1) + "    ";
+                        if (temp.size() == 5)
+                            temp = '0' + temp;
+
+                        temp = temp + oneclass.students[i].getID() + "                           ";
+                        temp += oneclass.students[i].getFullname();
+                        for (int j = 1; j <= 47 - oneclass.students[i].getFullname().size(); j++)
+                            temp += ' ';
+                        temp += oneclass.students[i].getGender();
+
+                        Text text(82.f, 188.f + 32 * i, temp, fontNext, BLACK, 32);
+                        listOfStudent.push_back(text);
+                    }
+                }
 
                 if (exportListBtn.isClicked(mousePos)) {
                     popup("Export the list of student succes");
@@ -1258,9 +1284,10 @@ void Activity2::addStudent(Class& oneclass)
     Text studentGenderTxt(858, 318, "Gender:", fontNext, BLACK, 26);
     Text studentDobTxt(858, 390, "Date Of Birth:", fontNext, BLACK, 26);
     Text studentSocialTxt(858, 464, "Social Id:", fontNext, BLACK, 26);
+    Text classID(380, 302, oneclass.classID, fontNext, BLACK, 26); 
 
     InputField csvInput(400, 122, 385, 47, fontNext);
-    InputField studentIdInput(411, 302, 385, 47, fontNext);
+    InputField studentIdInput(500, 302, 285, 47, fontNext);
     InputField studentFirstNameInput(411, 375, 385, 47, fontNext);
     InputField studentLastNameInput(411, 448, 385, 47, fontNext);
     InputField studentGenderInput(1189, 302, 385, 47, fontNext);
@@ -1297,17 +1324,40 @@ void Activity2::addStudent(Class& oneclass)
                 if (goBackBtn.isClicked(mousePos))
                     windowNext.close();
                 if (byhandBtn.isClicked(mousePos)) {
-                    Student temp;
-                    temp.basic_info.push_back(oneclass.classID);
-                    temp.basic_info.push_back(studentIdInput.getInput());
-                    temp.basic_info.push_back(studentFirstNameInput.getInput() + " " + studentLastNameInput.getInput());
-                    temp.basic_info.push_back(studentGenderInput.getInput());
-                    temp.basic_info.push_back(studentDobInput.getInput());
-                    temp.basic_info.push_back(studentSocialInput.getInput());
+                    vector<std::string> temp_basic_info; 
+
+                    temp_basic_info.push_back(oneclass.classID);
                     
-                    // Use the Student temp to add new student to class
-                    popup("Add student success");
-                    return;
+                    if (studentIdInput.getInput().size() == 3) 
+                        temp_basic_info.push_back(oneclass.classID + studentIdInput.getInput());
+                    if (studentFirstNameInput.getInput().size() != 0 && studentLastNameInput.getInput().size() != 0)
+                        temp_basic_info.push_back(studentFirstNameInput.getInput() + " " + studentLastNameInput.getInput());
+                    std::string gender = studentGenderInput.getInput();
+                    std::transform(gender.begin(), gender.begin(), gender.end(),
+                        [](unsigned char c) {return std::tolower(c); }); 
+                    if( gender == "male" || gender == "female") 
+                        temp_basic_info.push_back(gender);
+                    Date dob(studentDobInput.getInput());
+                    if (dob.is_valid()) 
+                        temp_basic_info.push_back(studentDobInput.getInput());
+                    temp_basic_info.push_back(studentSocialInput.getInput());
+                    
+                    if (temp_basic_info.size() != 6)
+                        popup("Wrong input or missing element.");
+                    else
+                    {
+                        Student temp(temp_basic_info);
+                        if (!temp.is_exist())
+                        {
+                            temp.create();
+                            oneclass.students.push_back(temp);
+                            // Use the Student temp to add new student to class
+                            popup("Add student success");
+                            windowNext.close();
+                        }
+                        else popup("This ID of this student is existed."); 
+                    }
+                   
                 }
 
                 if (csvBtn.isClicked(mousePos)) {
@@ -1337,6 +1387,7 @@ void Activity2::addStudent(Class& oneclass)
         studentGenderTxt.draw(windowNext);
         studentDobTxt.draw(windowNext);
         studentSocialTxt.draw(windowNext);
+        classID.draw(windowNext);
 
         csvInput.draw(windowNext);
         studentIdInput.draw(windowNext);
@@ -1383,7 +1434,7 @@ void Activity2::scoreBoardOfClassStaff(Class& oneclass)
 
             }
         }
-
+        
         windowNext.clear(sf::Color::White);
         windowNext.draw(background);
         goBackBtn.draw(windowNext);

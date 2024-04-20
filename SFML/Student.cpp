@@ -58,15 +58,17 @@ Student::Student(std::string ID)
 		for (auto& c : studentPathString)
 			if (c == 92) c = '/';
 		std::ifstream fin(studentPathString);
+		
+		; 
 		for (int i = 0; i < 6; ++i)
 		{
-			getline(fin, basic_info[i]);
-			std::cout << basic_info[i] << std::endl;
+			getline(fin, basic_info[i]); 
+			std::cout << basic_info[i]; 
 		}
 		std::cout << studentPath << std::endl;
 	}
 }
-Student::Student(vector<std::string> fullBasicInfo)
+Student::Student(vector<std::string>& fullBasicInfo)
 {
 	basic_info = fullBasicInfo;
 	std::string ID = basic_info[1];
@@ -81,7 +83,7 @@ Student::Student(vector<std::string> fullBasicInfo)
 //	basic_info[1] = user.id; 
 //	basic_info[2] = user.fullname;
 //}
-void Student::updateBasic(vector<std::string> fullBasicInfo)
+void Student::updateBasic(vector<std::string>& fullBasicInfo)
 {
 	basic_info = fullBasicInfo;
 	std::string ID = basic_info[1]; 
@@ -90,20 +92,22 @@ void Student::updateBasic(vector<std::string> fullBasicInfo)
 }
 void Student::create()
 {
+	fsys::create_directories(studentPath);
 	std::ofstream fout(studentPath / "password.txt"); 
-	fout << "!23";
+	fout << "123";
 	fout.close(); 
 
-	csvFile studentFile(studentPath/ basic_info[1].substr(6));
-
-
-	for (long long i = 0; i < 6; ++i)
+	
+	
+	fout.open(studentPath / (basic_info[1].substr(6) + ".csv")); 
+	for (int i = 0; i < 6; ++i)
 	{
-		studentFile.addRow(); 
-		studentFile.cnt[i] = vector<std::string>(1,basic_info[i]); 
+		fout << basic_info[i]; 
+		if (i != 5) fout << "\n"; 
 	}
-	studentFile.isCreate(); 
-	studentFile.writeFile(); 
+	fout.close(); 
+	fout.open(studentPath / "subject.csv"); 
+	fout.close();
 	return; 
 }
 
