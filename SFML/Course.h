@@ -241,6 +241,9 @@ public:
 	bool removeStudent(std::string id) {
 		for (int i = 0; i < score.size(); i++) {
 			if (score[i][0] == id) {
+				for (int j = i; j < score.size() - 1; ++j)
+					score[j] = score[j + 1];
+				score.pop_back();
 				Student stu(id);
 				User user(stu);
 				getSubjectData(user, user.url / "subject.csv");
@@ -296,6 +299,29 @@ public:
 	void importScoreBoard(fsys::path& filePath) {
 		fsys::copy_file(filePath, this->folderPath / "score.csv");
 		scoreFile.readFile();
+
+		vector<Student> stuList = this->getStudiedStudent();
+
+		for (int i = 0; i < stuList.size(); ++i) {
+			User user(stuList[i]);
+			getSubjectData(user, user.url / "subject.csv");
+			vector<Subject>& unFinSub = user.listOfUnfinCourse;
+			for (int j = 0; j < unFinSub.size(); ++j) {
+				if (unFinSub[j].courseId == this->getID()) {
+					unFinSub[j].updateScore(this->score[i + 1]);
+					user.updateSubjectData();
+					return;
+				}
+			}
+			vector<Subject>& finSub = user.listOfFinCourse;
+			for (int j = 0; j < finSub.size(); ++j) {
+				if (finSub[j].courseId == this->getID()) {
+					finSub[j].updateScore(this->score[i + 1]);
+					user.updateSubjectData();
+					return;
+				}
+			}
+		}
 	}
 
 	//Export scoreboard file

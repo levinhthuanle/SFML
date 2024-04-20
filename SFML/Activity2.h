@@ -36,6 +36,10 @@ public:
 
 	static void courseInformation(Semester& semester, Course& course);
 
+	static void addStudentToCourse(Course& course);
+
+	static void removeStudentFromCourse(Course& course);
+
 	static void updateCourseInformation(Course& course);
 
 	static void viewCourseStudentList(Course& course);

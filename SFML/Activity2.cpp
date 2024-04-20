@@ -660,9 +660,9 @@ void Activity2::courseInformation(Semester& semester, Course& course)
     
     Text courseIdTxt(47, 107, "Course Id: " + course.getID(), fontNext, BLACK, 26);
     Text courseNameTxt(47, 137, "Course Name: " + course.getName(), fontNext, BLACK, 26);
-    Text teacherNameTxt(47, 167, "Teacher name: " + course.getTeacher(), fontNext, BLACK, 26);
+    Text teacherNameTxt(47, 167, "Teacher: " + course.getTeacher(), fontNext, BLACK, 26);
     Text sessionTxt(47, 197, "Session: " + course.getSession(), fontNext, BLACK, 26);
-    Text creditTxt(721, 107, "Number of credits: " + std::to_string(course.getCredit()), fontNext, BLACK, 26);
+    Text creditTxt(721, 107, "Credits: " + std::to_string(course.getCredit()), fontNext, BLACK, 26);
     Text maxStudentTxt(721, 137, "Max students: " + std::to_string(course.getMaxStu()), fontNext, BLACK, 26);
     Text curStudentTxt(721, 167, "Current students: " + std::to_string(course.getCurStu()), fontNext, BLACK, 26);
     Text dayTxt(721, 197, "Day: " + course.getDay(), fontNext, BLACK, 26);
@@ -672,7 +672,7 @@ void Activity2::courseInformation(Semester& semester, Course& course)
     Button updateCourseBtn(990, 96, 240, 40, "Update information", fontNext, RED);
     Button importScoreBtn(1337, 723, 211, 50, "Import Score", fontNext, RED);
     Button addStudentBtn(13, 724, 179, 50, "Add student", fontNext, RED);
-    Button removeStudentBtn(205, 724, 179, 50, "Add student", fontNext, RED);
+    Button removeStudentBtn(205, 724, 179, 50, "Remove student", fontNext, RED);
 
 
     while (windowNext.isOpen()) {
@@ -696,10 +696,28 @@ void Activity2::courseInformation(Semester& semester, Course& course)
 
                 if (updateCourseBtn.isClicked(mousePos)) {
                     updateCourseInformation(course);
+                    courseIdTxt.setString("Course Id: " + course.getID());
+                    courseNameTxt.setString("Course Name: " + course.getName());
+                    teacherNameTxt.setString("Teacher: " + course.getTeacher());
+                    sessionTxt.setString("Session: " + course.getSession());
+                    creditTxt.setString("Credits: " + std::to_string(course.getCredit()));
+                    maxStudentTxt.setString("Max students: " + std::to_string(course.getMaxStu()));
+                    curStudentTxt.setString("Current students: " + std::to_string(course.getCredit()));
+                    dayTxt.setString("Day: " + course.getDay());
                 }
 
                 if (importScoreBtn.isClicked(mousePos)) {
                     importScoreCourseStaff(semester, course);
+                }
+
+                if (addStudentBtn.isClicked(mousePos)) {
+                    addStudentToCourse(course);
+                    break;
+                }
+
+                if (removeStudentBtn.isClicked(mousePos)) {
+                    removeStudentFromCourse(course);
+                    break;
                 }
             }
         }
@@ -723,6 +741,126 @@ void Activity2::courseInformation(Semester& semester, Course& course)
         dayTxt.draw(windowNext);
         
         drawScoreBoard(course, windowNext, fontNext);
+
+        windowNext.display();
+    }
+}
+
+void Activity2::addStudentToCourse(Course& course) {
+    sf::RenderWindow windowNext(sf::VideoMode(865, 392), "Add student", sf::Style::Close | sf::Style::Titlebar);
+
+    sf::Font fontNext;
+    if (!fontNext.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    sf::Texture textureNext;
+    if (!textureNext.loadFromFile("Assets/FindStudentID.png"))
+        std::cout << "Could not load the Course information image" << std::endl;
+    std::cout << "Generate The Enter Student ID sucess" << std::endl;
+    sf::Sprite background(textureNext);
+
+    InputField studentIdInput(351.f, 98.f, 382.f, 39.f, fontNext);
+    Button submitBtn(351, 170, 150, 39, "Submit", fontNext, RED);
+
+    studentIdInput.setSelected(true);
+
+    while (windowNext.isOpen()) {
+        sf::Event event;
+        if (studentIdInput.isSelected()) studentIdInput.textCursor(studentIdInput.getInput());
+        while (windowNext.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                windowNext.close();
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+                studentIdInput.handleMouseClick(mousePos);
+                if (submitBtn.isClicked(mousePos)) {
+                    if (!studentIdInput.getInput().empty()) {
+                        std::string ID = studentIdInput.getInput();
+                        if (ID.size() != 9) {
+                            popup("Student not found");
+                            continue;
+                        }
+                        std::string clss = ID.substr(0, 6);
+                        std::string order = ID.substr(6);	
+                        fsys::path studentPath = "data/student";
+                        studentPath /= clss + "/" + order;
+                        if (!fsys::exists(studentPath))
+                            popup("Student not found");
+                        else {
+                            Student stu(ID);
+                            course.addStudent(stu);
+                            popup("Student added into course");
+                            windowNext.close();
+                            return;
+                        }
+                            
+                    }
+                }
+            }
+            studentIdInput.processInput(event);
+        }
+
+        windowNext.clear(sf::Color::White);
+        windowNext.draw(background);
+
+        studentIdInput.draw(windowNext);
+        submitBtn.draw(windowNext);
+
+        windowNext.display();
+    }
+}
+
+void Activity2::removeStudentFromCourse(Course& course) {
+    sf::RenderWindow windowNext(sf::VideoMode(865, 392), "Remove student", sf::Style::Close | sf::Style::Titlebar);
+
+    sf::Font fontNext;
+    if (!fontNext.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    sf::Texture textureNext;
+    if (!textureNext.loadFromFile("Assets/FindStudentID.png"))
+        std::cout << "Could not load the Course information image" << std::endl;
+    std::cout << "Generate The Enter Student ID sucess" << std::endl;
+    sf::Sprite background(textureNext);
+
+    InputField studentIdInput(351.f, 98.f, 382.f, 39.f, fontNext);
+    Button submitBtn(351, 170, 150, 39, "Submit", fontNext, RED);
+
+    studentIdInput.setSelected(true);
+
+    while (windowNext.isOpen()) {
+        sf::Event event;
+        if (studentIdInput.isSelected()) studentIdInput.textCursor(studentIdInput.getInput());
+        while (windowNext.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                windowNext.close();
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+                studentIdInput.handleMouseClick(mousePos);
+                if (submitBtn.isClicked(mousePos)) {
+                    if (!studentIdInput.getInput().empty()) {
+                        std::string ID = studentIdInput.getInput();
+                        if (ID.size() != 9) {
+                            popup("Student not found");
+                            continue;
+                        }
+                        if (!course.removeStudent(ID))
+                            popup("Student not found");
+                        else {
+                            popup("Student removed from course");
+                            return;
+                        }
+                    }
+                }
+            }
+            studentIdInput.processInput(event);
+        }
+
+        windowNext.clear(sf::Color::White);
+        windowNext.draw(background);
+
+        studentIdInput.draw(windowNext);
+        submitBtn.draw(windowNext);
 
         windowNext.display();
     }
