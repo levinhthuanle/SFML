@@ -97,6 +97,7 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
     Circle userIcon(1403, 35, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
     Button nextPageBtn(1187.f, 732.f, 92.f, 62.f, "Next", font, sf::Color(218, 110, 50));
     Button prevPageBtn(1187.f, 809.f, 92.f, 62.f, "Prev", font, sf::Color(218, 110, 50));
+    Button scoreboardBtn(1366, 433, 277, 55, "View score board", font, RED);
 
     int unfinshedCourse = 0, finishedCourse = 0;
     vector<courseButton> unfinBtn, finBtn;
@@ -178,7 +179,7 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
         for (int i = 0; i < unfinBtn.size(); i++)
             unfinBtn[i].draw(window);
 
-        
+        scoreboardBtn.draw(window);
         for (int i = displayFin; i < tempFin; i++) {
             finBtn[i].draw(window);
         }

@@ -20,6 +20,7 @@ public:
 
 	static void popup(std::string content);
 
+	static void drawScoreBoard(Course& course, sf::RenderWindow& window, sf::Font& font);
 	//courseInformationStudent(unfinBtn[i].cnt)
 	static void courseInformationStudent(Subject& subject);
 
@@ -50,5 +51,7 @@ public:
 	static void addStudent(Class& oneclass);
 
 	static void scoreBoardOfClassStaff(Class& oneclass);
+
+	static void importScoreCourseStaff(Semester& semester, Course& course);
 };
 
