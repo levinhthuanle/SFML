@@ -556,7 +556,8 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                 }
 
                 if (viewAllCoursesBtn.isClicked(mousePos)) {
-                    Activity2::viewAllCourseStaff(existedCourse);
+                    //Activity2::viewAllCourseStaff(existedCourse);
+                    Activity2::viewAllCourseStaff(existedSchoolYear);
                 }
 
                 if (viewAllClassBtn.isClicked(mousePos)) {
