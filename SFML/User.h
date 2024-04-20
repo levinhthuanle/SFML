@@ -35,6 +35,20 @@ public:
 		this->url = stu.studentPath;
 	}
 
+	bool logOut() {
+		listOfFinCourse.clear();
+		listOfUnfinCourse.clear();
+		username = "";
+		password = "";
+		type = "";
+		url = "";
+		fullname = "";
+		id = "";
+		courseName = "";
+		className = "";
+		return true;
+	}
+
 	void updateSubjectData();
 
 	void setUrl(fsys::path url);
@@ -56,6 +70,8 @@ public:
 	std::string getType();
 
 	~User() {
+		listOfFinCourse.clear();
+		listOfUnfinCourse.clear();
 		username = "";
 		password = "";
 		type = "";

@@ -59,9 +59,6 @@ int checkLoginType(User& user);
 
 bool changePassword(User& user, std::string oldPassword, std::string newPassword, std:: string cfNewPassword);
 
-
-
-
 template<class T>
 const T& max(const T& a, const T& b)
 {

@@ -194,8 +194,9 @@ void Activity::initInformationStudentWindow(sf::RenderWindow& window)
     Text name(1446, 10,"Hello, " + user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
-    Button goBack(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
-    Button changePassword(833, 794, 372, 66, "Change password", font, sf::Color(218, 110, 50));
+    Button goBack(184, 790, 245, 66, "Go back", font, sf::Color(218, 110, 50));
+    Button logOut(1104, 790, 245, 66, "Log out", font, sf::Color(218, 110, 50));
+    Button changePassword(584, 790, 372, 66, "Change password", font, sf::Color(218, 110, 50));
 
     Text  fullName(672, 163, "Full name: " + user.fullname, font, sf::Color::Black, 36);
     Text  id(672, 213, "Id: " + user.id, font, sf::Color::Black, 36);
@@ -230,6 +231,15 @@ void Activity::initInformationStudentWindow(sf::RenderWindow& window)
                     type = 3; // changePasswordStudent
                     return;
                 }
+
+                if (logOut.isClicked(mousePos)) {
+                    std::cout << "User clicked Log out button" << std::endl;
+                    if (Activity2::confirm("Are you sure you want to log out?")) {
+                        user.logOut();
+                        type = 0;
+                        return;
+                    }
+                }
             }
         }
 
@@ -244,6 +254,7 @@ void Activity::initInformationStudentWindow(sf::RenderWindow& window)
         course.draw(window);
         classes.draw(window);
         goBack.draw(window);
+        logOut.draw(window);
         changePassword.draw(window);
 
         window.display();
@@ -634,8 +645,9 @@ void Activity::initInformationStaffWindow(sf::RenderWindow& window)
     Text name(1446, 10,"Hello, " + user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
-    Button goBack(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
-    Button changePassword(833, 794, 372, 66, "Change password", font, sf::Color(218, 110, 50));
+    Button goBack(184, 790, 245, 66, "Go back", font, sf::Color(218, 110, 50));
+    Button logOut(1104, 790, 245, 66, "Log out", font, sf::Color(218, 110, 50));
+    Button changePassword(584, 790, 372, 66, "Change password", font, sf::Color(218, 110, 50));
 
     Text  fullName(672, 163, "Full name: " + user.fullname, font, sf::Color::Black, 36);
 
@@ -666,6 +678,15 @@ void Activity::initInformationStaffWindow(sf::RenderWindow& window)
                     type = 13; // changePasswordStaff
                     return;
                 }
+
+                if (logOut.isClicked(mousePos)) {
+                    std::cout << "User clicked Log out button" << std::endl;
+                    if (Activity2::confirm("Are you sure you want to log out?")) {
+                        user.logOut();
+                        type = 0;
+                        return;
+                    }
+                }
             }
         }
 
@@ -678,6 +699,7 @@ void Activity::initInformationStaffWindow(sf::RenderWindow& window)
         fullName.draw(window);
         goBack.draw(window);
         changePassword.draw(window);
+        logOut.draw(window);
 
         window.display();
     }
