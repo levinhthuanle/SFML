@@ -31,6 +31,7 @@ public:
 	csvFile scoreFile;
 	vector<vector<std::string>>& info = infoFile.cnt;
 
+	bool deletedFlag = false;
 
 	//Just default files' title
 	std::string infoTitle[7] = { "Name", "Teacher", "Credits", "Max Students", "Current Student", "Day", "Session" };
@@ -75,6 +76,11 @@ public:
 		vector <std::string> scoreTit;
 		scoreTit.setDefault(9, this->scoreTitle);
 		score.push_back(scoreTit);
+
+		vector<std::string> infoRow;
+		for (int i = 0; i < 7; ++i)
+			infoRow.push_back("");
+		info.push_back(infoRow);
 
 		setName(name);
 		setTeacher(teacher);
@@ -127,6 +133,22 @@ public:
 	void pressBack() {
 		infoFile.readFile();
 		scoreFile.writeFile();                                  //When press Back Button, this function runs, discard the changes.
+	}
+
+	void submitInfoChange() {
+		infoFile.writeFile();
+	}
+
+	void submitScoreChange() {
+		scoreFile.writeFile();
+	}
+
+	void deleteCourse() {
+		deletedFlag = true;
+	}
+
+	bool getDeletedFlag() {
+		return deletedFlag;
 	}
 
 

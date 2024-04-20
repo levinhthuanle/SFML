@@ -2,7 +2,7 @@
 #include "Subject.h"
 #include "Components.h"
 #include "vector.h"
-#include "Course.h"
+#include "Semester.h"
 
 //I assume that this class create sub-activity for student. 
 const sf::Color BLACK = sf::Color(18, 2, 2);
@@ -33,7 +33,7 @@ public:
 
 	static void addCourse(Semester& semester);
 
-	static void courseInformation(Course& course);
+	static void courseInformation(Semester& semester, Course& course);
 
 	static void updateCourseInformation(Course& course);
 

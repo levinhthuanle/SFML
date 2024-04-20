@@ -26,9 +26,6 @@ public:
     }
     bool is_valid()
     {
-
-        //need to finish. 
-       
         bool isLeap = (year % 4 == 0) && (!(year % 100 == 0) || year % 400 == 0); 
         if (month < 1 || month > 12 || day < 0 || (day > daysInMonth[month -1] + (month == 2) ? isLeap : 0))
             return false;

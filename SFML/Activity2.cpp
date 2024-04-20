@@ -361,8 +361,8 @@ void Activity2::viewCourseInSemester(Semester& semester)
     std::cout << "Generate Your course student sucess" << std::endl;
     sf::Sprite background(textureNext);
 
-    Button nextPageBtn(1226.f, 750.f, 92.f, 62.f, "Next", fontNext, sf::Color(218, 110, 50));
-    Button prevPageBtn(1226.f, 827.f, 92.f, 62.f, "Prev", fontNext, sf::Color(218, 110, 50));
+    Button nextPageBtn(1526.f, 741.f, 92.f, 62.f, "Next", fontNext, sf::Color(218, 110, 50));
+    Button prevPageBtn(1526.f, 813.f, 92.f, 62.f, "Prev", fontNext, sf::Color(218, 110, 50));
     
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
@@ -408,12 +408,30 @@ void Activity2::viewCourseInSemester(Semester& semester)
                 }
 
                 for (int i = displayFrom; i < limitDisplay; i++) {
-                    if (allOfCourse[i].isClicked(mousePos))
-                        courseInformation(allOfCourse[i].crs);
+                    if (allOfCourse[i].isClicked(mousePos)) {
+                        courseInformation(semester, allOfCourse[i].crs);
+                        if (allOfCourse[i].crs.getDeletedFlag()) {
+                            for (int j = i; j < semester.courses.size()-1; ++j)
+                                semester.courses[j] = semester.courses[j + 1];
+                            semester.courses.pop_back();
+                            for (int j = i; j < semester.courses.size()-1; ++j)
+                                allOfCourse[j].update(semester.courses[j]);
+                            allOfCourse.pop_back();
+                            limitDisplay = (displayFrom + 4) > allOfCourse.size() ? allOfCourse.size() : (displayFrom + 4);
+                        }
+                        else {
+                            semester.courses[i] = allOfCourse[i].crs;
+                            allOfCourse[i].update(semester.courses[i]);
+                        }
+                    }
                 }
 
-                if (addCourseBtn.isClicked(mousePos))
+                if (addCourseBtn.isClicked(mousePos)) {
                     addCourse(semester);
+                    int i = semester.courses.size() - 1;
+                    courseButton temp(65 + 273 * (i % 5), 209 + 210 * (i / 5), semester.courses[i], fontNext);
+                    allOfCourse.push_back(temp);
+                }
             }
 
         }
@@ -422,7 +440,7 @@ void Activity2::viewCourseInSemester(Semester& semester)
         windowNext.draw(background);
 
         text.draw(windowNext);
-        for (int i = displayFrom; i < limitDisplay; i++) {
+        for (int i = displayFrom; i < displayFrom + min(allOfCourse.size() - displayFrom, limitDisplay); i++) {
             allOfCourse[i].draw(windowNext);
         }
         dayInfo.draw(windowNext);
@@ -500,8 +518,9 @@ void Activity2::addCourse(Semester& semester)
                     windowNext.close();
 
                 if (submitBtn.isClicked(mousePos)) {
-                    // Create a new course here
-                    // I dont know how to push the information in a correct way. You can use .getInput() function to get the data
+                    Course newCourse(semester.getPath(), courseIdInput.getInput(), courseNameInput.getInput(), teacherNameInput.getInput(), std::stoi(numberCreditInput.getInput()), std::stoi(maxStudentInput.getInput()), dayInput.getInput(), sessionInput.getInput());
+                    semester.addCourse(newCourse);
+                    windowNext.close();
                 }
             }
             courseIdInput.processInput(event);
@@ -545,7 +564,7 @@ void Activity2::addCourse(Semester& semester)
     }
 }
 
-void Activity2::courseInformation(Course& course)
+void Activity2::courseInformation(Semester& semester, Course& course)
 {
     sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "Course information", sf::Style::Close | sf::Style::Titlebar);
 
@@ -563,9 +582,9 @@ void Activity2::courseInformation(Course& course)
     Text courseIdTxt(47, 107, "Course Id: " + course.getID(), fontNext, BLACK, 26);
     Text courseNameTxt(47, 137, "Course Name: " + course.getName(), fontNext, BLACK, 26);
     Text teacherNameTxt(47, 167, "Teacher name: " + course.getTeacher(), fontNext, BLACK, 26);
-    Text sessionTxt(47, 197, "Session: 1", fontNext, BLACK, 26);
-    Text creditTxt(721, 107, "Number of credits: 4", fontNext, BLACK, 26);
-    Text maxStudentTxt(721, 137, "Max students: 50", fontNext, BLACK, 26);
+    Text sessionTxt(47, 197, "Session: " + course.getSession(), fontNext, BLACK, 26);
+    Text creditTxt(721, 107, "Number of credits: " + std::to_string(course.getCredit()), fontNext, BLACK, 26);
+    Text maxStudentTxt(721, 137, "Max students: " + std::to_string(course.getMaxStu()), fontNext, BLACK, 26);
     Text dayTxt(721, 167, "Day: " + course.getDay(), fontNext, BLACK, 26);
 
     Button deleteCourseBtn(1305, 100, 300, 54, "Delete this course", fontNext, RED);
@@ -584,14 +603,16 @@ void Activity2::courseInformation(Course& course)
 
                 if (deleteCourseBtn.isClicked(mousePos)) {
                     if (confirm("Do you really want to delete this course?")) {
-                        // Write function to delete the course
+                        semester.removeCourse(course);
                         popup("This course has been deleted");
                         return;
                     }
                 }
 
-                if (updateCourseBtn.isClicked(mousePos))
+                if (updateCourseBtn.isClicked(mousePos)) {
                     updateCourseInformation(course);
+                    windowNext.close();
+                }
             }
         }
 
@@ -630,25 +651,22 @@ void Activity2::updateCourseInformation(Course& course)
     Button goBackBtn(519, 766, 245, 66, "Go back", fontNext, ORANGE);
     Button acceptBtn(919, 766, 245, 66, "Accept", fontNext, RED);
 
-    Text courseIdTxt(72, 218, "Course ID: ", fontNext, BLACK, 26);
-    Text courseNameTxt(72, 275, "Course name: ", fontNext, BLACK, 26);
-    Text teacherNameTxt(72, 348, "Teacher Name: ", fontNext, BLACK, 26);
-    Text sessionTxt(72, 421, "Session:", fontNext, BLACK, 26);
+    Text courseNameTxt(72, 218, "Course name: ", fontNext, BLACK, 26);
+    Text teacherNameTxt(72, 275, "Teacher Name: ", fontNext, BLACK, 26);
+    Text sessionTxt(72, 348, "Session:", fontNext, BLACK, 26);
     Text numberCreditTxt(858, 218, "Credits:", fontNext, BLACK, 26);
     Text maxStudentTxt(858, 290, "Max Student:", fontNext, BLACK, 26);
     Text dayTxt(858, 364, "Days in a week", fontNext, BLACK, 26);
 
-    InputField courseIdInput(411, 202, 385, 47, fontNext); courseIdInput.input = course.getID();
-    InputField courseNameInput(411, 275, 385, 47, fontNext); courseNameInput.input = course.getName();
-    InputField teacherNameInput(411, 348, 385, 47, fontNext); teacherNameInput.input = course.getTeacher();
-    InputField sessionInput(411, 421, 385, 47, fontNext); sessionInput.input = course.getSession();
-    InputField numberCreditInput(1189, 202, 385, 47, fontNext); numberCreditInput.input = course.getCredit();
-    InputField maxStudentInput(1189, 275, 385, 47, fontNext); maxStudentInput.input = course.getMaxStu();
+    InputField courseNameInput(411, 202, 385, 47, fontNext); courseNameInput.input = course.getName();
+    InputField teacherNameInput(411, 275, 385, 47, fontNext); teacherNameInput.input = course.getTeacher();
+    InputField sessionInput(411, 348, 385, 47, fontNext); sessionInput.input = course.getSession();
+    InputField numberCreditInput(1189, 202, 385, 47, fontNext); numberCreditInput.input = std::to_string(course.getCredit());
+    InputField maxStudentInput(1189, 275, 385, 47, fontNext); maxStudentInput.input = std::to_string(course.getMaxStu());
     InputField dayInput(1189, 348, 385, 47, fontNext); dayInput.input = course.getDay();
 
     while (windowNext.isOpen()) {
         sf::Event event;
-        if (courseIdInput.isSelected()) courseIdInput.textCursor(courseIdInput.getInput());
         if (courseNameInput.isSelected()) courseNameInput.textCursor(courseNameInput.getInput());
         if (teacherNameInput.isSelected()) teacherNameInput.textCursor(teacherNameInput.getInput());
         if (sessionInput.isSelected()) sessionInput.textCursor(sessionInput.getInput());
@@ -661,7 +679,6 @@ void Activity2::updateCourseInformation(Course& course)
             else if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
 
-                courseIdInput.handleMouseClick(mousePos);
                 courseNameInput.handleMouseClick(mousePos);
                 teacherNameInput.handleMouseClick(mousePos);
                 sessionInput.handleMouseClick(mousePos);
@@ -674,13 +691,21 @@ void Activity2::updateCourseInformation(Course& course)
                     windowNext.close();
 
                 if (acceptBtn.isClicked(mousePos)) {
-                    // Change the course information here
+                    course.setName(courseNameInput.getInput());
+                    course.setTeacher(teacherNameInput.getInput());
+                    course.setSession(sessionInput.getInput());
+                    course.setCredit(std::stoi(numberCreditInput.getInput()));
+                    course.setMaxStu(std::stoi(maxStudentInput.getInput()));
+                    course.setDay(dayInput.getInput());
+
+                    course.submitInfoChange();
+
                     popup("Succesful change the information of the course");
+                    windowNext.close();
                     return;
                 }
 
             }
-            courseIdInput.processInput(event);
             courseNameInput.processInput(event);
             teacherNameInput.processInput(event);
             sessionInput.processInput(event);
@@ -694,7 +719,6 @@ void Activity2::updateCourseInformation(Course& course)
         goBackBtn.draw(windowNext);
         acceptBtn.draw(windowNext);
 
-        courseIdTxt.draw(windowNext);
         courseNameTxt.draw(windowNext);
         teacherNameTxt.draw(windowNext);
         sessionTxt.draw(windowNext);
@@ -702,7 +726,6 @@ void Activity2::updateCourseInformation(Course& course)
         maxStudentTxt.draw(windowNext);
         dayTxt.draw(windowNext);
 
-        courseIdInput.draw(windowNext);
         courseNameInput.draw(windowNext);
         teacherNameInput.draw(windowNext);
         sessionInput.draw(windowNext);

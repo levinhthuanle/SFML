@@ -122,6 +122,8 @@ public:
 
     courseButton(float x, float y, Course& infor, sf::Font& font);
 
+    void update(Course& infor);
+
     void draw(sf::RenderWindow& window);
 
     bool isClicked(const sf::Vector2i& mousePos);

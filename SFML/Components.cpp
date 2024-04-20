@@ -352,6 +352,15 @@ courseButton::courseButton(float x, float y, Course& infor, sf::Font& font)
     seeMore.setPosition(x + 10.f, y + 160.f);
 }
 
+void courseButton::update(Course& infor) {
+    crs = infor;
+    courseId.setString(infor.getID());
+    courseName.setString(infor.getName());
+    teacherName.setString(infor.getTeacher());
+    time.setString(infor.getDay());
+    credits.setString("Number of credit: " + std::to_string(infor.getCredit()));
+}
+
 void courseButton::draw(sf::RenderWindow& window){
     window.draw(shape);
     window.draw(courseId);
