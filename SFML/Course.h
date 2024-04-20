@@ -44,7 +44,6 @@ public:
 
 
 public:
-
 	vector<vector<std::string>>& score = scoreFile.cnt;
 	Course& operator=(const Course& b) {
 		if (this == &b) return *this;

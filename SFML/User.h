@@ -17,6 +17,7 @@ public:
 	std::string courseName;
 	std::string className;
 	std::string dayOfBirth, gender, socialId;
+	std::string curSchoolyear, curSemester;
 	vector<Subject> listOfFinCourse;
 	vector<Subject> listOfUnfinCourse;
 	// 

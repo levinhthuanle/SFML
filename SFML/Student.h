@@ -26,12 +26,12 @@ public:
 	//constructor for teacher to get ID
 	Student(std::string ID); // simple construction
 
-	Student(vector<std::string> fullBasicInfo); //complex construction with full of basic info  
+	Student(vector<std::string>& fullBasicInfo); //complex construction with full of basic info  
 
 	//method for teacher
 	////adding basic information to prepare for creating new folder  
 
-	void updateBasic(vector<std::string> fullBasicInfo);
+	void updateBasic(vector<std::string>& fullBasicInfo);
 
 	////create new student
 	void create();
@@ -72,6 +72,11 @@ public:
 
 	{
 		return (fsys::exists(studentPath) && !fsys::is_empty(studentPath));
+	}
+	void self_destroy()
+	{
+		fsys::remove_all (studentPath);
+		basic_info.clear();
 	}
 };
 
