@@ -37,6 +37,8 @@ public:
 
 	static void updateCourseInformation(Course& course);
 
+	static void viewCourseStudentList(Course& course);
+
 	static void viewOneClass(Class& oneclass);
 
 	static void viewAllClassStaff(vector<Class>& allClass);
