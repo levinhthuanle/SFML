@@ -17,10 +17,6 @@ std::string EF::getDateTime()
 	return ss.str();
 }
 
-		
-		
-
-
 
 int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if student, return 2 if teacher
 {
@@ -118,15 +114,18 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 	}
 }
 
-bool changePassword(User& user, std::string oldPassword, std::string newPassword, std::string cfNewPassword)
+bool changePassword(User& user, std::string oldPassword, std::string newPassword, std::string cfNewPassword, std::string& log)
 {
 	if (user.getPassword() != oldPassword) {
 		std::cout << "The old password you enter is not correct" << std::endl;
+		log = "The old password you enter is not correct!";
+
 		return false;
 	}
 
 	if (newPassword != cfNewPassword) {
 		std::cout << "The new Password and confirm Password does not match!" << std::endl;
+		log = "The new Password and confirm Password does not match!";
 		return false;
 	}
 
@@ -137,9 +136,14 @@ bool changePassword(User& user, std::string oldPassword, std::string newPassword
 	if (user.getType() == "Student") {
 
 		std::ifstream fin;
-		fin.open(user.url);
-		if (!fin.is_open())
+
+		std::filesystem::path fs = user.url.parent_path() / "password.txt";
+		fin.open(fs);
+		if (!fin.is_open()) {
 			std::cout << "Can not open information file to change password" << std::endl;
+			log = "Can not open the user information file!";
+			return false;
+		}
 
 		std::string temp;
 		for (int i = 1; i <= 5; i++)
@@ -155,6 +159,7 @@ bool changePassword(User& user, std::string oldPassword, std::string newPassword
 	fout.open(user.url);
 	if (!fout.is_open()) {
 		std::cout << "Can not open the user information file!" << std::endl;
+		log = "Can not open the user information file!";
 		return false;
 	}
 
@@ -175,7 +180,8 @@ bool changePassword(User& user, std::string oldPassword, std::string newPassword
 
 	fout.close();
 
-	std::cout << "Succesful change the password" << std::endl;
+	std::cout << "Succesful change the password!" << std::endl;
+	log = "Succesful change the password!";
 	return true;
 }
 

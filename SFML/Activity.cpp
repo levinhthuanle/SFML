@@ -307,8 +307,18 @@ void Activity::changePasswordStudentWindow(sf::RenderWindow& window)
                 if (confirmBtn.isClicked(mousePos)) {
                     std::cout << "User has clicked the confirm change password" << std::endl;
                     type = 1;
-                    changePassword(user, oldPassword.getInput(), newPassword.getInput(), cfNewPassword.getInput());
-                    return;
+                    std::string log = "";
+                    if (changePassword(user, oldPassword.getInput(), newPassword.getInput(), cfNewPassword.getInput(), log)) {
+                        Activity2::popup(log);
+                        return;
+                    }
+                    else {
+                        Activity2::popup(log);
+                        oldPassword.input = "";
+                        newPassword.input = "";
+                        cfNewPassword.input = "";
+                    }
+                    
                 }
 
             }
@@ -751,8 +761,17 @@ void Activity::changePasswordStaffWindow(sf::RenderWindow& window)
                 if (confirmBtn.isClicked(mousePos)) {
                     std::cout << "User has clicked the confirm change password" << std::endl;
                     type = 11;
-                    changePassword(user, oldPassword.getInput(), newPassword.getInput(), cfNewPassword.getInput());
-                    return;
+                    std::string log = "";
+                    if (changePassword(user, oldPassword.getInput(), newPassword.getInput(), cfNewPassword.getInput(), log)) {
+                        Activity2::popup(log);
+                        return;
+                    }
+                    else {
+                        Activity2::popup(log);
+                        oldPassword.input = "";
+                        newPassword.input = "";
+                        cfNewPassword.input = "";
+                    }
                 }
 
             }

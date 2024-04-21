@@ -70,7 +70,7 @@ void Activity2::popup(std::string content)
     std::cout << "Generate popup sucess" << std::endl;
     sf::Sprite background(textureNext);
     Button okBtn(246.f, 241.f, 143, 45, "OKAY", fontNext, sf::Color(144, 44, 44));
-    Text text(140, 95, content, fontNext, sf::Color(18, 2, 2), 20);
+    Text text(100, 95, content, fontNext, sf::Color(18, 2, 2), 20);
 
     
     while (windowNext.isOpen()) {
