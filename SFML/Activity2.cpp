@@ -79,6 +79,9 @@ void Activity2::popup(std::string content)
         while (windowNext.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 windowNext.close();  // Close 
+            else if (event.type == sf::Event::KeyPressed) {
+                if (event.text.unicode == '\r') windowNext.close();
+            }
             else if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
 
@@ -726,7 +729,7 @@ void Activity2::courseInformation(Semester& semester, Course& course)
     Button updateCourseBtn(990, 96, 240, 40, "Update information", fontNext, RED);
     Button importScoreBtn(1337, 723, 211, 50, "Import Score", fontNext, RED);
     Button addStudentBtn(13, 724, 179, 50, "Add student", fontNext, RED);
-    Button removeStudentBtn(205, 724, 179, 50, "Remove student", fontNext, RED);
+    Button removeStudentBtn(205, 724, 239, 50, "Remove student", fontNext, RED);
 
 
     while (windowNext.isOpen()) {
@@ -846,12 +849,33 @@ void Activity2::addStudentToCourse(Course& course) {
                             popup("Student added into course");
                             windowNext.close();
                             return;
-                        }
-                            
+                        }  
                     }
                 }
             }
             studentIdInput.processInput(event);
+            if (studentIdInput.chooseNextField()) {
+                if (!studentIdInput.getInput().empty()) {
+                    std::string ID = studentIdInput.getInput();
+                    if (ID.size() != 9) {
+                        popup("Student not found");
+                        continue;
+                    }
+                    std::string clss = ID.substr(0, 6);
+                    std::string order = ID.substr(6);
+                    fsys::path studentPath = "data/student";
+                    studentPath /= clss + "/" + order;
+                    if (!fsys::exists(studentPath))
+                        popup("Student not found");
+                    else {
+                        Student stu(ID);
+                        course.addStudent(stu);
+                        popup("Student added into course");
+                        windowNext.close();
+                        return;
+                    }
+                }
+            }
         }
 
         windowNext.clear(sf::Color::White);
@@ -908,6 +932,21 @@ void Activity2::removeStudentFromCourse(Course& course) {
                 }
             }
             studentIdInput.processInput(event);
+            if (studentIdInput.chooseNextField()) {
+                if (!studentIdInput.getInput().empty()) {
+                    std::string ID = studentIdInput.getInput();
+                    if (ID.size() != 9) {
+                        popup("Student not found");
+                        continue;
+                    }
+                    if (!course.removeStudent(ID))
+                        popup("Student not found");
+                    else {
+                        popup("Student removed from course");
+                        return;
+                    }
+                }
+            }
         }
 
         windowNext.clear(sf::Color::White);
