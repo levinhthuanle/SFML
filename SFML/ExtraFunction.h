@@ -22,6 +22,7 @@ static void getSubjectData(User& user, fsys::path url)
 		int credits, numOfStudents, sessions;
 
 		getline(sub, courseId);
+		if (sub.eof()) break;
 		getline(sub, courseName);
 		getline(sub, teacherName);
 		sub >> credits; getline(sub, temp);
