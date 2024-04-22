@@ -235,7 +235,7 @@ void Activity2::courseInformationStudent(Subject& subject)
     }
 }
 
-void Activity2::createNewSchoolYearStaff()
+void Activity2::createNewSchoolYearStaff(vector<SchoolYear>& existedSchoolYear)
 {
     sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "Create School Year", sf::Style::Close | sf::Style::Titlebar);
 
@@ -250,7 +250,7 @@ void Activity2::createNewSchoolYearStaff()
     sf::Sprite background(textureNext);
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
-    Text enterSYtxt(120.f, 137.f, "Enter new schoolyear:", fontNext, sf::Color(26, 114, 98), 36);
+    Text enterSYtxt(120.f, 137.f, "Enter the schoolyear:", fontNext, sf::Color(26, 114, 98), 36);
     InputField enterSYinput(503, 131, 454, 66, fontNext);
     Button enterBtn(1011.f, 131.f, 245.f, 66.f, "Submit", fontNext, sf::Color(218, 110, 50));
 
@@ -271,7 +271,22 @@ void Activity2::createNewSchoolYearStaff()
 
                 if (enterBtn.isClicked(mousePos)) {
                     std::cout << enterSYinput.getInput() << std::endl;
+                    std::string currYear = enterSYinput.getInput(); 
+                    for (char c : currYear)
+                    {
+                        if (c > '9' || c < '0')
+                        {
+                            popup("Wrong input. Try again."); 
+                            break; 
+                        }
+                    }
+                    if (currYear.size() >= 2)
+                        currYear = currYear.substr(currYear.size() - 2); 
+                    SchoolYear firstSchoolYear(currYear + '-' + std::to_string(stol(currYear) + 1));
+                    firstSchoolYear.createNewSchoolYear(); 
+                    existedSchoolYear.push_back(firstSchoolYear); 
                     popup("Create succesful");
+                    windowNext.close(); 
                 }
             }
 

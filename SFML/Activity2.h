@@ -21,7 +21,7 @@ public:
 	//courseInformationStudent(unfinBtn[i].cnt)
 	static void courseInformationStudent(Subject& subject);
 
-	static void createNewSchoolYearStaff();
+	static void createNewSchoolYearStaff(vector<SchoolYear>& existedSchoolYear);
 
 	static void createSemesterStaff(Semester & semester);
 
