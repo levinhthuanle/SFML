@@ -49,6 +49,7 @@ void User::updateSubjectData() {
 	for (Subject i : this->listOfUnfinCourse) {
 		sub << i.courseId << '\n'
 			<< i.courseName << '\n'
+			<< i.teacherName << '\n'
 			<< i.credits << '\n'
 			<< i.numOfStudents << '\n'
 			<< i.sessions << '\n'
@@ -62,6 +63,7 @@ void User::updateSubjectData() {
 	for (Subject i : this->listOfFinCourse) {
 		sub << i.courseId << '\n'
 			<< i.courseName << '\n'
+			<< i.teacherName << '\n'
 			<< i.credits << '\n'
 			<< i.numOfStudents << '\n'
 			<< i.sessions << '\n'

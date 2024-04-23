@@ -21,7 +21,7 @@ public:
 	//courseInformationStudent(unfinBtn[i].cnt)
 	static void courseInformationStudent(Subject& subject);
 
-	static void createNewSchoolYearStaff();
+	static void createNewSchoolYearStaff(vector<SchoolYear>& existedSchoolYear);
 
 	static void createSemesterStaff(Semester & semester);
 
@@ -32,6 +32,10 @@ public:
 	static void addCourse(Semester& semester);
 
 	static void courseInformation(Semester& semester, Course& course);
+
+	static void addStudentToCourse(Course& course);
+
+	static void removeStudentFromCourse(Course& course);
 
 	static void updateCourseInformation(Course& course);
 
