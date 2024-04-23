@@ -227,11 +227,26 @@ public:
 			score.push_back(newStu);
 		}
 
+		this->pressEnter();
+
 		User user(student);
 		getSubjectData(user, user.url / "subject.csv");
 
+
+		for (int i = 0; i < user.listOfUnfinCourse.size(); ++i)
+			std::cout << user.listOfUnfinCourse[i].courseId << std::endl;
+		for (int i = 0; i < user.listOfFinCourse.size(); ++i)
+			std::cout << user.listOfFinCourse[i].courseId << std::endl;
+
 		Subject subject;
 		subjectByCourse(subject, user);
+
+
+		for (int i = 0; i < user.listOfUnfinCourse.size(); ++i)
+			std::cout << user.listOfUnfinCourse[i].courseId << std::endl;
+		for (int i = 0; i < user.listOfFinCourse.size(); ++i)
+			std::cout << user.listOfFinCourse[i].courseId << std::endl;
+
 		user.listOfUnfinCourse.push_back(subject);
 		user.updateSubjectData();
 		return true;
@@ -239,8 +254,11 @@ public:
 
 	//Remove one student
 	bool removeStudent(std::string id) {
-		for (int i = 0; i < score.size(); i++) {
-			if (score[i][0] == id) {
+		for (int i = 1; i < score.size(); i++) {
+			if (score[i][0] == id || isSame(score[i][0], id)) {
+				for (int j = i; j < score.size() - 1; ++j)
+					score[j] = score[j + 1];
+				score.pop_back();
 				Student stu(id);
 				User user(stu);
 				getSubjectData(user, user.url / "subject.csv");
@@ -248,10 +266,12 @@ public:
 				for (int j = 0; j < unFinSub.size(); ++j) {
 					if (unFinSub[j].courseId == this->getID()) {
 						unFinSub[j].deleteSubject();
-						for (int k = j; k < unFinSub.size(); ++k)
+						for (int k = j; k < unFinSub.size() - 1; ++k)
 							unFinSub[k] = unFinSub[k + 1];
 						unFinSub.pop_back();
 						user.updateSubjectData();
+						setCurStu(getCurStu() + 1);
+						this->pressEnter();
 						return true;
 					}
 				}
@@ -259,20 +279,25 @@ public:
 				for (int j = 0; j < finSub.size(); ++j) {
 					if (finSub[j].courseId == this->getID()) {
 						finSub[j].deleteSubject();
-						for (int k = j; k < finSub.size(); ++k)
+						for (int k = j; k < finSub.size() - 1; ++k)
 							finSub[k] = finSub[k + 1];
 						finSub.pop_back();
 						user.updateSubjectData();
+						setCurStu(getCurStu() + 1);
+						this->pressEnter();
 						return true;
 					}
 				}
 			}
 		}
-		displayErrorStudentNotFound();
 		return false;
 	}
-	void displayErrorStudentNotFound() {
-		std::cout << "Student Not Found.\n";
+	bool isSame(std::string a, std::string b) {
+		if (a.size() != b.size()) return false;
+		for (int i = 0; i < a.size(); ++i) {
+			if (tolower(a[i]) != tolower(b[i])) return false;
+		}
+		return true;
 	}
 
 	//Add students by csv file
@@ -283,7 +308,16 @@ public:
 			displayErrorExceedMaxStu();
 			return false;
 		}
-		score = file.cnt;
+		if (file.cnt[0].size() == 9) score = file.cnt;
+		else {
+			vector<std::string> temp = score[0];
+			score.clear();
+			score.push_back(temp);
+			for (int i = 1; i < file.cnt.size(); ++i) {
+				for (int i = 0; i < 9 - file.cnt[0].size(); ++i) file.cnt[i].push_back("");
+				score.push_back(file.cnt[i]);
+			}
+		}
 		vector<Student> stuList = this->getStudiedStudent();
 		score.clear();
 		for (Student stu : stuList) {
@@ -296,6 +330,29 @@ public:
 	void importScoreBoard(fsys::path& filePath) {
 		fsys::copy_file(filePath, this->folderPath / "score.csv");
 		scoreFile.readFile();
+
+		vector<Student> stuList = this->getStudiedStudent();
+
+		for (int i = 0; i < stuList.size(); ++i) {
+			User user(stuList[i]);
+			getSubjectData(user, user.url / "subject.csv");
+			vector<Subject>& unFinSub = user.listOfUnfinCourse;
+			for (int j = 0; j < unFinSub.size(); ++j) {
+				if (unFinSub[j].courseId == this->getID()) {
+					unFinSub[j].updateScore(this->score[i + 1]);
+					user.updateSubjectData();
+					return;
+				}
+			}
+			vector<Subject>& finSub = user.listOfFinCourse;
+			for (int j = 0; j < finSub.size(); ++j) {
+				if (finSub[j].courseId == this->getID()) {
+					finSub[j].updateScore(this->score[i + 1]);
+					user.updateSubjectData();
+					return;
+				}
+			}
+		}
 	}
 
 	//Export scoreboard file

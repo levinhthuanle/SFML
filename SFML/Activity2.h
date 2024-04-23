@@ -5,10 +5,7 @@
 #include "Semester.h"
 #include "tinyfiledialogs/tinyfiledialogs.h"
 //I assume that this class create sub-activity for student. 
-const sf::Color BLACK = sf::Color(18, 2, 2);
-const sf::Color GREEN = sf::Color(81, 161, 147);
-const sf::Color ORANGE = sf::Color(218, 110, 50);
-const sf::Color RED = sf::Color(144, 44, 44);
+
 class Activity2
 {
 public:
@@ -24,17 +21,21 @@ public:
 	//courseInformationStudent(unfinBtn[i].cnt)
 	static void courseInformationStudent(Subject& subject);
 
-	static void createNewSchoolYearStaff();
+	static void createNewSchoolYearStaff(vector<SchoolYear>& existedSchoolYear);
 
 	static void createSemesterStaff(Semester & semester);
 
-	static void viewAllCourseStaff(vector<Course>& course);
+	static void viewAllCourseStaff(vector<SchoolYear>& schoolyear);
 
 	static void viewCourseInSemester(Semester& semester);
 
 	static void addCourse(Semester& semester);
 
 	static void courseInformation(Semester& semester, Course& course);
+
+	static void addStudentToCourse(Course& course);
+
+	static void removeStudentFromCourse(Course& course);
 
 	static void updateCourseInformation(Course& course);
 

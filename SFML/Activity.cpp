@@ -195,8 +195,9 @@ void Activity::initInformationStudentWindow(sf::RenderWindow& window)
     Text name(1446, 10,"Hello, " + user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
-    Button goBack(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
-    Button changePassword(833, 794, 372, 66, "Change password", font, sf::Color(218, 110, 50));
+    Button goBack(184, 790, 245, 66, "Go back", font, sf::Color(218, 110, 50));
+    Button logOut(1104, 790, 245, 66, "Log out", font, sf::Color(218, 110, 50));
+    Button changePassword(584, 790, 372, 66, "Change password", font, sf::Color(218, 110, 50));
 
     Text  fullName(672, 163, "Full name: " + user.fullname, font, sf::Color::Black, 36);
     Text  id(672, 213, "Id: " + user.id, font, sf::Color::Black, 36);
@@ -231,6 +232,15 @@ void Activity::initInformationStudentWindow(sf::RenderWindow& window)
                     type = 3; // changePasswordStudent
                     return;
                 }
+
+                if (logOut.isClicked(mousePos)) {
+                    std::cout << "User clicked Log out button" << std::endl;
+                    if (Activity2::confirm("Are you sure you want to log out?")) {
+                        user.logOut();
+                        type = 0;
+                        return;
+                    }
+                }
             }
         }
 
@@ -245,6 +255,7 @@ void Activity::initInformationStudentWindow(sf::RenderWindow& window)
         course.draw(window);
         classes.draw(window);
         goBack.draw(window);
+        logOut.draw(window);
         changePassword.draw(window);
 
         window.display();
@@ -296,8 +307,18 @@ void Activity::changePasswordStudentWindow(sf::RenderWindow& window)
                 if (confirmBtn.isClicked(mousePos)) {
                     std::cout << "User has clicked the confirm change password" << std::endl;
                     type = 1;
-                    changePassword(user, oldPassword.getInput(), newPassword.getInput(), cfNewPassword.getInput());
-                    return;
+                    std::string log = "";
+                    if (changePassword(user, oldPassword.getInput(), newPassword.getInput(), cfNewPassword.getInput(), log)) {
+                        Activity2::popup(log);
+                        return;
+                    }
+                    else {
+                        Activity2::popup(log);
+                        oldPassword.input = "";
+                        newPassword.input = "";
+                        cfNewPassword.input = "";
+                    }
+                    
                 }
 
             }
@@ -505,8 +526,15 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
 
                 if (createNewSYBtn.isClicked(mousePos))
                 {
+                    if (existedSchoolYear.size() == 0)
+                    {
+
+                        Activity2::createNewSchoolYearStaff(existedSchoolYear); 
+                        if (existedSchoolYear.size() == 1)
+                            schoolyearBtn.push_back(schoolyearButton(53.f, 190.f + 170.f * (0 % 4), existedSchoolYear[0], font));
+                    }
                     // Implement a function to create a new Schoolyear folder
-                    if (existedSchoolYear[0].semester.size() == 3)
+                    else if (existedSchoolYear[0].semester.size() == 3)
                     {
                         SchoolYear nextYear = existedSchoolYear[0].getNextPossibleYear(); 
                         nextYear.createNewSchoolYear(); 
@@ -545,7 +573,8 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                 }
 
                 if (viewAllCoursesBtn.isClicked(mousePos)) {
-                    Activity2::viewAllCourseStaff(existedCourse);
+                    //Activity2::viewAllCourseStaff(existedCourse);
+                    Activity2::viewAllCourseStaff(existedSchoolYear);
                 }
 
                 if (viewAllClassBtn.isClicked(mousePos)) {
@@ -608,7 +637,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
         days.draw(window);
         newCalendar.draw(window);
         viewAllClassBtn.draw(window);
-        addClassBtn.draw(window);
+        if (existedSchoolYear.size() != 0 ) addClassBtn.draw(window);
         for (int i = 0; i < displayBtn.size(); i++) {
             
             displayBtn[i].draw(window);
@@ -619,7 +648,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
             schoolyearBtn[i].draw(window);
         }
         
-        if (displaySY == 0 && (!schoolyearBtn[0].s1 || !schoolyearBtn[0].s2 || !schoolyearBtn[0].s3))
+        if (existedSchoolYear.size() != 0 && displaySY == 0 && (!schoolyearBtn[0].s1 || !schoolyearBtn[0].s2 || !schoolyearBtn[0].s3))
             createSemesterBtn.draw(window);
 
         window.display();
@@ -635,8 +664,9 @@ void Activity::initInformationStaffWindow(sf::RenderWindow& window)
     Text name(1446, 10,"Hello, " + user.fullname, font, sf::Color(255, 255, 255), 20);
     Text datetime(1446, 40, EF::getDateTime(), font, sf::Color(255, 255, 255), 20);
     Circle userIcon(1403, 40, 28, "Assets/userIcon.png", sf::Color(255, 250, 250));
-    Button goBack(458, 794, 245, 66, "Go back", font, sf::Color(218, 110, 50));
-    Button changePassword(833, 794, 372, 66, "Change password", font, sf::Color(218, 110, 50));
+    Button goBack(184, 790, 245, 66, "Go back", font, sf::Color(218, 110, 50));
+    Button logOut(1104, 790, 245, 66, "Log out", font, sf::Color(218, 110, 50));
+    Button changePassword(584, 790, 372, 66, "Change password", font, sf::Color(218, 110, 50));
 
     Text  fullName(672, 163, "Full name: " + user.fullname, font, sf::Color::Black, 36);
 
@@ -667,6 +697,15 @@ void Activity::initInformationStaffWindow(sf::RenderWindow& window)
                     type = 13; // changePasswordStaff
                     return;
                 }
+
+                if (logOut.isClicked(mousePos)) {
+                    std::cout << "User clicked Log out button" << std::endl;
+                    if (Activity2::confirm("Are you sure you want to log out?")) {
+                        user.logOut();
+                        type = 0;
+                        return;
+                    }
+                }
             }
         }
 
@@ -679,6 +718,7 @@ void Activity::initInformationStaffWindow(sf::RenderWindow& window)
         fullName.draw(window);
         goBack.draw(window);
         changePassword.draw(window);
+        logOut.draw(window);
 
         window.display();
     }
@@ -728,8 +768,17 @@ void Activity::changePasswordStaffWindow(sf::RenderWindow& window)
                 if (confirmBtn.isClicked(mousePos)) {
                     std::cout << "User has clicked the confirm change password" << std::endl;
                     type = 11;
-                    changePassword(user, oldPassword.getInput(), newPassword.getInput(), cfNewPassword.getInput());
-                    return;
+                    std::string log = "";
+                    if (changePassword(user, oldPassword.getInput(), newPassword.getInput(), cfNewPassword.getInput(), log)) {
+                        Activity2::popup(log);
+                        return;
+                    }
+                    else {
+                        Activity2::popup(log);
+                        oldPassword.input = "";
+                        newPassword.input = "";
+                        cfNewPassword.input = "";
+                    }
                 }
 
             }

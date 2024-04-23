@@ -1,6 +1,4 @@
 #pragma once
-#include "Requirement.h"
-#include "Components.h"
 #include "User.h"
 struct EF {
 	static std::string getDateTime();
@@ -22,6 +20,7 @@ static void getSubjectData(User& user, fsys::path url)
 		int credits, numOfStudents, sessions;
 
 		getline(sub, courseId);
+		if (sub.eof()) break;
 		getline(sub, courseName);
 		getline(sub, teacherName);
 		sub >> credits; getline(sub, temp);
@@ -57,10 +56,7 @@ static void getSubjectData(User& user, fsys::path url)
 
 int checkLoginType(User& user);
 
-bool changePassword(User& user, std::string oldPassword, std::string newPassword, std:: string cfNewPassword);
-
-
-
+bool changePassword(User& user, std::string oldPassword, std::string newPassword, std:: string cfNewPassword, std::string& log);
 
 template<class T>
 const T& max(const T& a, const T& b)

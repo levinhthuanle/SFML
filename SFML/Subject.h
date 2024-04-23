@@ -1,5 +1,6 @@
 #pragma once
 #include "Requirement.h"
+#include "vector.h"
 
 // Subject represent ONE course of the student
 class Subject
@@ -66,8 +67,13 @@ public:
 		return *this;
 	}
 
-	void getScore() {
-
+	void updateScore(vector<std::string>& score) {
+		practiceScore = stoi(score[3]);
+		midScore = stoi(score[4]);
+		finalScore = stoi(score[5]);
+		plusScore = stoi(score[6]);
+		otherScore = stoi(score[7]);
+		aveScore = stoi(score[8]);
 	}
 
 	void deleteSubject() {

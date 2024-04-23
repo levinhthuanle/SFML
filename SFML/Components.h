@@ -1,12 +1,7 @@
 #pragma once
 #include "ExtraFunction.h"
-#include "Subject.h"#
-
-
-
+#include "Subject.h"
 #include "SchoolYear.h"
-
-
 #include <iomanip>
 
 class InputField {
@@ -156,6 +151,20 @@ public:
     schoolyearButton() {}
 
     schoolyearButton(float x, float y, SchoolYear& infor, sf::Font& font);
+
+    void draw(sf::RenderWindow& window);
+};
+
+class allCourseMenu {
+public:
+    Text schoolyearTxt;
+    Button line;
+    Text s1, s2, s3;
+    SchoolYear schoolyear;
+    vector<Button> listCoursesBtn1, listCoursesBtn2, listCoursesBtn3;
+    allCourseMenu() {}
+
+    allCourseMenu(float x, float y, SchoolYear& schoolyear, sf::Font& font);
 
     void draw(sf::RenderWindow& window);
 };

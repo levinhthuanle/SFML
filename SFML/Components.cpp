@@ -453,3 +453,53 @@ void schoolyearButton::draw(sf::RenderWindow& window)
     if (s2) sem2.draw(window);
     if (s3) sem3.draw(window);
 }
+
+allCourseMenu::allCourseMenu(float x, float y, SchoolYear& schoolyear, sf::Font& font)
+{
+    this->schoolyear = schoolyear;
+    std::string fiY = schoolyear.getYear().substr(0, 2);
+    std::string seY = schoolyear.getYear().substr(3, 2);
+    std::string YEAR = "20" + fiY + " - 20" + seY;
+
+    schoolyearTxt = Text(x, y, YEAR, font, BLACK, 32);
+    line = Button(x, y + 50, 1130, 0, "", font, BLACK);
+    
+    s1 = Text(x + 10, y + 70, "Semester1: ",font, GREEN, 32);
+    for (int i = 0; i < schoolyear.semester[0].courses.size(); i++) {
+        std::string temp = schoolyear.semester[0].courses[i].getID();
+        Button tempBtn(x + 200 + 130 * (i % 10), y + 70, 100, 35, temp, font, ORANGE);
+        listCoursesBtn1.push_back(tempBtn);
+    }
+
+    s2 = Text(x + 10, y + 122, "Semester2: ",font, GREEN, 32);
+    for (int i = 0; i < schoolyear.semester[1].courses.size(); i++) {
+        std::string temp = schoolyear.semester[1].courses[i].getID();
+        Button tempBtn(x + 200 + 130 * (i % 10), y + 122, 100, 35, temp, font, ORANGE);
+        listCoursesBtn2.push_back(tempBtn);
+    }
+
+    s3 = Text(x + 10, y + 174, "Semester3: ",font, GREEN, 32);
+    for (int i = 0; i < schoolyear.semester[2].courses.size(); i++) {
+        std::string temp = schoolyear.semester[2].courses[i].getID();
+        Button tempBtn(x + 200 + 130 * (i % 10), y + 174, 100, 35, temp, font, ORANGE);
+        listCoursesBtn3.push_back(tempBtn);
+    }
+}
+
+void allCourseMenu::draw(sf::RenderWindow& window)
+{
+    schoolyearTxt.draw(window);
+    line.draw(window);
+    s1.draw(window);
+    s2.draw(window);
+    s3.draw(window);
+
+    for (int i = 0; i < listCoursesBtn1.size(); i++)
+        listCoursesBtn1[i].draw(window);
+
+    for (int i = 0; i < listCoursesBtn2.size(); i++)
+        listCoursesBtn2[i].draw(window);
+
+    for (int i = 0; i < listCoursesBtn3.size(); i++)
+        listCoursesBtn3[i].draw(window);
+}
