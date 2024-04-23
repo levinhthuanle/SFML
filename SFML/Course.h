@@ -308,7 +308,16 @@ public:
 			displayErrorExceedMaxStu();
 			return false;
 		}
-		score = file.cnt;
+		if (file.cnt[0].size() == 9) score = file.cnt;
+		else {
+			vector<std::string> temp = score[0];
+			score.clear();
+			score.push_back(temp);
+			for (int i = 1; i < file.cnt.size(); ++i) {
+				for (int i = 0; i < 9 - file.cnt[0].size(); ++i) file.cnt[i].push_back("");
+				score.push_back(file.cnt[i]);
+			}
+		}
 		vector<Student> stuList = this->getStudiedStudent();
 		score.clear();
 		for (Student stu : stuList) {

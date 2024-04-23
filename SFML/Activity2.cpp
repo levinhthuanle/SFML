@@ -253,7 +253,7 @@ void Activity2::createNewSchoolYearStaff(vector<SchoolYear>& existedSchoolYear)
     sf::Sprite background(textureNext);
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
-    Text enterSYtxt(120.f, 137.f, "Enter the schoolyear:", fontNext, sf::Color(26, 114, 98), 36);
+    Text enterSYtxt(120.f, 137.f, "Enter start year:", fontNext, sf::Color(26, 114, 98), 36);
     InputField enterSYinput(503, 131, 454, 66, fontNext);
     Button enterBtn(1011.f, 131.f, 245.f, 66.f, "Submit", fontNext, sf::Color(218, 110, 50));
 
@@ -275,21 +275,23 @@ void Activity2::createNewSchoolYearStaff(vector<SchoolYear>& existedSchoolYear)
                 if (enterBtn.isClicked(mousePos)) {
                     std::cout << enterSYinput.getInput() << std::endl;
                     std::string currYear = enterSYinput.getInput(); 
-                    for (char c : currYear)
+                    for (int c = 0; c < currYear.size(); ++c)
                     {
-                        if (c > '9' || c < '0')
+                        if (currYear[c] > '9' || currYear[c] < '0')
                         {
-                            popup("Wrong input. Try again."); 
+                            popup("Wrong year format. Try again."); 
                             break; 
                         }
+                        if (c == currYear.size() - 1) {
+                            if (currYear.size() >= 2)
+                                currYear = currYear.substr(currYear.size() - 2, currYear.size()-1);
+                            SchoolYear firstSchoolYear(currYear + '-' + std::to_string(stol(currYear) + 1));
+                            firstSchoolYear.createNewSchoolYear();
+                            existedSchoolYear.push_back(firstSchoolYear);
+                            popup("School year " + currYear + "_" + currYear[0] + (char)(currYear[1] + 1) + " created");
+                            windowNext.close();
+                        }
                     }
-                    if (currYear.size() >= 2)
-                        currYear = currYear.substr(currYear.size() - 2); 
-                    SchoolYear firstSchoolYear(currYear + '-' + std::to_string(stol(currYear) + 1));
-                    firstSchoolYear.createNewSchoolYear(); 
-                    existedSchoolYear.push_back(firstSchoolYear); 
-                    popup("Create succesful");
-                    windowNext.close(); 
                 }
             }
 
