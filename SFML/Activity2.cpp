@@ -1540,9 +1540,12 @@ void Activity2::addStudent(Class& oneclass)
     sf::Sprite background(textureNext);
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
+    
     Text enterSYtxt(120.f, 137.f, "Enter Student's ID:", fontNext, sf::Color(26, 114, 98), 36);
     InputField enterSYinput(503, 131, 454, 66, fontNext);
     Button enterBtn(1011.f, 131.f, 245.f, 66.f, "Submit", fontNext, sf::Color(218, 110, 50));
+    
+
 
     Text csvTxt(72, 128, "Enter the path of csv file:", fontNext, BLACK, 26);
     Text orTxt(72, 195, "OR", fontNext, BLACK, 26);
@@ -1562,8 +1565,9 @@ void Activity2::addStudent(Class& oneclass)
     InputField studentGenderInput(1189, 302, 385, 47, fontNext);
     InputField studentDobInput(1189, 375, 385, 47, fontNext);
     InputField studentSocialInput(1189, 448, 385, 47, fontNext);
-
-    Button csvBtn(850, 122, 245, 50, "Submit", fontNext, ORANGE);
+    
+    Button getFromFile(850, 122, 245, 50, "Browse", fontNext, ORANGE);
+    Button csvBtn(1200, 122, 245, 50, "Submit", fontNext, ORANGE);
     Button byhandBtn(693, 537, 245, 50, "Submit", fontNext, ORANGE);
 
     while (windowNext.isOpen()) {
@@ -1592,6 +1596,13 @@ void Activity2::addStudent(Class& oneclass)
 
                 if (goBackBtn.isClicked(mousePos))
                     windowNext.close();
+                if (getFromFile.isClicked(mousePos))
+                {
+                    char* path = tinyfd_openFileDialog(0,0,0,0,0,0);
+                    std::cout << std::string(path); 
+
+                    csvInput.input = std::string(path); 
+                }
                 if (byhandBtn.isClicked(mousePos)) {
                     vector<std::string> temp_basic_info; 
 
@@ -1631,8 +1642,27 @@ void Activity2::addStudent(Class& oneclass)
 
                 if (csvBtn.isClicked(mousePos)) {
                     std::string path = csvInput.getInput();
-                    popup("Add student success");
-                    return;
+                    if (path.substr(path.find_last_of('.')) != ".csv")
+                        popup("Wrong file format.");
+                    else
+                    {
+                        //check carefully here. 
+                        bool valid_include = oneclass.getStudent(path);
+                        
+                        if (valid_include)
+                        {
+                            for (int i = 0; i < oneclass.students.size(); ++i)
+                            {
+                                if (!fsys::exists(oneclass.students[i].studentPath))
+                                    oneclass.students[i].create();
+
+                            }
+                            
+                            windowNext.close(); 
+                        }
+                        else popup("Wrong format of the file"); 
+                    }
+                    
                 }
             }
             csvInput.processInput(event);
@@ -1668,7 +1698,7 @@ void Activity2::addStudent(Class& oneclass)
 
         csvBtn.draw(windowNext);
         byhandBtn.draw(windowNext);
-
+        getFromFile.draw(windowNext); 
         goBackBtn.draw(windowNext);
         windowNext.display();
     }

@@ -3,7 +3,7 @@
 #include "Components.h"
 #include "vector.h"
 #include "Semester.h"
-
+#include "tinyfiledialogs/tinyfiledialogs.h"
 //I assume that this class create sub-activity for student. 
 
 class Activity2

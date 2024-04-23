@@ -29,8 +29,9 @@ public:
 	}
 
 	//get a class from a special csv file (for task 4)
-	void getStudent (fsys::path filepath)
+	bool getStudent (fsys::path filepath)
 	{
+		// need to check this again, carefully. 
 		csvFile studentList(filepath);
 		studentList.readFile();
 
@@ -44,7 +45,7 @@ public:
 			}
 			students.push_back(Student(info));
 		}
-
+		return true; 
 	}
 	void addStudent(vector<Student> listOfStudent)
 	{
