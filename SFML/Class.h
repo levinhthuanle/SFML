@@ -39,7 +39,7 @@ public:
 		{
 			vector<std::string> info(6);
 			info[0] = classID;
-			for (int j = 0; j < 5; ++i)
+			for (int j = 0; j < 5; ++j)
 			{
 				info[j+1] = studentList.cnt[i][j];
 			}

@@ -35,6 +35,8 @@ public:
 
 	static void addStudentToCourse(Course& course);
 
+	static void importStudentList(Course& course);
+
 	static void removeStudentFromCourse(Course& course);
 
 	static void updateCourseInformation(Course& course);
@@ -54,5 +56,7 @@ public:
 	static void scoreBoardOfClassStaff(Class& oneclass);
 
 	static void importScoreCourseStaff(Semester& semester, Course& course);
+
+	bool isSame(std::string& a, std::string& b);
 };
 

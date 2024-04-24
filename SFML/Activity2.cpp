@@ -731,7 +731,8 @@ void Activity2::courseInformation(Semester& semester, Course& course)
     Button updateCourseBtn(990, 96, 240, 40, "Update information", fontNext, RED);
     Button importScoreBtn(1337, 723, 211, 50, "Import Score", fontNext, RED);
     Button addStudentBtn(13, 724, 179, 50, "Add student", fontNext, RED);
-    Button removeStudentBtn(205, 724, 239, 50, "Remove student", fontNext, RED);
+    Button importStudentListBtn(205, 724, 257, 50, "Import student list", fontNext, RED);
+    Button removeStudentBtn(476, 724, 257, 50, "Remove student", fontNext, RED);
 
 
     while (windowNext.isOpen()) {
@@ -767,6 +768,7 @@ void Activity2::courseInformation(Semester& semester, Course& course)
 
                 if (importScoreBtn.isClicked(mousePos)) {
                     importScoreCourseStaff(semester, course);
+                    break;
                 }
 
                 if (addStudentBtn.isClicked(mousePos)) {
@@ -778,6 +780,11 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                     removeStudentFromCourse(course);
                     break;
                 }
+
+                if (importStudentListBtn.isClicked(mousePos)) {
+                    importStudentList(course);
+                    break;
+                }
             }
         }
 
@@ -787,6 +794,7 @@ void Activity2::courseInformation(Semester& semester, Course& course)
         deleteCourseBtn.draw(windowNext);
         updateCourseBtn.draw(windowNext);
         addStudentBtn.draw(windowNext);
+        importStudentListBtn.draw(windowNext);
         removeStudentBtn.draw(windowNext);
         importScoreBtn.draw(windowNext);
 
@@ -839,6 +847,12 @@ void Activity2::addStudentToCourse(Course& course) {
                             popup("Student not found");
                             continue;
                         }
+                        for (auto row : course.score) {
+                            if (row[1] == ID) {
+                                popup("Student already in course");
+                                continue;
+                            }
+                        }
                         std::string clss = ID.substr(0, 6);
                         std::string order = ID.substr(6);	
                         fsys::path studentPath = "data/student";
@@ -884,6 +898,80 @@ void Activity2::addStudentToCourse(Course& course) {
         windowNext.draw(background);
 
         studentIdInput.draw(windowNext);
+        submitBtn.draw(windowNext);
+
+        windowNext.display();
+    }
+}
+
+void Activity2::importStudentList(Course& course) {
+    sf::RenderWindow windowNext(sf::VideoMode(865, 392), "Import student list", sf::Style::Close | sf::Style::Titlebar);
+
+    sf::Font fontNext;
+    if (!fontNext.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    sf::Texture textureNext;
+    if (!textureNext.loadFromFile("Assets/importFile.png"))
+        std::cout << "Could not load the Course information image" << std::endl;
+    std::cout << "Generate The Import List File sucess" << std::endl;
+    sf::Sprite background(textureNext);
+
+    InputField pathInput(151, 98, 695, 39, fontNext);
+    Button browseBtn(151, 164, 150, 39, "Browse", fontNext, RED);    
+    Button submitBtn(331, 164, 150, 39, "Submit", fontNext, RED);
+
+    pathInput.setSelected(true);
+
+    while (windowNext.isOpen()) {
+        sf::Event event;
+        if (pathInput.isSelected()) pathInput.textCursor(pathInput.getInput());
+        while (windowNext.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                windowNext.close();
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+                pathInput.handleMouseClick(mousePos);
+                if (submitBtn.isClicked(mousePos)) {
+                    if (!pathInput.getInput().empty()) {
+                        if (!fsys::exists(pathInput.getInput())) {
+                            popup("File not found");
+                            break;
+                        }
+                        if (course.importStudentsFile(pathInput.getInput()))
+                            popup("Student list imported");
+                        else popup("Error processing import student list file");
+                        return;
+                    }
+                }
+                if (browseBtn.isClicked(mousePos)) {
+                    std::string path(tinyfd_openFileDialog(0, 0, 0, 0, 0, 0));
+                    if (course.importStudentsFile(path))
+                        popup("Student list imported");
+                    else popup("Error processing import student list file");
+                    return;
+                }
+            }
+            pathInput.processInput(event);
+            if (pathInput.chooseNextField()) {
+                if (!pathInput.getInput().empty()) {
+                    if (!fsys::exists(pathInput.getInput())) {
+                        popup("File not found");
+                        break;
+                    }
+                    if (course.importStudentsFile(pathInput.getInput()))
+                        popup("Student list imported");
+                    else popup("Error processing import student list file");
+                    return;
+                }
+            }
+        }
+
+        windowNext.clear(sf::Color::White);
+        windowNext.draw(background);
+
+        pathInput.draw(windowNext);
+        browseBtn.draw(windowNext);
         submitBtn.draw(windowNext);
 
         windowNext.display();
@@ -1793,4 +1881,12 @@ void Activity2::importScoreCourseStaff(Semester& semester, Course& course)
         goBackBtn.draw(windowNext);
         windowNext.display();
     }
+}
+
+
+bool Activity2::isSame(std::string& a, std::string& b) {
+    if (a.length() != b.length()) return false;
+    for (int i = 0; i < a.length(); ++i)
+        if (tolower(a[i]) != tolower(b[i])) return false;
+    return true;
 }
