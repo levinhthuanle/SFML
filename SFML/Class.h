@@ -29,22 +29,23 @@ public:
 	}
 
 	//get a class from a special csv file (for task 4)
-	void getStudent (fsys::path filepath)
+	bool getStudent (fsys::path filepath)
 	{
+		// need to check this again, carefully. 
 		csvFile studentList(filepath);
 		studentList.readFile();
 
-		for (int i = 0; i < studentList.cnt.size(); ++i)
+		for (int i = 1; i < studentList.cnt.size(); ++i)
 		{
 			vector<std::string> info(6);
 			info[0] = classID;
-			for (int j = 0; j < 6; ++i)
+			for (int j = 0; j < 5; ++j)
 			{
-				info[j] = studentList.cnt[i][j];
+				info[j+1] = studentList.cnt[i][j];
 			}
 			students.push_back(Student(info));
 		}
-
+		return true; 
 	}
 	void addStudent(vector<Student> listOfStudent)
 	{

@@ -146,6 +146,7 @@
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="Teacher.cpp" />
     <ClCompile Include="Activity.cpp" />
+    <ClCompile Include="tinyfiledialogs\tinyfiledialogs.c" />
     <ClCompile Include="User.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -166,6 +167,7 @@
     <ClInclude Include="Subject.h" />
     <ClInclude Include="Teacher.h" />
     <ClInclude Include="Activity.h" />
+    <ClInclude Include="tinyfiledialogs\tinyfiledialogs.h" />
     <ClInclude Include="User.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>

@@ -27,7 +27,12 @@ public:
     vector<vector<std::string>> cnt;
     csvFile() {}
     csvFile(fsys::path path) {
-        this->filePath = path;
+        std::string sPath = path.generic_string();
+        for (char c : sPath) {
+            if (c == 92) c = '/';
+        }
+        fsys::path fPath(sPath);
+        this->filePath = fPath;
         isCreate();
     }
 

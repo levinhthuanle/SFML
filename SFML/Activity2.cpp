@@ -253,7 +253,7 @@ void Activity2::createNewSchoolYearStaff(vector<SchoolYear>& existedSchoolYear)
     sf::Sprite background(textureNext);
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
-    Text enterSYtxt(120.f, 137.f, "Enter the schoolyear:", fontNext, sf::Color(26, 114, 98), 36);
+    Text enterSYtxt(120.f, 137.f, "Enter start year:", fontNext, sf::Color(26, 114, 98), 36);
     InputField enterSYinput(503, 131, 454, 66, fontNext);
     Button enterBtn(1011.f, 131.f, 245.f, 66.f, "Submit", fontNext, sf::Color(218, 110, 50));
 
@@ -275,21 +275,23 @@ void Activity2::createNewSchoolYearStaff(vector<SchoolYear>& existedSchoolYear)
                 if (enterBtn.isClicked(mousePos)) {
                     std::cout << enterSYinput.getInput() << std::endl;
                     std::string currYear = enterSYinput.getInput(); 
-                    for (char c : currYear)
+                    for (int c = 0; c < currYear.size(); ++c)
                     {
-                        if (c > '9' || c < '0')
+                        if (currYear[c] > '9' || currYear[c] < '0')
                         {
-                            popup("Wrong input. Try again."); 
+                            popup("Wrong year format. Try again."); 
                             break; 
                         }
+                        if (c == currYear.size() - 1) {
+                            if (currYear.size() >= 2)
+                                currYear = currYear.substr(currYear.size() - 2, currYear.size()-1);
+                            SchoolYear firstSchoolYear(currYear + '-' + std::to_string(stol(currYear) + 1));
+                            firstSchoolYear.createNewSchoolYear();
+                            existedSchoolYear.push_back(firstSchoolYear);
+                            popup("School year " + currYear + "_" + currYear[0] + (char)(currYear[1] + 1) + " created");
+                            windowNext.close();
+                        }
                     }
-                    if (currYear.size() >= 2)
-                        currYear = currYear.substr(currYear.size() - 2); 
-                    SchoolYear firstSchoolYear(currYear + '-' + std::to_string(stol(currYear) + 1));
-                    firstSchoolYear.createNewSchoolYear(); 
-                    existedSchoolYear.push_back(firstSchoolYear); 
-                    popup("Create succesful");
-                    windowNext.close(); 
                 }
             }
 
@@ -729,7 +731,8 @@ void Activity2::courseInformation(Semester& semester, Course& course)
     Button updateCourseBtn(990, 96, 240, 40, "Update information", fontNext, RED);
     Button importScoreBtn(1337, 723, 211, 50, "Import Score", fontNext, RED);
     Button addStudentBtn(13, 724, 179, 50, "Add student", fontNext, RED);
-    Button removeStudentBtn(205, 724, 239, 50, "Remove student", fontNext, RED);
+    Button importStudentListBtn(205, 724, 257, 50, "Import student list", fontNext, RED);
+    Button removeStudentBtn(476, 724, 257, 50, "Remove student", fontNext, RED);
 
 
     while (windowNext.isOpen()) {
@@ -765,6 +768,7 @@ void Activity2::courseInformation(Semester& semester, Course& course)
 
                 if (importScoreBtn.isClicked(mousePos)) {
                     importScoreCourseStaff(semester, course);
+                    break;
                 }
 
                 if (addStudentBtn.isClicked(mousePos)) {
@@ -776,6 +780,11 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                     removeStudentFromCourse(course);
                     break;
                 }
+
+                if (importStudentListBtn.isClicked(mousePos)) {
+                    importStudentList(course);
+                    break;
+                }
             }
         }
 
@@ -785,6 +794,7 @@ void Activity2::courseInformation(Semester& semester, Course& course)
         deleteCourseBtn.draw(windowNext);
         updateCourseBtn.draw(windowNext);
         addStudentBtn.draw(windowNext);
+        importStudentListBtn.draw(windowNext);
         removeStudentBtn.draw(windowNext);
         importScoreBtn.draw(windowNext);
 
@@ -837,6 +847,12 @@ void Activity2::addStudentToCourse(Course& course) {
                             popup("Student not found");
                             continue;
                         }
+                        for (auto row : course.score) {
+                            if (row[1] == ID) {
+                                popup("Student already in course");
+                                continue;
+                            }
+                        }
                         std::string clss = ID.substr(0, 6);
                         std::string order = ID.substr(6);	
                         fsys::path studentPath = "data/student";
@@ -882,6 +898,80 @@ void Activity2::addStudentToCourse(Course& course) {
         windowNext.draw(background);
 
         studentIdInput.draw(windowNext);
+        submitBtn.draw(windowNext);
+
+        windowNext.display();
+    }
+}
+
+void Activity2::importStudentList(Course& course) {
+    sf::RenderWindow windowNext(sf::VideoMode(865, 392), "Import student list", sf::Style::Close | sf::Style::Titlebar);
+
+    sf::Font fontNext;
+    if (!fontNext.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    sf::Texture textureNext;
+    if (!textureNext.loadFromFile("Assets/importFile.png"))
+        std::cout << "Could not load the Course information image" << std::endl;
+    std::cout << "Generate The Import List File sucess" << std::endl;
+    sf::Sprite background(textureNext);
+
+    InputField pathInput(151, 98, 695, 39, fontNext);
+    Button browseBtn(151, 164, 150, 39, "Browse", fontNext, RED);    
+    Button submitBtn(331, 164, 150, 39, "Submit", fontNext, RED);
+
+    pathInput.setSelected(true);
+
+    while (windowNext.isOpen()) {
+        sf::Event event;
+        if (pathInput.isSelected()) pathInput.textCursor(pathInput.getInput());
+        while (windowNext.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                windowNext.close();
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+                pathInput.handleMouseClick(mousePos);
+                if (submitBtn.isClicked(mousePos)) {
+                    if (!pathInput.getInput().empty()) {
+                        if (!fsys::exists(pathInput.getInput())) {
+                            popup("File not found");
+                            break;
+                        }
+                        if (course.importStudentsFile(pathInput.getInput()))
+                            popup("Student list imported");
+                        else popup("Error processing import student list file");
+                        return;
+                    }
+                }
+                if (browseBtn.isClicked(mousePos)) {
+                    std::string path(tinyfd_openFileDialog(0, 0, 0, 0, 0, 0));
+                    if (course.importStudentsFile(path))
+                        popup("Student list imported");
+                    else popup("Error processing import student list file");
+                    return;
+                }
+            }
+            pathInput.processInput(event);
+            if (pathInput.chooseNextField()) {
+                if (!pathInput.getInput().empty()) {
+                    if (!fsys::exists(pathInput.getInput())) {
+                        popup("File not found");
+                        break;
+                    }
+                    if (course.importStudentsFile(pathInput.getInput()))
+                        popup("Student list imported");
+                    else popup("Error processing import student list file");
+                    return;
+                }
+            }
+        }
+
+        windowNext.clear(sf::Color::White);
+        windowNext.draw(background);
+
+        pathInput.draw(windowNext);
+        browseBtn.draw(windowNext);
         submitBtn.draw(windowNext);
 
         windowNext.display();
@@ -1550,9 +1640,12 @@ void Activity2::addStudent(Class& oneclass)
     sf::Sprite background(textureNext);
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
+    
     Text enterSYtxt(120.f, 137.f, "Enter Student's ID:", fontNext, sf::Color(26, 114, 98), 36);
     InputField enterSYinput(503, 131, 454, 66, fontNext);
     Button enterBtn(1011.f, 131.f, 245.f, 66.f, "Submit", fontNext, sf::Color(218, 110, 50));
+    
+
 
     Text csvTxt(72, 128, "Enter the path of csv file:", fontNext, BLACK, 26);
     Text orTxt(72, 195, "OR", fontNext, BLACK, 26);
@@ -1572,8 +1665,9 @@ void Activity2::addStudent(Class& oneclass)
     InputField studentGenderInput(1189, 302, 385, 47, fontNext);
     InputField studentDobInput(1189, 375, 385, 47, fontNext);
     InputField studentSocialInput(1189, 448, 385, 47, fontNext);
-
-    Button csvBtn(850, 122, 245, 50, "Submit", fontNext, ORANGE);
+    
+    Button getFromFile(850, 122, 245, 50, "Browse", fontNext, ORANGE);
+    Button csvBtn(1200, 122, 245, 50, "Submit", fontNext, ORANGE);
     Button byhandBtn(693, 537, 245, 50, "Submit", fontNext, ORANGE);
 
     while (windowNext.isOpen()) {
@@ -1602,6 +1696,13 @@ void Activity2::addStudent(Class& oneclass)
 
                 if (goBackBtn.isClicked(mousePos))
                     windowNext.close();
+                if (getFromFile.isClicked(mousePos))
+                {
+                    char* path = tinyfd_openFileDialog(0,0,0,0,0,0);
+                    std::cout << std::string(path); 
+
+                    csvInput.input = std::string(path); 
+                }
                 if (byhandBtn.isClicked(mousePos)) {
                     vector<std::string> temp_basic_info; 
 
@@ -1641,8 +1742,27 @@ void Activity2::addStudent(Class& oneclass)
 
                 if (csvBtn.isClicked(mousePos)) {
                     std::string path = csvInput.getInput();
-                    popup("Add student success");
-                    return;
+                    if (path.substr(path.find_last_of('.')) != ".csv")
+                        popup("Wrong file format.");
+                    else
+                    {
+                        //check carefully here. 
+                        bool valid_include = oneclass.getStudent(path);
+                        
+                        if (valid_include)
+                        {
+                            for (int i = 0; i < oneclass.students.size(); ++i)
+                            {
+                                if (!fsys::exists(oneclass.students[i].studentPath))
+                                    oneclass.students[i].create();
+
+                            }
+                            
+                            windowNext.close(); 
+                        }
+                        else popup("Wrong format of the file"); 
+                    }
+                    
                 }
             }
             csvInput.processInput(event);
@@ -1678,7 +1798,7 @@ void Activity2::addStudent(Class& oneclass)
 
         csvBtn.draw(windowNext);
         byhandBtn.draw(windowNext);
-
+        getFromFile.draw(windowNext); 
         goBackBtn.draw(windowNext);
         windowNext.display();
     }
@@ -1773,4 +1893,12 @@ void Activity2::importScoreCourseStaff(Semester& semester, Course& course)
         goBackBtn.draw(windowNext);
         windowNext.display();
     }
+}
+
+
+bool Activity2::isSame(std::string& a, std::string& b) {
+    if (a.length() != b.length()) return false;
+    for (int i = 0; i < a.length(); ++i)
+        if (tolower(a[i]) != tolower(b[i])) return false;
+    return true;
 }

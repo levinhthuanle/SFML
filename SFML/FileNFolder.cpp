@@ -17,10 +17,6 @@ void csvFile::readFile() {
     std::ifstream fin;
     std::string stringPath = filePath.generic_string();
 
-    for (auto& c : stringPath)
-    {
-        if (c == 92) c = '/';
-    }
     fin.open(stringPath);
     if (!fin.is_open()) {
         std::cerr << "Error opening input file " << stringPath << ".\n";
