@@ -54,5 +54,7 @@ public:
 	static void scoreBoardOfClassStaff(Class& oneclass);
 
 	static void importScoreCourseStaff(Semester& semester, Course& course);
+
+	
 };
 

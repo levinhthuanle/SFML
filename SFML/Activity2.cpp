@@ -1224,12 +1224,15 @@ void Activity2::viewOneClass(Class& oneclass)
 
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
+    Button nextPageBtn(1187.f, 732.f, 92.f, 62.f, "Next", fontNext, sf::Color(218, 110, 50));
+    Button prevPageBtn(1187.f, 809.f, 92.f, 62.f, "Prev", fontNext, sf::Color(218, 110, 50));
     vector<Text> allOfStudents;
-
+    int displayFrom = 0;
 
 
     while (windowNext.isOpen()) {
         sf::Event event;
+        long long displayLimit = (displayFrom + 10) > listOfStudent.size() ? listOfStudent.size() : (displayFrom + 10);
         while (windowNext.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 windowNext.close();  // Close 
@@ -1298,6 +1301,15 @@ void Activity2::viewOneClass(Class& oneclass)
                 /*if (scoreBoardBtn.isClicked(mousePos)) {
                     scoreBoardOfClassStaff(oneclass);
                 }*/
+                if (nextPageBtn.isClicked(mousePos)) {
+                    if (displayFrom + 10 <= listOfStudent.size())
+                        displayFrom += 10;
+                }
+
+                if (prevPageBtn.isClicked(mousePos)) {
+                    if (displayFrom - 10 >= 0)
+                        displayFrom -= 10;
+                }
             }
 
         }
@@ -1319,7 +1331,7 @@ void Activity2::viewOneClass(Class& oneclass)
         //exportListBtn.draw(windowNext);
         //scoreBoardBtn.draw(windowNext);
 
-        for (int i = 0; i < listOfStudent.size(); i++)
+        for (int i = displayFrom; i < displayLimit; i++)
             listOfStudent[i].draw(windowNext);
 
         goBackBtn.draw(windowNext);

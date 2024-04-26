@@ -201,8 +201,8 @@ void Activity::initInformationStudentWindow(sf::RenderWindow& window)
 
     Text  fullName(672, 163, "Full name: " + user.fullname, font, sf::Color::Black, 36);
     Text  id(672, 213, "Id: " + user.id, font, sf::Color::Black, 36);
-    Text  course(672, 258, "Course: " + user.courseName, font, sf::Color::Black, 36);
-    Text  classes(672, 300, "Class: " + user.courseName, font, sf::Color::Black, 36);
+    Text  course(672, 258, "Date of Birth: " + user.dayOfBirth, font, sf::Color::Black, 36);
+    Text  classes(672, 300, "Class: " + user.className, font, sf::Color::Black, 36);
 
 
     if (!texture.loadFromFile("Assets/InformationStudent.png"))

@@ -62,10 +62,11 @@ int checkLoginType(User& user) // return 0 if wrong acc/pass, return 1 if studen
 
 			fin.open("data/student" / cla / userInformationUrl);
 
-			getline(fin, user.id);
 			getline(fin, user.className);
+			getline(fin, user.id);
 			getline(fin, user.fullname);
 			getline(fin, user.gender);
+			getline(fin, user.dayOfBirth);
 			getline(fin, user.socialId);
 			std::cout << user.id << '\n' << user.fullname << '\n' << user.className << '\n';
 
