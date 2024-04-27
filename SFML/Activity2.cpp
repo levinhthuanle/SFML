@@ -1307,22 +1307,22 @@ void Activity2::viewOneClass(Class& oneclass)
             temp += ' ';
         temp += oneclass.students[i].getGender();
         
-        Text text(82.f, 188.f + 32*i, temp, fontNext, BLACK, 32);
+        Text text(82.f, 188.f + (32*(i % 15)), temp, fontNext, BLACK, 32);
 
         listOfStudent.push_back(text);
     }
 
 
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
-    Button nextPageBtn(1187.f, 732.f, 92.f, 62.f, "Next", fontNext, sf::Color(218, 110, 50));
-    Button prevPageBtn(1187.f, 809.f, 92.f, 62.f, "Prev", fontNext, sf::Color(218, 110, 50));
+    Button nextPageBtn(1526.f, 736.f, 92.f, 62.f, "Next", fontNext, sf::Color(218, 110, 50));
+    Button prevPageBtn(1526.f, 813.f, 92.f, 62.f, "Prev", fontNext, sf::Color(218, 110, 50));
     vector<Text> allOfStudents;
     int displayFrom = 0;
 
 
     while (windowNext.isOpen()) {
         sf::Event event;
-        long long displayLimit = (displayFrom + 10) > listOfStudent.size() ? listOfStudent.size() : (displayFrom + 10);
+        long long displayLimit = (displayFrom + 15) > listOfStudent.size() ? listOfStudent.size() : (displayFrom + 15);
         while (windowNext.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 windowNext.close();  // Close 
@@ -1391,14 +1391,15 @@ void Activity2::viewOneClass(Class& oneclass)
                 /*if (scoreBoardBtn.isClicked(mousePos)) {
                     scoreBoardOfClassStaff(oneclass);
                 }*/
+
                 if (nextPageBtn.isClicked(mousePos)) {
-                    if (displayFrom + 10 <= listOfStudent.size())
-                        displayFrom += 10;
+                    if (displayFrom + 15 <= listOfStudent.size())
+                        displayFrom += 15;
                 }
 
                 if (prevPageBtn.isClicked(mousePos)) {
-                    if (displayFrom - 10 >= 0)
-                        displayFrom -= 10;
+                    if (displayFrom - 15 >= 0)
+                        displayFrom -= 15;
                 }
             }
 
@@ -1895,6 +1896,110 @@ void Activity2::importScoreCourseStaff(Semester& semester, Course& course)
     }
 }
 
+void Activity2::viewScoreboardStudent(vector<Subject>& listOfUnfinCourse)
+{
+    // ViewScoreBoardStudent.png
+    sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "View scoreboard", sf::Style::Close | sf::Style::Titlebar);
+
+    sf::Font fontNext;
+    if (!fontNext.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    sf::Texture textureNext;
+    if (!textureNext.loadFromFile("Assets/ViewScoreBoardStudent.png"))
+        std::cout << "Could not load the View scoreboard image" << std::endl;
+    std::cout << "Generate The View scoreboard sucess" << std::endl;
+    sf::Sprite background(textureNext);
+
+    Button horizontalLine(54, 157, 1545, 0, "", fontNext, BLACK);
+    Button verticalLine1(99, 125, 0, 520, "", fontNext, BLACK);
+    Button verticalLine2(280, 125, 0, 520, "", fontNext, BLACK);
+    Button verticalLine3(745, 125, 0, 520, "", fontNext, BLACK);
+    Button verticalLine4(870, 125, 0, 520, "", fontNext, BLACK);
+    Button verticalLine5(1075, 125, 0, 520, "", fontNext, BLACK);
+    Button verticalLine6(1228, 125, 0, 520, "", fontNext, BLACK);
+    Button verticalLine7(1369, 125, 0, 520, "", fontNext, BLACK);
+    
+
+    Text noTxt(61, 125, "No", fontNext, GREEN, 26);
+    Text courseIdTxt(112, 125, "Course's ID", fontNext, GREEN, 26);
+    Text courseNameTxt(289, 125, "Course's Name", fontNext, GREEN, 26);
+    Text finalTxt(754, 125, "Practice", fontNext, GREEN, 26);
+    Text extraTxt(878, 125, "Midterm", fontNext, GREEN, 26);
+    Text overallTxt(1083, 125, "Final", fontNext, GREEN, 26);
+    Text exTxt(1237, 125, "Plus", fontNext, GREEN, 26);
+    Text ex1Txt(1381, 125, "Overall", fontNext, GREEN, 26);
+
+    Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
+
+
+    vector<Text> scoreboard;
+    for (int i = 0; i < listOfUnfinCourse.size(); i++) {
+        std::string noStr = (i < 10) ? ('0' + std::to_string(i)) : (std::to_string(i));
+        Text numTxt(54, (float)160 + 36 * ((i) % 10), noStr, fontNext, BLACK, 26);
+
+        Text sIdTxt(115, (float)(160 + 36 * ((i) % 10)), listOfUnfinCourse[i].courseId, fontNext, BLACK, 26);
+        Text sCTxt(300, (float)160 + 36 * ((i) % 10), listOfUnfinCourse[i].courseName, fontNext, BLACK, 26);
+        Text pracTxt(788, (float)160 + 36 * ((i) % 10), std::to_string(listOfUnfinCourse[i].practiceScore), fontNext, BLACK, 26);
+        Text midTxt(945, (float)160 + 36 * ((i) % 10), std::to_string(listOfUnfinCourse[i].midScore), fontNext, BLACK, 26);
+        Text finTxt(1131, (float)160 + 36 * ((i) % 10), std::to_string(listOfUnfinCourse[i].finalScore), fontNext, BLACK, 26);
+        Text plusTxt(1280, (float)160 + 36 * ((i) % 10), std::to_string(listOfUnfinCourse[i].plusScore), fontNext, BLACK, 26);
+        Text overTxt(1407, (float)160 + 36 * ((i) % 10), std::to_string(listOfUnfinCourse[i].aveScore), fontNext, RED, 26);
+
+        scoreboard.push_back(numTxt);
+        scoreboard.push_back(sIdTxt);
+        scoreboard.push_back(sCTxt);
+        scoreboard.push_back(pracTxt);
+        scoreboard.push_back(midTxt);
+        scoreboard.push_back(finTxt);
+        scoreboard.push_back(plusTxt);
+        scoreboard.push_back(overTxt);
+
+    }
+
+    while (windowNext.isOpen()) {
+        sf::Event event;
+        while (windowNext.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                windowNext.close();
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+
+                if (goBackBtn.isClicked(mousePos))
+                    windowNext.close();
+
+            }
+
+        }
+
+        windowNext.clear(sf::Color::White);
+        windowNext.draw(background);
+
+        horizontalLine.draw(windowNext);
+        verticalLine1.draw(windowNext);
+        verticalLine2.draw(windowNext);
+        verticalLine3.draw(windowNext);
+        verticalLine4.draw(windowNext);
+        verticalLine5.draw(windowNext);
+        verticalLine6.draw(windowNext);
+        verticalLine7.draw(windowNext);
+
+        noTxt.draw(windowNext);
+        courseIdTxt.draw(windowNext);
+        courseNameTxt.draw(windowNext);
+        finalTxt.draw(windowNext);
+        extraTxt.draw(windowNext);
+        overallTxt.draw(windowNext);
+        exTxt.draw(windowNext);
+        ex1Txt.draw(windowNext);
+
+        for (int i = 0; i < scoreboard  .size(); i++)
+            scoreboard[i].draw(windowNext);
+
+        goBackBtn.draw(windowNext);
+        windowNext.display();
+    }
+}
 
 bool Activity2::isSame(std::string& a, std::string& b) {
     if (a.length() != b.length()) return false;
@@ -1902,3 +2007,4 @@ bool Activity2::isSame(std::string& a, std::string& b) {
         if (tolower(a[i]) != tolower(b[i])) return false;
     return true;
 }
+

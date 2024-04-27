@@ -56,6 +56,9 @@ public:
 	static void scoreBoardOfClassStaff(Class& oneclass);
 
 	static void importScoreCourseStaff(Semester& semester, Course& course);
+
+	static void viewScoreboardStudent(vector<Subject>& listOfUnfinCourse);
+
 	bool isSame(std::string& a, std::string& b);
 };
 

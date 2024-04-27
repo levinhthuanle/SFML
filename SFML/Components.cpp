@@ -465,6 +465,8 @@ allCourseMenu::allCourseMenu(float x, float y, SchoolYear& schoolyear, sf::Font&
     line = Button(x, y + 50, 1130, 0, "", font, BLACK);
     
     s1 = Text(x + 10, y + 70, "Semester1: ",font, GREEN, 32);
+
+    if (schoolyear.semester.size() > 0)
     for (int i = 0; i < schoolyear.semester[0].courses.size(); i++) {
         std::string temp = schoolyear.semester[0].courses[i].getID();
         Button tempBtn(x + 200 + 130 * (i % 10), y + 70, 100, 35, temp, font, ORANGE);
@@ -472,6 +474,7 @@ allCourseMenu::allCourseMenu(float x, float y, SchoolYear& schoolyear, sf::Font&
     }
 
     s2 = Text(x + 10, y + 122, "Semester2: ",font, GREEN, 32);
+    if (schoolyear.semester.size() > 1)
     for (int i = 0; i < schoolyear.semester[1].courses.size(); i++) {
         std::string temp = schoolyear.semester[1].courses[i].getID();
         Button tempBtn(x + 200 + 130 * (i % 10), y + 122, 100, 35, temp, font, ORANGE);
@@ -479,6 +482,7 @@ allCourseMenu::allCourseMenu(float x, float y, SchoolYear& schoolyear, sf::Font&
     }
 
     s3 = Text(x + 10, y + 174, "Semester3: ",font, GREEN, 32);
+    if (schoolyear.semester.size() > 2)
     for (int i = 0; i < schoolyear.semester[2].courses.size(); i++) {
         std::string temp = schoolyear.semester[2].courses[i].getID();
         Button tempBtn(x + 200 + 130 * (i % 10), y + 174, 100, 35, temp, font, ORANGE);

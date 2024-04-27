@@ -153,6 +153,10 @@ void Activity::initHomePageStudentWindow(sf::RenderWindow &window)
                         displayFin -= 4;
                 }
                 
+                if (scoreboardBtn.isClicked(mousePos)) {
+                    Activity2::viewScoreboardStudent(user.listOfUnfinCourse);
+                }
+
                 for (int i = 0; i < unfinBtn.size(); i++) {
                     if (unfinBtn[i].isClicked(mousePos)) {
                         std::cout << "User has click the unfinished button " << unfinBtn[i].cnt.courseId << std::endl;
