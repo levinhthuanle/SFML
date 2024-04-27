@@ -55,7 +55,7 @@ public:
             upsize();
         }
         ++s;
-        for (int i = s - 1; i > index; --i)
+        for (long long i = s - 1; i > index; --i)
         {
             _data[i] = _data[i - 1]; 
         }

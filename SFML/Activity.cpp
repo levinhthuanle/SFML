@@ -12,7 +12,7 @@ vector<Course> existedCourse = getAllCourse(existedSchoolYear);
 vector<Class> allClass = getAllClassName();
 
 //Finished
-void Activity::initLoginWindow(sf::RenderWindow &window, static bool& invalidLogin)
+void Activity::initLoginWindow(sf::RenderWindow &window, bool& invalidLogin)
 {    
     for (int i = 0; i < existedCourse.size(); ++i)
         std::cout << existedCourse[i].getID() << "\n";

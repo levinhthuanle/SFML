@@ -415,7 +415,7 @@ void Activity2::viewAllCourseStaff(vector<SchoolYear>& schoolyear)
 
     vector<allCourseMenu> allCourseMenuBtn;
     for (int i = 0; i < schoolyear.size(); i++) {
-        allCourseMenu temp(40, 90 + 230 * (i % 3), schoolyear[i], fontNext);
+        allCourseMenu temp(40,(float) (90 + 230 * (i % 3)), schoolyear[i], fontNext);
         allCourseMenuBtn.push_back(temp);
     }
     int displayFrom = 0;
@@ -565,7 +565,7 @@ void Activity2::viewCourseInSemester(Semester& semester)
 
                     if (i > -1)
                     {
-                        courseButton temp(65 + 273 * (i % 5), 209 + 210 * (i / 5), semester.courses[i], fontNext);
+                        courseButton temp((float)(65 + 273 * (i % 5)),(float) (209 + 210 * (i / 5)), semester.courses[i], fontNext);
                         allOfCourse.push_back(temp);
                     }
 
@@ -1334,9 +1334,9 @@ void Activity2::viewOneClass(Class& oneclass)
 
                 if (removeStudentBtn.isClicked(mousePos))
                 {
-                    int before = oneclass.students.size();
+                    long long before = oneclass.students.size();
                     removeStudent(oneclass);
-                    int after = oneclass.students.size();
+                    long long after = oneclass.students.size();
                     if (before != after)
                     {
                         listOfStudent.clear(); 
@@ -1361,13 +1361,13 @@ void Activity2::viewOneClass(Class& oneclass)
 
                 if (addStudentBtn.isClicked(mousePos))
                 {
-                    int before = oneclass.students.size(); 
+                    long long before = oneclass.students.size(); 
                     addStudent(oneclass);
 
-                    int after = oneclass.students.size(); 
+                    long long after = oneclass.students.size(); 
                     if (before != after)
                     {
-                        int i = after - 1;
+                        __int64 i = after - 1;
                         std::string temp = std::to_string(i + 1) + "    ";
                         if (temp.size() == 5)
                             temp = '0' + temp;
