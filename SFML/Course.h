@@ -310,7 +310,8 @@ public:
 		}
 		if (file.cnt[0].size() == 9) score = file.cnt;
 		else {
-			vector<std::string> temp = score[0];
+			vector<std::string> temp;
+			temp = score[0];
 			score.clear();
 			score.push_back(temp);
 			for (int i = 1; i < file.cnt.size(); ++i) {
@@ -318,8 +319,13 @@ public:
 				score.push_back(file.cnt[i]);
 			}
 		}
-		vector<Student> stuList = this->getStudiedStudent();
+		vector<Student> stuList;
+		stuList = this->getStudiedStudent();
+		vector<std::string> tmp;
+		tmp = score[0];
 		score.clear();
+		score.push_back(tmp);
+		this->setCurStu(0);
 		for (Student stu : stuList) {
 			this->addStudent(stu);
 		}
