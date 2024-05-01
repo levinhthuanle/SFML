@@ -46,7 +46,7 @@ public:
         if (s == capacity) {
             upsize();
         }
-        _data[s++] = std::move(val);
+        _data[s++] = val;
     }
 
     void insert(const T& val, long long index) 
@@ -105,7 +105,10 @@ public:
             capacity = rhs.s;
         }
         s = rhs.s;
-        std::copy(rhs._data, rhs._data + rhs.s, _data);
+        for (int i = 0; i < s; ++i)
+        {
+            _data[i] = rhs[i]; 
+        }
         return *this;
     }
 
@@ -130,7 +133,11 @@ private:
     void upsize() {
         capacity = (capacity == 0) ? 1 : 2 * capacity;
         T* ne = new T[capacity];
-        std::move(_data, _data + s, ne);
+        //std::move(_data, _data + s, ne);
+        for (int i = 0; i < s; ++i)
+        {
+            ne[i] = _data[i];
+        }
         delete[] _data;
         _data = ne;
     }

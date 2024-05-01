@@ -776,7 +776,9 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                 }
 
                 if (addStudentBtn.isClicked(mousePos)) {
+                    std::cout << course.score[0][0] << course.score[1][0];
                     addStudentToCourse(course);
+                   
                     curStudentTxt.setString("Current students: " + course.getCurStu());
                     break;
                 }
@@ -854,7 +856,7 @@ void Activity2::addStudentToCourse(Course& course) {
                             popup("Student not found");
                             continue;
                         }
-                        for (auto row : course.score) {
+                        for (auto& row : course.score) {
                             if (row[1] == ID) {
                                 popup("Student already in course");
                                 continue;
@@ -868,6 +870,7 @@ void Activity2::addStudentToCourse(Course& course) {
                             popup("Student not found");
                         else {
                             Student stu(ID);
+                            std::cout << course.score[0][0] << course.score[1][0]; 
                             course.addStudent(stu);
                             popup("Student added into course");
                             windowNext.close();

@@ -223,7 +223,13 @@ public:
 			newStu.push_back(student.getClass());
 			newStu.push_back(student.getFullname());
 			for (int i = 0; i < 6; i++)
-				newStu.push_back("");
+				newStu.push_back("-1");
+			for (int i = 0; i < score.size(); ++i)
+			{
+				for (int j = 0; j < 9; ++j)
+					std::cout << score[i][j] << " ";
+				std::cout << "\n"; 
+			}
 			score.push_back(newStu);
 		}
 
