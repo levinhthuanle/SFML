@@ -840,19 +840,19 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                 if (addStudentBtn.isClicked(mousePos)) {
                     addStudentToCourse(course);
                     curStudentTxt.setString("Current students: " + course.getCurStu());
-                    break;
+                    return;
                 }
 
                 if (removeStudentBtn.isClicked(mousePos)) {
                     removeStudentFromCourse(course);
                     curStudentTxt.setString("Current students: " + course.getCurStu());
-                    break;
+                    return;
                 }
 
                 if (importStudentListBtn.isClicked(mousePos)) {
                     importStudentList(course);
                     curStudentTxt.setString("Current students: " + course.getCurStu());
-                    break;
+                    return;
                 }
 
                 if (nextPageBtn.isClicked(mousePos)) {
@@ -1913,22 +1913,65 @@ void Activity2::addStudent(Class& oneclass)
 
 void Activity2::scoreBoardOfClassStaff(Class& oneclass)
 {
-    sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "Remove a student", sf::Style::Close | sf::Style::Titlebar);
+    sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "View scoreboard of a class", sf::Style::Close | sf::Style::Titlebar);
 
     sf::Font fontNext;
     if (!fontNext.loadFromFile("TextFont/arial.ttf"))
         std::cout << "Could not load the font" << std::endl;
 
     sf::Texture textureNext;
-    if (!textureNext.loadFromFile("Assets/AddClassStaff.png"))
-        std::cout << "Could not load the Remove Student image" << std::endl;
-    std::cout << "Generate The Add Class sucess" << std::endl;
+    if (!textureNext.loadFromFile("Assets/classScoreboardStaff.png"))
+        std::cout << "Could not load the classScoreboardStaff.png image" << std::endl;
+    std::cout << "Generate The view scoreboard sucess" << std::endl;
     sf::Sprite background(textureNext);
 
-    Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
+    Button goBackBtn(727, 799, 245, 66, "Go back", fontNext, ORANGE);
+    Button nextPageBtn(1588.f, 739.f, 92.f, 62.f, "Next", fontNext, sf::Color(218, 110, 50));
+    Button prevPageBtn(1588.f, 816.f, 92.f, 62.f, "Prev", fontNext, sf::Color(218, 110, 50));
+    int displayFrom = 0;
+
+    //			std::string subjectUrl = User + "/subject.csv";
+    //          std::string userInformationUrl = User + "/" + User + ".csv";
+    //          getSubjectData(user, "data/student" / cla / subjectUrl);
+
+    vector<Text> noText, studentIdTxt, fullnameTxt, gpaTxt, totalGpaTxt;
+    vector<vector<Text>> scoreTxt;
+    for (int i = 0; i < oneclass.students.size(); i++) {
+        Text notmp(13,(float) 174 + 32*(i % 15), std::to_string(i + 1), fontNext, BLACK, 26);
+        noText.push_back(notmp);
+
+        Text idtmp(80, (float)174 + 32 * (i % 15), oneclass.students[i].getID(), fontNext, BLACK, 26);
+        studentIdTxt.push_back(idtmp);
+
+        Text fullnametmp(260, (float)174 + 32 * (i % 15), oneclass.students[i].getFullname(), fontNext, BLACK, 26);
+        fullnameTxt.push_back(fullnametmp);
+
+
+        User temp(oneclass.students[i]);
+        // "data/student\\23CTT2/029"
+        fsys::path tempPath = temp.url / "subject.csv";
+        getSubjectData(temp, tempPath);
+
+
+        float gpa = 0, totalGpa = 0;
+        Text gpaTmp(1345, (float)174 + 32 * (i % 15), std::to_string(gpa / temp.listOfUnfinCourse.size()), fontNext, RED, 26);
+        gpaTxt.push_back(gpaTmp);
+
+        vector<Text> scoreTmp;
+        for (int j = 0; j < min(temp.listOfUnfinCourse.size(),(long long) 7); j++) {
+            Text scoreTempTxt((float)567 + 136*(j % 6), (float)174 + 32 * (i % 15), temp.listOfUnfinCourse[j].aveScore, fontNext, BLACK, 26);
+            scoreTmp.push_back(scoreTempTxt);
+        }
+        scoreTxt.push_back(scoreTmp);
+
+        Text gpaTotalTmp(1489, (float)174 + 32 * (i % 15), std::to_string(max(0.f,totalGpa / (temp.listOfUnfinCourse.size() + temp.listOfFinCourse.size()))), fontNext, RED, 26);
+        totalGpaTxt.push_back(gpaTmp);
+
+    }
 
     while (windowNext.isOpen()) {
         sf::Event event;
+        long long displayLimit = (displayFrom + 15) > noText.size() ? noText.size() : (displayFrom + 15);
         while (windowNext.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 windowNext.close();
@@ -1938,12 +1981,36 @@ void Activity2::scoreBoardOfClassStaff(Class& oneclass)
                 if (goBackBtn.isClicked(mousePos))
                     windowNext.close();
 
+                if (nextPageBtn.isClicked(mousePos)) {
+                    if (displayFrom + 15 <= noText.size())
+                        displayFrom += 15;
+                }
+
+                if (prevPageBtn.isClicked(mousePos)) {
+                    if (displayFrom - 15 >= 0)
+                        displayFrom -= 15;
+                }
             }
         }
         
         windowNext.clear(sf::Color::White);
         windowNext.draw(background);
         goBackBtn.draw(windowNext);
+
+        for (int i = displayFrom; i < displayLimit; i++) {
+            noText[i].draw(windowNext);
+            studentIdTxt[i].draw(windowNext);
+            fullnameTxt[i].draw(windowNext);
+
+            for (int j = 0; j < scoreTxt[i].size(); j++) {
+                scoreTxt[i][j].draw(windowNext);
+            }
+
+            gpaTxt[i].draw(windowNext);
+            totalGpaTxt[i].draw(windowNext);
+        }
+
+       
         windowNext.display();
     }
 }
@@ -2128,7 +2195,6 @@ void Activity2::viewScoreboardStudent(vector<Subject>& listOfUnfinCourse)
     }
 }
 
-// updateStudentScore.png
 void Activity2::changeStudentScore(vector<std::string>& studentInfor)
 {
     sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "Update student's Réult", sf::Style::Close | sf::Style::Titlebar);
@@ -2253,4 +2319,5 @@ bool Activity2::isSame(std::string& a, std::string& b) {
         if (tolower(a[i]) != tolower(b[i])) return false;
     return true;
 }
+
 
