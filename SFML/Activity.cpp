@@ -596,7 +596,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                             if (newSemester.getStartDate().is_valid())
                             {
                                 newSemester.create(); 
-                                existedSchoolYear[0].semester[existedSchoolYear.size() - 1].finishingSem(); 
+                                if (existedSchoolYear.size() != 0) existedSchoolYear[0].semester[existedSchoolYear.size() - 1].finishingSem(); 
                                 existedSchoolYear[0].semester.push_back(newSemester); 
                                 schoolyearBtn[0] = schoolyearButton(53.f, 190.f + 170.f * (0 % 4), existedSchoolYear[0], font);
                                 
