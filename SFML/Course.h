@@ -259,9 +259,11 @@ public:
 				for (int j = i; j < score.size() - 1; ++j)
 					score[j] = score[j + 1];
 				score.pop_back();
+				this->setCurStu(getCurStu() - 1);
 				Student stu(id);
 				User user(stu);
 				getSubjectData(user, user.url / "subject.csv");
+				this->pressEnter();
 				vector<Subject>& unFinSub = user.listOfUnfinCourse;
 				for (int j = 0; j < unFinSub.size(); ++j) {
 					if (unFinSub[j].courseId == this->getID()) {
@@ -270,8 +272,6 @@ public:
 							unFinSub[k] = unFinSub[k + 1];
 						unFinSub.pop_back();
 						user.updateSubjectData();
-						setCurStu(getCurStu() + 1);
-						this->pressEnter();
 						return true;
 					}
 				}
@@ -283,8 +283,6 @@ public:
 							finSub[k] = finSub[k + 1];
 						finSub.pop_back();
 						user.updateSubjectData();
-						setCurStu(getCurStu() + 1);
-						this->pressEnter();
 						return true;
 					}
 				}
@@ -320,20 +318,24 @@ public:
 			}
 		}
 		vector<Student> stuList;
-		stuList = this->getStudiedStudent();
+		stuList = std::move(this->getStudiedStudent());
 		vector<std::string> tmp;
 		tmp = score[0];
 		score.clear();
 		score.push_back(tmp);
 		this->setCurStu(0);
-		for (Student stu : stuList) {
-			this->addStudent(stu);
+		for (int i = 0; i < stuList.size(); ++i) {
+			this->addStudent(stuList[i]);
 		}
 		return true;
 	}
 
 	//Import scoreboard
-	void importScoreBoard(fsys::path& filePath) {
+	bool importScoreBoard(fsys::path filePath) {
+		csvFile file(filePath);
+		file.readFile();
+		if (this->score.size() != file.cnt.size()) return false;
+
 		fsys::copy_file(filePath, this->folderPath / "score.csv");
 		scoreFile.readFile();
 
@@ -347,7 +349,7 @@ public:
 				if (unFinSub[j].courseId == this->getID()) {
 					unFinSub[j].updateScore(this->score[i + 1]);
 					user.updateSubjectData();
-					return;
+					return true;
 				}
 			}
 			vector<Subject>& finSub = user.listOfFinCourse;
@@ -355,7 +357,7 @@ public:
 				if (finSub[j].courseId == this->getID()) {
 					finSub[j].updateScore(this->score[i + 1]);
 					user.updateSubjectData();
-					return;
+					return true;
 				}
 			}
 		}

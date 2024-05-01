@@ -729,7 +729,7 @@ void Activity2::courseInformation(Semester& semester, Course& course)
     Button goBackBtn(686, 820, 245, 66, "Go back", fontNext, ORANGE);
     Button deleteCourseBtn(1280, 96, 270, 40, "Delete this course", fontNext, RED);
     Button updateCourseBtn(990, 96, 240, 40, "Update information", fontNext, RED);
-    Button importScoreBtn(1337, 723, 211, 50, "Import Score", fontNext, RED);
+    Button importScoreBtn(1280, 723, 257, 50, "Import Scoreboard", fontNext, RED);
     Button addStudentBtn(13, 724, 179, 50, "Add student", fontNext, RED);
     Button importStudentListBtn(205, 724, 257, 50, "Import student list", fontNext, RED);
     Button removeStudentBtn(476, 724, 257, 50, "Remove student", fontNext, RED);
@@ -762,27 +762,31 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                     sessionTxt.setString("Session: " + course.getSession());
                     creditTxt.setString("Credits: " + std::to_string(course.getCredit()));
                     maxStudentTxt.setString("Max students: " + std::to_string(course.getMaxStu()));
-                    curStudentTxt.setString("Current students: " + std::to_string(course.getCredit()));
+                    curStudentTxt.setString("Current students: " + std::to_string(course.getCurStu()));
                     dayTxt.setString("Day: " + course.getDay());
                 }
 
                 if (importScoreBtn.isClicked(mousePos)) {
                     importScoreCourseStaff(semester, course);
+                    curStudentTxt.setString("Current students: " + std::to_string(course.getCredit()));
                     break;
                 }
 
                 if (addStudentBtn.isClicked(mousePos)) {
                     addStudentToCourse(course);
+                    curStudentTxt.setString("Current students: " + std::to_string(course.getCurStu()));
                     break;
                 }
 
                 if (removeStudentBtn.isClicked(mousePos)) {
                     removeStudentFromCourse(course);
+                    curStudentTxt.setString("Current students: " + std::to_string(course.getCurStu()));
                     break;
                 }
 
                 if (importStudentListBtn.isClicked(mousePos)) {
                     importStudentList(course);
+                    curStudentTxt.setString("Current students: " + std::to_string(course.getCurStu()));
                     break;
                 }
             }
@@ -1844,54 +1848,75 @@ void Activity2::scoreBoardOfClassStaff(Class& oneclass)
 
 void Activity2::importScoreCourseStaff(Semester& semester, Course& course)
 {
-    sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "Import Scoreboard", sf::Style::Close | sf::Style::Titlebar);
+    sf::RenderWindow windowNext(sf::VideoMode(865, 392), "Import course's scoreboard", sf::Style::Close | sf::Style::Titlebar);
 
     sf::Font fontNext;
     if (!fontNext.loadFromFile("TextFont/arial.ttf"))
         std::cout << "Could not load the font" << std::endl;
 
     sf::Texture textureNext;
-    if (!textureNext.loadFromFile("Assets/AddClassStaff.png"))
-        std::cout << "Could not load the Import scoreboard image" << std::endl;
-    std::cout << "Generate The Import scoreboard sucess" << std::endl;
+    if (!textureNext.loadFromFile("Assets/importFile.png"))
+        std::cout << "Could not load the Course information image" << std::endl;
+    std::cout << "Generate The Import List File sucess" << std::endl;
     sf::Sprite background(textureNext);
 
-    Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
-    Text enterClasstxt(120.f, 137.f, "Enter the path:", fontNext, sf::Color(26, 114, 98), 36);
-    InputField Input(390, 131, 564, 66, fontNext);
-    Button enterBtn(1011.f, 131.f, 245.f, 66.f, "Submit", fontNext, sf::Color(218, 110, 50));
+    InputField pathInput(151, 98, 695, 39, fontNext);
+    Button browseBtn(151, 164, 150, 39, "Browse", fontNext, RED);
+    Button submitBtn(331, 164, 150, 39, "Submit", fontNext, RED);
 
+    pathInput.setSelected(true);
 
     while (windowNext.isOpen()) {
         sf::Event event;
-        if (Input.isSelected())
-            Input.textCursor(Input.getInput());
+        if (pathInput.isSelected()) pathInput.textCursor(pathInput.getInput());
         while (windowNext.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 windowNext.close();
             else if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
-
-                Input.handleMouseClick(mousePos);
-                if (goBackBtn.isClicked(mousePos))
-                    windowNext.close();
-                else if (enterBtn.isClicked(mousePos))
-                {
-                    std::string path = Input.getInput();
-                    popup("Import the scoreboard success! " + path);
+                pathInput.handleMouseClick(mousePos);
+                if (submitBtn.isClicked(mousePos)) {
+                    if (!pathInput.getInput().empty()) {
+                        if (!fsys::exists(pathInput.getInput())) {
+                            popup("File not found");
+                            break;
+                        }
+                        if (course.importScoreBoard(pathInput.getInput()))
+                            popup("Scoreboard imported");
+                        else popup("Error processing import scoreboard file (may be due to wrong input file)");
+                        return;
+                    }
+                }
+                if (browseBtn.isClicked(mousePos)) {
+                    std::string path(tinyfd_openFileDialog(0, 0, 0, 0, 0, 0));
+                    if (course.importScoreBoard(path))
+                        popup("Scoreboard imported");
+                    else popup("Error processing import scoreboard file (may be due to wrong input file)"); 
                     return;
                 }
-
             }
-            Input.processInput(event);
+            pathInput.processInput(event);
+            if (pathInput.chooseNextField()) {
+                if (!pathInput.getInput().empty()) {
+                    if (!fsys::exists(pathInput.getInput())) {
+                        popup("File not found");
+                        break;
+                    }
+                    if (course.importStudentsFile(pathInput.getInput()))
+                        popup("Student list imported");
+                    else popup("Error processing import student list file");
+                    return;
+                }
+            }
         }
 
         windowNext.clear(sf::Color::White);
         windowNext.draw(background);
-        Input.draw(windowNext);
-        enterBtn.draw(windowNext);
-        enterClasstxt.draw(windowNext);
-        goBackBtn.draw(windowNext);
+
+        pathInput.draw(windowNext);
+        browseBtn.draw(windowNext);
+        submitBtn.draw(windowNext);
+
         windowNext.display();
     }
 }

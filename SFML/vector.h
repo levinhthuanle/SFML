@@ -27,8 +27,10 @@ public:
     }
 
     void clear() {
-        if (_data) delete[] _data;
-        this->_data = nullptr;
+        if (_data) {
+            delete[] _data;
+            this->_data = nullptr;
+        }
         this->capacity = 0;
         this->s = 0;
     }
