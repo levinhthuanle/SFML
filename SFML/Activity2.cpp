@@ -736,13 +736,16 @@ void Activity2::courseInformation(Semester& semester, Course& course)
     Text curStudentTxt(721, 167, "Current students: " + std::to_string(course.getCurStu()), fontNext, BLACK, 26);
     Text dayTxt(721, 197, "Day: " + course.getDay(), fontNext, BLACK, 26);
 
+
     Button goBackBtn(686, 820, 245, 66, "Go back", fontNext, ORANGE);
     Button deleteCourseBtn(1280, 96, 270, 40, "Delete this course", fontNext, RED);
     Button updateCourseBtn(990, 96, 240, 40, "Update information", fontNext, RED);
     Button importScoreBtn(718, 723, 265, 50, "Import Scoreboard", fontNext, RED);
     Button addStudentBtn(13, 724, 179, 50, "Add student", fontNext, RED);
     Button importStudentListBtn(205, 724, 257, 50, "Import student list", fontNext, RED);
-    Button removeStudentBtn(476, 724, 257, 50, "Remove student", fontNext, RED);
+    Button removeStudentBtn(476, 724, 229, 50, "Remove student", fontNext, RED);
+    Button exportStudentListBtn(995, 724, 267, 50, "Export Student List", fontNext, RED);
+    Button exportScoreBoardBtn(1276, 724, 267, 50, "Export Scoreboard", fontNext, RED);
     Button nextPageBtn(1586.f, 736.f, 92.f, 62.f, "Next", fontNext, sf::Color(218, 110, 50));
     Button prevPageBtn(1586.f, 813.f, 92.f, 62.f, "Prev", fontNext, sf::Color(218, 110, 50));
        
@@ -964,8 +967,8 @@ void Activity2::addStudentToCourse(Course& course) {
                             popup("Student not found");
                             continue;
                         }
-                        for (auto row : course.score) {
-                            if (row[1] == ID) {
+                        for (int i = 0; i < course.score.size(); ++i) {
+                            if (course.score[i][0] == ID) {
                                 popup("Student already in course");
                                 continue;
                             }
@@ -1981,7 +1984,7 @@ void Activity2::addStudent(Class& oneclass)
                         temp_basic_info.push_back(studentDobInput.getInput());
                     temp_basic_info.push_back(studentSocialInput.getInput());
                     
-                    if (temp_basic_info.size() != 6)
+                    if (temp_basic_info.size() != 5)
                         popup("Wrong input or missing element.");
                     else
                     {
