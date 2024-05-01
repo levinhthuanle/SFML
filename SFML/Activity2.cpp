@@ -969,7 +969,9 @@ void Activity2::addStudentToCourse(Course& course) {
                             continue;
                         }
                         for (int i = 0; i < course.score.size(); ++i) {
-                            if (course.score[i][0] == ID) {
+                            std::string s;
+                            s = course.score[i][0];
+                            if (s == ID || isSame(s, ID)) {
                                 popup("Student already in course");
                                 continue;
                             }
@@ -2469,11 +2471,11 @@ void Activity2::changeStudentScore(vector<std::string>& studentInfor)
     }
 }
 
-bool Activity2::isSame(std::string& a, std::string& b) {
-    if (a.length() != b.length()) return false;
-    for (int i = 0; i < a.length(); ++i)
+bool isSame(std::string a, std::string b) {
+    if (a.size() != b.size()) return false;
+    for (int i = 0; i < a.size(); ++i) {
         if (tolower(a[i]) != tolower(b[i])) return false;
+    }
     return true;
 }
-
 
