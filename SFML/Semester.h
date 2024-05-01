@@ -146,4 +146,17 @@ public:
 		fout << startDate.date << "\n" << endDate.date; 
 		fout.close(); 
 	}
+	void finishingSem()
+	{
+		courses.clear(); 
+		this->loadCourse(); 
+		for (int i = 0; i < courses.size(); ++i)
+		{
+			for (int j = 1; j < courses[i].score.size(); ++j)
+			{
+				Student tempStudent(courses[i].score[j][0]);
+				tempStudent.upgradeFinished(courses[i].id);
+			}
+		}
+	}
 };

@@ -68,12 +68,12 @@ public:
 	}
 
 	void updateScore(vector<std::string>& score) {
-		practiceScore = stoi(score[3]);
-		midScore = stoi(score[4]);
-		finalScore = stoi(score[5]);
-		plusScore = stoi(score[6]);
-		otherScore = stoi(score[7]);
-		aveScore = stoi(score[8]);
+		practiceScore = score[3];
+		midScore = score[4];
+		finalScore = score[5];
+		plusScore = score[6];
+		otherScore = score[7];
+		aveScore = score[8];
 	}
 
 	void deleteSubject() {

@@ -57,6 +57,10 @@ public:
 
 	static void importScoreCourseStaff(Semester& semester, Course& course);
 
+	static void exportStudentList(Course& course);
+
+	static void exportScoreBoard(Course& course);
+
 	static void viewScoreboardStudent(vector<Subject>& listOfUnfinCourse);
 
 	static void changeStudentScore(vector<std::string>& studentInfor);

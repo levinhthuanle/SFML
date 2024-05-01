@@ -48,15 +48,17 @@ bool csvFile::writeFile()
     }
     fout.open(stringPath);
     if (!fout.is_open()) {
-        std::cerr << "Cannot open " << stringPath << " to write.\n";
+        std::cout << "Cannot open " << stringPath << " to write.\n";
     }
     ll rowNum = this->cnt.size();
     for (ll i = 0; i < rowNum; i++) {
         ll colNum = cnt[i].size();
-        for (ll j = 0; j < colNum; j++)
+        for (ll j = 0; j < colNum - 1; j++)
             fout << cnt[i][j] << ",";
+        fout << cnt[i][colNum - 1];
         fout << std::endl;
     }
+    std::cout << "File " << stringPath << " wrote.\n";
     return true;
 }
 

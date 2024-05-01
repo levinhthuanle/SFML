@@ -540,6 +540,7 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                     // Implement a function to create a new Schoolyear folder
                     else if (existedSchoolYear[0].semester.size() == 3)
                     {
+                        existedSchoolYear[0].semester[2].finishingSem(); 
                         SchoolYear nextYear = existedSchoolYear[0].getNextPossibleYear(); 
                         nextYear.createNewSchoolYear(); 
                         existedSchoolYear.insert(nextYear, 0); 
@@ -595,8 +596,10 @@ void Activity::initHomePageStaffWindow(sf::RenderWindow& window)
                             if (newSemester.getStartDate().is_valid())
                             {
                                 newSemester.create(); 
+                                if (existedSchoolYear[0].semester.size() != 0) existedSchoolYear[0].semester[existedSchoolYear[0].semester.size() - 1].finishingSem();
                                 existedSchoolYear[0].semester.push_back(newSemester); 
                                 schoolyearBtn[0] = schoolyearButton(53.f, 190.f + 170.f * (0 % 4), existedSchoolYear[0], font);
+                                
                                 
                             }
                             

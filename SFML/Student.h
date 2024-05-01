@@ -1,6 +1,8 @@
 #pragma once
 #include "Requirement.h"
 #include "Vector.h"
+#include "FileNFolder.h"
+
 namespace fsys = std::filesystem;
 
 //this class contain ONLY INFORMATION about a student.
@@ -75,6 +77,22 @@ public:
 	{
 		fsys::remove_all (studentPath);
 		basic_info.clear();
+	}
+	void upgradeFinished(std::string CourseID)
+	{
+		csvFile allSubject(studentPath / "subject.csv"); 
+		allSubject.readFile(); 
+		for (int i = 0; i < allSubject.cnt.size() / 9; ++i)
+		{
+			if (allSubject.cnt[9 * i][0] == CourseID)
+			{
+				
+				std::string& replacing = allSubject.cnt[9 * i + 8][0]; 
+				if (replacing[0] == '-')
+					replacing = replacing.substr(1); 
+				allSubject.writeFile(); 
+			}
+		}
 	}
 };
 

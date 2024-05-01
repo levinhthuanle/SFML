@@ -225,7 +225,13 @@ public:
 			newStu.push_back(student.getClass());
 			newStu.push_back(student.getFullname());
 			for (int i = 0; i < 6; i++)
-				newStu.push_back("");
+				newStu.push_back("-1");
+			for (int i = 0; i < score.size(); ++i)
+			{
+				for (int j = 0; j < 9; ++j)
+					std::cout << score[i][j] << " ";
+				std::cout << "\n"; 
+			}
 			score.push_back(newStu);
 		}
 
@@ -338,8 +344,9 @@ public:
 		file.readFile();
 		if (this->score.size() != file.cnt.size()) return false;
 
-		fsys::copy_file(filePath, this->folderPath / "score.csv");
-		scoreFile.readFile();
+		scoreFile.cnt = file.cnt;
+
+		scoreFile.writeFile();
 
 		vector<Student> stuList = this->getStudiedStudent();
 
@@ -367,22 +374,26 @@ public:
 	}
 
 	//Export scoreboard file
-	void exportScoreBoard(fsys::path& filePath) {
+	bool exportScoreBoard(fsys::path& filePath) {
 		csvFile file(filePath);
-		fsys::copy_file(this->folderPath / "score.csv", filePath);
+		file.cnt = score;
+		file.writeFile();
+		return true;
 	}
 
 	//Export student list
-	void exportStudentList(fsys::path& filePath) {
+	bool exportStudentList(fsys::path& filePath) {
 		csvFile file(filePath);
 		vector <std::string> row;
 		for (int i = 0; i < this->getCurStu(); ++i) {
 			for (int j = 0; j < 3; j++) {
-				row.push_back(score[i + 1][j]);
+				row.push_back(score[i][j]);
 			}
 			file.cnt.push_back(row);
+			row.clear();
 		}
 		file.writeFile();
+		return true;
 	}
 	//create new course folder.
 	void create()
