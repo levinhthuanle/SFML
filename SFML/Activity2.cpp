@@ -100,78 +100,85 @@ void Activity2::popup(std::string content)
     }
 }
 
-void Activity2::drawScoreBoard(Course& course, sf::RenderWindow& window, sf::Font& font)
+int Activity2::drawScoreBoard(Course& course, sf::RenderWindow& window, sf::Font& font, int displayFrom, int displayLimit)
 {
-    Button horizontalLine(22, 273, 1545, 0, "", font, BLACK);
-    Button verticalLine1(82, 239, 0, 452, "", font, BLACK);
-    Button verticalLine2(309, 239, 0, 452, "", font, BLACK);
-    Button verticalLine3(519, 239, 0, 452, "", font, BLACK);
-    Button verticalLine4(859, 239, 0, 452, "", font, BLACK);
-    Button verticalLine5(1000, 239, 0, 452, "", font, BLACK);
-    Button verticalLine6(1159, 239, 0, 452, "", font, BLACK);
-    Button verticalLine7(1266, 239, 0, 452, "", font, BLACK);
-    Button verticalLine8(1372, 239, 0, 452, "", font, BLACK);
+    //Button horizontalLine(22, 273, 1545, 0, "", fontNext, BLACK);
+    //Button verticalLine1(82, 239, 0, 452, "", fontNext, BLACK);
+    //Button verticalLine2(309, 239, 0, 452, "", fontNext, BLACK);
+    //Button verticalLine3(519, 239, 0, 452, "", fontNext, BLACK);
+    //Button verticalLine4(859, 239, 0, 452, "", fontNext, BLACK);
+    //Button verticalLine5(1000, 239, 0, 452, "", fontNext, BLACK);
+    //Button verticalLine6(1159, 239, 0, 452, "", fontNext, BLACK);
+    //Button verticalLine7(1266, 239, 0, 452, "", fontNext, BLACK);
+    //Button verticalLine8(1372, 239, 0, 452, "", fontNext, BLACK);
 
-    Text noTxt(29, 232, "No", font, GREEN, 32);
-    Text studentNameTxt(103, 232, "Student's ID", font, GREEN, 32);
-    Text studentIdTxt(316, 232, "Class", font, GREEN, 32);
-    Text midtermTxt(529, 232, "Fullname", font, GREEN, 32);
-    Text finalTxt(862, 232, "Practice", font, GREEN, 32);
-    Text extraTxt(1002, 232, "Midterm", font, GREEN, 32);
-    Text overallTxt(1167, 232, "Final", font, GREEN, 32);
-    Text exTxt(1287, 232, "Plus", font, GREEN, 32);
-    Text ex1Txt(1420, 232, "Overall", font, GREEN, 32);
+    //Text noTxt(29, 232, "No", fontNext, GREEN, 32);
+    //Text studentNameTxt(103, 232, "Student's ID", fontNext, GREEN, 32);
+    //Text studentIdTxt(316, 232, "Class", fontNext, GREEN, 32);
+    //Text midtermTxt(529, 232, "Fullname", fontNext, GREEN, 32);
+    //Text finalTxt(862, 232, "Practice", fontNext, GREEN, 32);
+    //Text extraTxt(1002, 232, "Midterm", fontNext, GREEN, 32);
+    //Text overallTxt(1167, 232, "Final", fontNext, GREEN, 32);
+    //Text exTxt(1287, 232, "Plus", fontNext, GREEN, 32);
+    //Text ex1Txt(1420, 232, "Overall", fontNext, GREEN, 32);
 
-    vector<Text> studentInformation;
-    for (int i = 1; i < course.score.size() ; i++) {
-        std::string noStr =(i < 10) ? ('0' + std::to_string(i)) : (std::to_string(i));
-        Text numTxt(37, (float)280 + 36 * ((i-1) % 10), noStr, font, GREEN, 32);
+    //vector<Text> studentInformation;
+    //vector<Button> studentInforListBtn;
+    //for (int i = 1; i < course.score.size() ; i++) {
+    //    std::string noStr =(i < 10) ? ('0' + std::to_string(i)) : (std::to_string(i));
+    //    Text numTxt(37, (float)280 + 36 * ((i-1) % 10), noStr, fontNext, GREEN, 32);
 
-        Text sIdTxt(105,(float) (280 + 36 * ((i-1) % 10)), course.score[i][0], font, BLACK, 32);
-        Text sCTxt(323, (float)280 + 36 * ((i-1) % 10), course.score[i][1], font, BLACK, 32);
-        Text sFTxt(525, (float)280 + 36 * ((i-1) % 10), course.score[i][2], font, BLACK, 32);
-        Text pracTxt(888, (float)280 + 36 * ((i-1) % 10), course.score[i][3], font, BLACK, 32);
-        Text midTxt(1037, (float)280 + 36 * ((i-1) % 10), course.score[i][4], font, BLACK, 32);
-        Text finTxt(1185, (float)280 + 36 * ((i-1) % 10), course.score[i][5], font, BLACK, 32);
-        Text plusTxt(1291, (float)280 + 36 * ((i-1) % 10), course.score[i][6], font, BLACK, 32);
-        Text overTxt(1437, (float)280 + 36 * ((i-1) % 10), course.score[i][7], font, RED, 32);
+    //    Text sIdTxt(105,(float) (280 + 36 * ((i-1) % 10)), course.score[i][0], fontNext, RED, 32);
+    //    Text sCTxt(323, (float)280 + 36 * ((i-1) % 10), course.score[i][1], fontNext, BLACK, 32);
+    //    Text sFTxt(525, (float)280 + 36 * ((i-1) % 10), course.score[i][2], fontNext, BLACK, 32);
+    //    Text pracTxt(888, (float)280 + 36 * ((i-1) % 10), course.score[i][3], fontNext, BLACK, 32);
+    //    Text midTxt(1037, (float)280 + 36 * ((i-1) % 10), course.score[i][4], fontNext, BLACK, 32);
+    //    Text finTxt(1185, (float)280 + 36 * ((i-1) % 10), course.score[i][5], fontNext, BLACK, 32);
+    //    Text plusTxt(1291, (float)280 + 36 * ((i-1) % 10), course.score[i][6], fontNext, BLACK, 32);
+    //    Text overTxt(1437, (float)280 + 36 * ((i-1) % 10), course.score[i][7], fontNext, RED, 32);
 
-        studentInformation.push_back(numTxt);
-        studentInformation.push_back(sIdTxt);
-        studentInformation.push_back(sCTxt);
-        studentInformation.push_back(sFTxt);
-        studentInformation.push_back(pracTxt);
-        studentInformation.push_back(midTxt);
-        studentInformation.push_back(finTxt);
-        studentInformation.push_back(plusTxt);
-        studentInformation.push_back(overTxt);
+    //    studentInformation.push_back(numTxt);
+    //    studentInformation.push_back(sIdTxt);
+    //    studentInformation.push_back(sCTxt);
+    //    studentInformation.push_back(sFTxt);
+    //    studentInformation.push_back(pracTxt);
+    //    studentInformation.push_back(midTxt);
+    //    studentInformation.push_back(finTxt);
+    //    studentInformation.push_back(plusTxt);
+    //    studentInformation.push_back(overTxt);
 
-    }
+    //    Button tmpBtn(105, (float)(280 + 36 * ((i - 1) % 10)), 180, 32, "23125019",fontNext, BLACK);
+    //    studentInforListBtn.push_back(tmpBtn);
+    //}
 
 
 
-    horizontalLine.draw(window);
-    verticalLine1.draw(window);
-    verticalLine2.draw(window);
-    verticalLine3.draw(window);
-    verticalLine4.draw(window);
-    verticalLine5.draw(window);
-    verticalLine6.draw(window);
-    verticalLine7.draw(window);
-    verticalLine8.draw(window);
+    //horizontalLine.draw(windowNext);
+    //verticalLine1.draw(windowNext);
+    //verticalLine2.draw(windowNext);
+    //verticalLine3.draw(windowNext);
+    //verticalLine4.draw(windowNext);
+    //verticalLine5.draw(windowNext);
+    //verticalLine6.draw(windowNext);
+    //verticalLine7.draw(windowNext);
+    //verticalLine8.draw(windowNext);
 
-    noTxt.draw(window);
-    studentNameTxt.draw(window);
-    studentIdTxt.draw(window);
-    midtermTxt.draw(window);
-    finalTxt.draw(window);
-    extraTxt.draw(window);
-    overallTxt.draw(window);
-    exTxt.draw(window);
-    ex1Txt.draw(window);
+    //noTxt.draw(windowNext);
+    //studentNameTxt.draw(windowNext);
+    //studentIdTxt.draw(windowNext);
+    //midtermTxt.draw(windowNext);
+    //finalTxt.draw(windowNext);
+    //extraTxt.draw(windowNext);
+    //overallTxt.draw(windowNext);
+    //exTxt.draw(windowNext);
+    //ex1Txt.draw(windowNext);
 
-    for (int i = 0; i < studentInformation.size(); i++)
-        studentInformation[i].draw(window);
+    //for (int i = displayFrom * 9; i < displayLimit * 9; i++)
+    //    studentInformation[i].draw(windowNext);
+
+
+    //return studentInformation.size() / 9;
+    return 1;
 }
 
 void Activity2::courseInformationStudent(Subject& subject)
@@ -723,10 +730,10 @@ void Activity2::courseInformation(Semester& semester, Course& course)
     Text courseIdTxt(47, 107, "Course Id: " + course.getID(), fontNext, BLACK, 26);
     Text courseNameTxt(47, 137, "Course Name: " + course.getName(), fontNext, BLACK, 26);
     Text teacherNameTxt(47, 167, "Teacher: " + course.getTeacher(), fontNext, BLACK, 26);
-    Text sessionTxt(47, 197, "Session: " + course.getSession(), fontNext, BLACK, 26);
-    Text creditTxt(721, 107, "Credits: " + course.getCredit(), fontNext, BLACK, 26);
-    Text maxStudentTxt(721, 137, "Max students: " + course.getMaxStu(), fontNext, BLACK, 26);
-    Text curStudentTxt(721, 167, "Current students: " + course.getCurStu(), fontNext, BLACK, 26);
+    Text sessionTxt(47, 197, "Session: 1", fontNext, BLACK, 26);
+    Text creditTxt(721, 107, "Credits: 3" , fontNext, BLACK, 26);
+    Text maxStudentTxt(721, 137, "Max students: 50", fontNext, BLACK, 26);
+    Text curStudentTxt(721, 167, "Current students: " + std::to_string(course.getCurStu()), fontNext, BLACK, 26);
     Text dayTxt(721, 197, "Day: " + course.getDay(), fontNext, BLACK, 26);
 
     Button goBackBtn(686, 820, 245, 66, "Go back", fontNext, ORANGE);
@@ -736,18 +743,73 @@ void Activity2::courseInformation(Semester& semester, Course& course)
     Button addStudentBtn(13, 724, 179, 50, "Add student", fontNext, RED);
     Button importStudentListBtn(205, 724, 257, 50, "Import student list", fontNext, RED);
     Button removeStudentBtn(476, 724, 257, 50, "Remove student", fontNext, RED);
+    Button nextPageBtn(1586.f, 736.f, 92.f, 62.f, "Next", fontNext, sf::Color(218, 110, 50));
+    Button prevPageBtn(1586.f, 813.f, 92.f, 62.f, "Prev", fontNext, sf::Color(218, 110, 50));
+       
+    Button horizontalLine(22, 273, 1545, 0, "", fontNext, BLACK);
+    Button verticalLine1(82, 239, 0, 452, "", fontNext, BLACK);
+    Button verticalLine2(309, 239, 0, 452, "", fontNext, BLACK);
+    Button verticalLine3(519, 239, 0, 452, "", fontNext, BLACK);
+    Button verticalLine4(859, 239, 0, 452, "", fontNext, BLACK);
+    Button verticalLine5(1000, 239, 0, 452, "", fontNext, BLACK);
+    Button verticalLine6(1159, 239, 0, 452, "", fontNext, BLACK);
+    Button verticalLine7(1266, 239, 0, 452, "", fontNext, BLACK);
+    Button verticalLine8(1372, 239, 0, 452, "", fontNext, BLACK);
 
+    Text noTxt(29, 232, "No", fontNext, GREEN, 32);
+    Text studentNameTxt(103, 232, "Student's ID", fontNext, GREEN, 32);
+    Text studentIdTxt(316, 232, "Class", fontNext, GREEN, 32);
+    Text midtermTxt(529, 232, "Fullname", fontNext, GREEN, 32);
+    Text finalTxt(862, 232, "Practice", fontNext, GREEN, 32);
+    Text extraTxt(1002, 232, "Midterm", fontNext, GREEN, 32);
+    Text overallTxt(1167, 232, "Final", fontNext, GREEN, 32);
+    Text exTxt(1287, 232, "Plus", fontNext, GREEN, 32);
+    Text ex1Txt(1420, 232, "Overall", fontNext, GREEN, 32);
+
+    vector<Text> studentInformation;
+    vector<Button> studentInforListBtn;
+    for (int i = 1; i < course.score.size(); i++) {
+        std::string noStr = (i < 10) ? ('0' + std::to_string(i)) : (std::to_string(i));
+        Text numTxt(37, (float)280 + 36 * ((i - 1) % 10), noStr, fontNext, GREEN, 32);
+
+        Text sIdTxt(105, (float)(280 + 36 * ((i - 1) % 10)), course.score[i][0], fontNext, RED, 32);
+        Text sCTxt(323, (float)280 + 36 * ((i - 1) % 10), course.score[i][1], fontNext, BLACK, 32);
+        Text sFTxt(525, (float)280 + 36 * ((i - 1) % 10), course.score[i][2], fontNext, BLACK, 32);
+        Text pracTxt(888, (float)280 + 36 * ((i - 1) % 10), course.score[i][3], fontNext, BLACK, 32);
+        Text midTxt(1037, (float)280 + 36 * ((i - 1) % 10), course.score[i][4], fontNext, BLACK, 32);
+        Text finTxt(1185, (float)280 + 36 * ((i - 1) % 10), course.score[i][5], fontNext, BLACK, 32);
+        Text plusTxt(1291, (float)280 + 36 * ((i - 1) % 10), course.score[i][6], fontNext, BLACK, 32);
+        Text overTxt(1437, (float)280 + 36 * ((i - 1) % 10), course.score[i][7], fontNext, RED, 32);
+
+        studentInformation.push_back(numTxt);
+        studentInformation.push_back(sIdTxt);
+        studentInformation.push_back(sCTxt);
+        studentInformation.push_back(sFTxt);
+        studentInformation.push_back(pracTxt);
+        studentInformation.push_back(midTxt);
+        studentInformation.push_back(finTxt);
+        studentInformation.push_back(plusTxt);
+        studentInformation.push_back(overTxt);
+
+        Button tmpBtn(105, (float)(280 + 36 * ((i - 1) % 10)), 180, 32, "23125019", fontNext, BLACK);
+        studentInforListBtn.push_back(tmpBtn);
+    }
+
+    int displayFrom = 0, displayLimit = 0;
 
     while (windowNext.isOpen()) {
         sf::Event event;
+        long long displayLimit = (displayFrom + 10) > studentInformation.size()/9 ? studentInformation.size()/9 : (displayFrom + 10);
         while (windowNext.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 windowNext.close();
             else if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
 
-                if (goBackBtn.isClicked(mousePos))
+                if (goBackBtn.isClicked(mousePos)) {
                     windowNext.close();
+                    return;
+                }
 
                 if (deleteCourseBtn.isClicked(mousePos)) {
                     if (confirm("Do you really want to delete this course?")) {
@@ -792,6 +854,21 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                     curStudentTxt.setString("Current students: " + course.getCurStu());
                     break;
                 }
+
+                if (nextPageBtn.isClicked(mousePos)) {
+                    if (displayFrom + 10 <= displayLimit)
+                        displayFrom += 10;
+                }
+
+                if (prevPageBtn.isClicked(mousePos)) {
+                    if (displayFrom - 10 >= 0)
+                        displayFrom -= 10;
+                }
+
+                for (int i = displayFrom; i < displayLimit; i++) 
+                    if (studentInforListBtn[i].isClicked(mousePos)){
+                        changeStudentScore(course.score[i + 1]);
+                }
             }
         }
 
@@ -813,8 +890,29 @@ void Activity2::courseInformation(Semester& semester, Course& course)
         maxStudentTxt.draw(windowNext);
         curStudentTxt.draw(windowNext);
         dayTxt.draw(windowNext);
+        horizontalLine.draw(windowNext);
+        verticalLine1.draw(windowNext);
+        verticalLine2.draw(windowNext);
+        verticalLine3.draw(windowNext);
+        verticalLine4.draw(windowNext);
+        verticalLine5.draw(windowNext);
+        verticalLine6.draw(windowNext);
+        verticalLine7.draw(windowNext);
+        verticalLine8.draw(windowNext);
+
+        noTxt.draw(windowNext);
+        studentNameTxt.draw(windowNext);
+        studentIdTxt.draw(windowNext);
+        midtermTxt.draw(windowNext);
+        finalTxt.draw(windowNext);
+        extraTxt.draw(windowNext);
+        overallTxt.draw(windowNext);
+        exTxt.draw(windowNext);
+        ex1Txt.draw(windowNext);
+
+        for (int i = displayFrom * 9; i < displayLimit * 9; i++)
+            studentInformation[i].draw(windowNext);
         
-        drawScoreBoard(course, windowNext, fontNext);
 
         windowNext.display();
     }
@@ -1300,8 +1398,8 @@ void Activity2::viewOneClass(Class& oneclass)
 
     Button addStudentBtn(1420.f, 117.f, 240, 50.f, "Add student", fontNext, RED);
     Button removeStudentBtn(1420.f, 191.f, 240.f, 50.f, "Remove Student", fontNext, RED);
-    //Button exportListBtn(1420, 260, 240, 50, "Export list ", fontNext, RED);
-    //Button scoreBoardBtn(1420, 330, 240, 50, "ScoreBoard ", fontNext, RED);
+    Button exportListBtn(1420, 260, 240, 50, "Export list ", fontNext, RED);
+    Button scoreBoardBtn(1420, 330, 240, 50, "ScoreBoard ", fontNext, RED);
     vector<Text> listOfStudent;
     for (int i = 0; i < oneclass.students.size(); i++) {
         std::string temp = std::to_string(i + 1) + "    ";
@@ -1363,7 +1461,7 @@ void Activity2::viewOneClass(Class& oneclass)
                             listOfStudent.push_back(text);
                         }
                     }
-            
+                    return;
                 }
 
                 if (addStudentBtn.isClicked(mousePos))
@@ -1388,16 +1486,17 @@ void Activity2::viewOneClass(Class& oneclass)
                         Text text(82.f, 188.f + 32 * i, temp, fontNext, BLACK, 32);
                         listOfStudent.push_back(text);
                     }
+                    return;
                 }
 
-               /* if (exportListBtn.isClicked(mousePos)) {
+                if (exportListBtn.isClicked(mousePos)) {
 
                     popup("Export the list of student succes");
-                }*/
+                }
 
-                /*if (scoreBoardBtn.isClicked(mousePos)) {
+                if (scoreBoardBtn.isClicked(mousePos)) {
                     scoreBoardOfClassStaff(oneclass);
-                }*/
+                }
 
                 if (nextPageBtn.isClicked(mousePos)) {
                     if (displayFrom + 15 <= listOfStudent.size())
@@ -1426,8 +1525,8 @@ void Activity2::viewOneClass(Class& oneclass)
 
         addStudentBtn.draw(windowNext);
         removeStudentBtn.draw(windowNext);
-        //exportListBtn.draw(windowNext);
-        //scoreBoardBtn.draw(windowNext);
+        exportListBtn.draw(windowNext);
+        scoreBoardBtn.draw(windowNext);
 
         for (int i = displayFrom; i < displayLimit; i++)
             listOfStudent[i].draw(windowNext);
@@ -2025,6 +2124,125 @@ void Activity2::viewScoreboardStudent(vector<Subject>& listOfUnfinCourse)
             scoreboard[i].draw(windowNext);
 
         goBackBtn.draw(windowNext);
+        windowNext.display();
+    }
+}
+
+// updateStudentScore.png
+void Activity2::changeStudentScore(vector<std::string>& studentInfor)
+{
+    sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "Update student's Réult", sf::Style::Close | sf::Style::Titlebar);
+
+    sf::Font fontNext;
+    if (!fontNext.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    sf::Texture textureNext;
+    if (!textureNext.loadFromFile("Assets/updateStudentScore.png"))
+        std::cout << "Could not load the Update student result image" << std::endl;
+    std::cout << "Generate update student result sucess" << std::endl;
+    sf::Sprite background(textureNext);
+
+    Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
+    Button acceptBtn(970, 766, 245, 66, "Accept", fontNext, ORANGE);
+    Text sId(162, 165, "Id: ", fontNext, BLACK, 32);
+    Text sName(162, 251, "Name ", fontNext, BLACK, 32);
+    Text sClass(162, 334, "Class ", fontNext, BLACK, 32);
+    Text sPractice(909, 161, "Practice: ", fontNext, BLACK, 32);
+    Text sMid(909, 248, "Midterm: ", fontNext, BLACK, 32);
+    Text sPlus(909, 334, "Plus: ", fontNext, BLACK, 32);
+    Text sFinal(909, 423, "Final: ", fontNext, BLACK, 32);
+    Text sOveral(909, 506, "Overall: ", fontNext, BLACK, 32);
+
+    InputField sIdInput(364, 162, 381, 50, fontNext); 
+    InputField sNameInput(364, 251, 381, 50, fontNext);
+    InputField sClassInput(364, 334, 381, 50, fontNext);
+    InputField sPracticeInput(1111, 162, 381, 50, fontNext);
+    InputField sMidInput(1111, 248, 381, 50, fontNext);
+    InputField sPlusInput(1111, 334, 381, 50, fontNext);
+    InputField sFinalInput(1111, 420, 381, 50, fontNext);
+    InputField sOveralInput(1111, 506, 381, 50, fontNext);
+    
+    //Stu ID,       Class,      Name,       Practice Score, Midterm Score,      Final Score,    Plus Score, Other Score,    Average Score,
+    sIdInput.input = studentInfor[0];
+    sNameInput.input = studentInfor[2];
+    sClassInput.input = studentInfor[1];
+    sPracticeInput.input = studentInfor[3];
+    sMidInput.input = studentInfor[4];
+    sPlusInput.input = studentInfor[6];
+    sFinalInput.input = studentInfor[5];
+    sOveralInput.input = studentInfor[7];
+
+
+    while (windowNext.isOpen()) {
+        sf::Event event;
+        if (sIdInput.isSelected()) sIdInput.textCursor(sIdInput.getInput());
+        if (sNameInput.isSelected()) sNameInput.textCursor(sNameInput.getInput());
+        if (sClassInput.isSelected()) sClassInput.textCursor(sClassInput.getInput());
+        if (sPracticeInput.isSelected()) sPracticeInput.textCursor(sPracticeInput.getInput());
+        if (sMidInput.isSelected()) sMidInput.textCursor(sMidInput.getInput());
+        if (sPlusInput.isSelected()) sPlusInput.textCursor(sPlusInput.getInput());
+        if (sFinalInput.isSelected()) sFinalInput.textCursor(sFinalInput.getInput());
+        if (sOveralInput.isSelected()) sOveralInput.textCursor(sOveralInput.getInput());
+
+        while (windowNext.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                windowNext.close();
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+                sIdInput.handleMouseClick(mousePos);
+                sNameInput.handleMouseClick(mousePos);
+                sClassInput.handleMouseClick(mousePos);
+                sPracticeInput.handleMouseClick(mousePos);
+                sPlusInput.handleMouseClick(mousePos);
+                sMidInput.handleMouseClick(mousePos);
+                sFinalInput.handleMouseClick(mousePos);
+                sOveralInput.handleMouseClick(mousePos);
+
+
+                if (goBackBtn.isClicked(mousePos))
+                    windowNext.close();
+
+                if (acceptBtn.isClicked(mousePos)) {
+                    // Solve the update student result
+                }
+
+            }
+            sIdInput.processInput(event);
+            sNameInput.processInput(event);
+            sClassInput.processInput(event);
+            sPracticeInput.processInput(event);
+            sPlusInput.processInput(event);
+            sMidInput.processInput(event);
+            sFinalInput.processInput(event);
+            sOveralInput.processInput(event);
+        }
+
+        
+
+        windowNext.clear(sf::Color::White);
+        windowNext.draw(background);
+        goBackBtn.draw(windowNext);
+        acceptBtn.draw(windowNext);
+
+        sId.draw(windowNext);
+        sName.draw(windowNext);
+        sClass.draw(windowNext);
+        sPractice.draw(windowNext);
+        sMid.draw(windowNext);
+        sPlus.draw(windowNext);
+        sFinal.draw(windowNext);
+        sOveral.draw(windowNext);
+
+        sIdInput.draw(windowNext);
+        sNameInput.draw(windowNext);
+        sClassInput.draw(windowNext);
+        sPracticeInput.draw(windowNext);
+        sMidInput.draw(windowNext);
+        sPlusInput.draw(windowNext);
+        sFinalInput.draw(windowNext);
+        sOveralInput.draw(windowNext);
+
         windowNext.display();
     }
 }

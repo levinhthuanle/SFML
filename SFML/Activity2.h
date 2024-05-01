@@ -17,7 +17,7 @@ public:
 
 	static void popup(std::string content);
 
-	static void drawScoreBoard(Course& course, sf::RenderWindow& window, sf::Font& font);
+	static int drawScoreBoard(Course& course, sf::RenderWindow& window, sf::Font& font, int displayFrom, int displayLimit);
 	//courseInformationStudent(unfinBtn[i].cnt)
 	static void courseInformationStudent(Subject& subject);
 
@@ -58,6 +58,8 @@ public:
 	static void importScoreCourseStaff(Semester& semester, Course& course);
 
 	static void viewScoreboardStudent(vector<Subject>& listOfUnfinCourse);
+
+	static void changeStudentScore(vector<std::string>& studentInfor);
 
 	bool isSame(std::string& a, std::string& b);
 };
