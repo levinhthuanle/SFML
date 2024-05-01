@@ -8,8 +8,8 @@ class Subject
 public:
 	std::string id;
 	std::string name = "";
-	int midScore = -1, finalScore = -1;
-	int plusScore = -1, practiceScore = -1, aveScore = -1, otherScore = -1;
+	std::string midScore = "-1", finalScore = "-1";
+	std::string plusScore = "- 1", practiceScore = "- 1", aveScore = "-1", otherScore = "- 1";
 	std::string courseId = "", courseName = "", teacherName = "", days = "", time = "";
 	int credits = 0, numOfStudents = 0, sessions = 0;
 	bool completed = false;
@@ -41,7 +41,7 @@ public:
 
 	~Subject() {
 		name = "";
-		midScore = finalScore = plusScore = practiceScore = aveScore = otherScore == -1;
+		midScore = finalScore = plusScore = practiceScore = aveScore = otherScore == "-1";
 		completed = false;
 	}
 
@@ -78,7 +78,7 @@ public:
 
 	void deleteSubject() {
 		name = "";
-		midScore = finalScore = plusScore = practiceScore = aveScore = otherScore == -1;
+		midScore = finalScore = plusScore = practiceScore = aveScore = otherScore == "-1";
 		completed = false;
 	}
 };

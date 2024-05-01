@@ -361,6 +361,7 @@ public:
 				}
 			}
 		}
+		return true;
 	}
 
 	//Export scoreboard file

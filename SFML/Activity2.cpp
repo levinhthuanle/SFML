@@ -124,7 +124,7 @@ void Activity2::drawScoreBoard(Course& course, sf::RenderWindow& window, sf::Fon
 
     vector<Text> studentInformation;
     for (int i = 1; i < course.score.size() ; i++) {
-        std::string noStr = (i < 10) ? ('0' + std::to_string(i)) : (std::to_string(i));
+        std::string noStr =(i < 10) ? ('0' + std::to_string(i)) : (std::to_string(i));
         Text numTxt(37, (float)280 + 36 * ((i-1) % 10), noStr, font, GREEN, 32);
 
         Text sIdTxt(105,(float) (280 + 36 * ((i-1) % 10)), course.score[i][0], font, BLACK, 32);
@@ -192,7 +192,7 @@ void Activity2::courseInformationStudent(Subject& subject)
     Text courseId(110, 132, "Course Id: " + subject.courseId, fontNext, BLACK, textSize);
     Text courseName(110, 182, "Course name: " + subject.courseName, fontNext, BLACK, textSize);
     Text teacherName(110, 232, "Teacher name: " + subject.teacherName, fontNext, BLACK, textSize);
-    Text credits(110, 282, "Number of credits: " + std::to_string(subject.credits), fontNext, BLACK, textSize);
+    Text credits(110, 282, "Number of credits: " + subject.credits, fontNext, BLACK, textSize);
     Text time(110, 332, "Time: " + subject.days + " - " + subject.time, fontNext, BLACK, textSize);
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
     
@@ -214,14 +214,17 @@ void Activity2::courseInformationStudent(Subject& subject)
         windowNext.draw(background);
 
         if (subject.completed == false) {
-            Text uncompleted(110, 382, "This course is not be scored!", fontNext, BLACK, textSize);
+           
+            std::string message = "This course is not be score!";
+            Text uncompleted(110, 382, message, fontNext, ORANGE, 26);
+            
             uncompleted.draw(windowNext);
         }
         else {
             Text typeOfScorse(110, 425, "Midterm\t Practice\t Plus\t Other\t Final\t Overall", fontNext, GREEN, textSize);
-            std::string Score = '\t' + std::to_string(subject.midScore) + "\t\t          " + std::to_string(subject.practiceScore) + "\t\t    ";
-            Score += std::to_string(subject.plusScore) + "\t\t    " + std::to_string(subject.otherScore) + "\t\t  ";
-            Score += std::to_string(subject.finalScore) + "\t\t      " + std::to_string(subject.aveScore);
+            std::string Score = '\t' + subject.midScore + "\t\t          " + subject.practiceScore + "\t\t    ";
+            Score += subject.plusScore + "\t\t    " + subject.otherScore + "\t\t  ";
+            Score += subject.finalScore + "\t\t      " + subject.aveScore;
             Text score(110, 460, Score, fontNext, ORANGE, textSize);
 
             typeOfScorse.draw(windowNext);
@@ -721,9 +724,9 @@ void Activity2::courseInformation(Semester& semester, Course& course)
     Text courseNameTxt(47, 137, "Course Name: " + course.getName(), fontNext, BLACK, 26);
     Text teacherNameTxt(47, 167, "Teacher: " + course.getTeacher(), fontNext, BLACK, 26);
     Text sessionTxt(47, 197, "Session: " + course.getSession(), fontNext, BLACK, 26);
-    Text creditTxt(721, 107, "Credits: " + std::to_string(course.getCredit()), fontNext, BLACK, 26);
-    Text maxStudentTxt(721, 137, "Max students: " + std::to_string(course.getMaxStu()), fontNext, BLACK, 26);
-    Text curStudentTxt(721, 167, "Current students: " + std::to_string(course.getCurStu()), fontNext, BLACK, 26);
+    Text creditTxt(721, 107, "Credits: " + course.getCredit(), fontNext, BLACK, 26);
+    Text maxStudentTxt(721, 137, "Max students: " + course.getMaxStu(), fontNext, BLACK, 26);
+    Text curStudentTxt(721, 167, "Current students: " + course.getCurStu(), fontNext, BLACK, 26);
     Text dayTxt(721, 197, "Day: " + course.getDay(), fontNext, BLACK, 26);
 
     Button goBackBtn(686, 820, 245, 66, "Go back", fontNext, ORANGE);
@@ -760,33 +763,33 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                     courseNameTxt.setString("Course Name: " + course.getName());
                     teacherNameTxt.setString("Teacher: " + course.getTeacher());
                     sessionTxt.setString("Session: " + course.getSession());
-                    creditTxt.setString("Credits: " + std::to_string(course.getCredit()));
-                    maxStudentTxt.setString("Max students: " + std::to_string(course.getMaxStu()));
-                    curStudentTxt.setString("Current students: " + std::to_string(course.getCurStu()));
+                    creditTxt.setString("Credits: " + course.getCredit());
+                    maxStudentTxt.setString("Max students: " + course.getMaxStu());
+                    curStudentTxt.setString("Current students: " + course.getCurStu());
                     dayTxt.setString("Day: " + course.getDay());
                 }
 
                 if (importScoreBtn.isClicked(mousePos)) {
                     importScoreCourseStaff(semester, course);
-                    curStudentTxt.setString("Current students: " + std::to_string(course.getCredit()));
+                    curStudentTxt.setString("Current students: " + course.getCredit());
                     break;
                 }
 
                 if (addStudentBtn.isClicked(mousePos)) {
                     addStudentToCourse(course);
-                    curStudentTxt.setString("Current students: " + std::to_string(course.getCurStu()));
+                    curStudentTxt.setString("Current students: " + course.getCurStu());
                     break;
                 }
 
                 if (removeStudentBtn.isClicked(mousePos)) {
                     removeStudentFromCourse(course);
-                    curStudentTxt.setString("Current students: " + std::to_string(course.getCurStu()));
+                    curStudentTxt.setString("Current students: " + course.getCurStu());
                     break;
                 }
 
                 if (importStudentListBtn.isClicked(mousePos)) {
                     importStudentList(course);
-                    curStudentTxt.setString("Current students: " + std::to_string(course.getCurStu()));
+                    curStudentTxt.setString("Current students: " + course.getCurStu());
                     break;
                 }
             }
@@ -1080,8 +1083,8 @@ void Activity2::updateCourseInformation(Course& course)
     InputField courseNameInput(411, 202, 385, 47, fontNext); courseNameInput.input = course.getName();
     InputField teacherNameInput(411, 275, 385, 47, fontNext); teacherNameInput.input = course.getTeacher();
     InputField sessionInput(411, 348, 385, 47, fontNext); sessionInput.input = course.getSession();
-    InputField numberCreditInput(1189, 202, 385, 47, fontNext); numberCreditInput.input = std::to_string(course.getCredit());
-    InputField maxStudentInput(1189, 275, 385, 47, fontNext); maxStudentInput.input = std::to_string(course.getMaxStu());
+    InputField numberCreditInput(1189, 202, 385, 47, fontNext); numberCreditInput.input = course.getCredit();
+    InputField maxStudentInput(1189, 275, 385, 47, fontNext); maxStudentInput.input = course.getMaxStu();
     InputField dayInput(1189, 348, 385, 47, fontNext); dayInput.input = course.getDay();
 
     while (windowNext.isOpen()) {
@@ -1965,11 +1968,11 @@ void Activity2::viewScoreboardStudent(vector<Subject>& listOfUnfinCourse)
 
         Text sIdTxt(115, (float)(160 + 36 * ((i) % 10)), listOfUnfinCourse[i].courseId, fontNext, BLACK, 26);
         Text sCTxt(300, (float)160 + 36 * ((i) % 10), listOfUnfinCourse[i].courseName, fontNext, BLACK, 26);
-        Text pracTxt(788, (float)160 + 36 * ((i) % 10), std::to_string(listOfUnfinCourse[i].practiceScore), fontNext, BLACK, 26);
-        Text midTxt(945, (float)160 + 36 * ((i) % 10), std::to_string(listOfUnfinCourse[i].midScore), fontNext, BLACK, 26);
-        Text finTxt(1131, (float)160 + 36 * ((i) % 10), std::to_string(listOfUnfinCourse[i].finalScore), fontNext, BLACK, 26);
-        Text plusTxt(1280, (float)160 + 36 * ((i) % 10), std::to_string(listOfUnfinCourse[i].plusScore), fontNext, BLACK, 26);
-        Text overTxt(1407, (float)160 + 36 * ((i) % 10), std::to_string(listOfUnfinCourse[i].aveScore), fontNext, RED, 26);
+        Text pracTxt(788, (float)160 + 36 * ((i) % 10), listOfUnfinCourse[i].practiceScore, fontNext, BLACK, 26);
+        Text midTxt(945, (float)160 + 36 * ((i) % 10), listOfUnfinCourse[i].midScore, fontNext, BLACK, 26);
+        Text finTxt(1131, (float)160 + 36 * ((i) % 10), listOfUnfinCourse[i].finalScore, fontNext, BLACK, 26);
+        Text plusTxt(1280, (float)160 + 36 * ((i) % 10), listOfUnfinCourse[i].plusScore, fontNext, BLACK, 26);
+        Text overTxt(1407, (float)160 + 36 * ((i) % 10), listOfUnfinCourse[i].aveScore, fontNext, RED, 26);
 
         scoreboard.push_back(numTxt);
         scoreboard.push_back(sIdTxt);

@@ -136,50 +136,35 @@ bool changePassword(User& user, std::string oldPassword, std::string newPassword
 	// Read all the course in the student file
 	if (user.getType() == "Student") {
 
-		std::ifstream fin;
+		std::ofstream fout;
 
 		std::filesystem::path fs = user.url.parent_path() / "password.txt";
-		fin.open(fs);
-		if (!fin.is_open()) {
+		fout.open(fs);
+		if (!fout.is_open()) {
 			std::cout << "Can not open information file to change password" << std::endl;
 			log = "Can not open the user information file!";
 			return false;
 		}
+		fout << user.password;
+		std::cout << fs << std::endl;
 
-		std::string temp;
-		for (int i = 1; i <= 5; i++)
-			getline(fin, temp); // Pass the usser information
-		while (!fin.eof()) {
-			getline(fin, temp);
-			listOfCourse.push_back(temp);
-		}
-		fin.close();
+		fout.close();
 	}
-
-	std::ofstream fout;
-	fout.open(user.url);
-	if (!fout.is_open()) {
-		std::cout << "Can not open the user information file!" << std::endl;
-		log = "Can not open the user information file!";
-		return false;
-	}
-
-	fout << user.getPassword() << ',' << std::endl;
-	if (user.getType() == "Student") {
-		fout << user.className << std::endl;
-		fout << user.id << std::endl;
-		fout << user.fullname << std::endl;
-		fout << user.dayOfBirth << std::endl;
-
-		for (int i = 0; i < listOfCourse.size(); i++)
-			fout << listOfCourse[i] << std::endl;
-	}
-
 	else {
+		std::ofstream fout;
+		fout.open(user.url);
+		if (!fout.is_open()) {
+			std::cout << "Can not open the user information file!" << std::endl;
+			log = "Can not open the user information file!";
+			return false;
+		}
+		fout << user.password << ',' << std::endl;
 		fout << user.fullname << std::endl;
+
+		fout.close();
 	}
 
-	fout.close();
+	
 
 	std::cout << "Succesful change the password!" << std::endl;
 	log = "Succesful change the password!";
