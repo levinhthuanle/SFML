@@ -24,6 +24,7 @@ public:
 
     ~vector() {
         clear();
+        _data = NULL;
     }
 
     void clear() {
