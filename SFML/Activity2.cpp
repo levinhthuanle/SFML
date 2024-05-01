@@ -724,18 +724,20 @@ void Activity2::courseInformation(Semester& semester, Course& course)
     Text courseNameTxt(47, 137, "Course Name: " + course.getName(), fontNext, BLACK, 26);
     Text teacherNameTxt(47, 167, "Teacher: " + course.getTeacher(), fontNext, BLACK, 26);
     Text sessionTxt(47, 197, "Session: " + course.getSession(), fontNext, BLACK, 26);
-    Text creditTxt(721, 107, "Credits: " + course.getCredit(), fontNext, BLACK, 26);
-    Text maxStudentTxt(721, 137, "Max students: " + course.getMaxStu(), fontNext, BLACK, 26);
-    Text curStudentTxt(721, 167, "Current students: " + course.getCurStu(), fontNext, BLACK, 26);
+    Text creditTxt(721, 107, "Credits: " + std::to_string(course.getCredit()), fontNext, BLACK, 26);
+    Text maxStudentTxt(721, 137, "Max students: " + std::to_string(course.getMaxStu()), fontNext, BLACK, 26);
+    Text curStudentTxt(721, 167, "Current students: " + std::to_string(course.getCurStu()), fontNext, BLACK, 26);
     Text dayTxt(721, 197, "Day: " + course.getDay(), fontNext, BLACK, 26);
 
     Button goBackBtn(686, 820, 245, 66, "Go back", fontNext, ORANGE);
     Button deleteCourseBtn(1280, 96, 270, 40, "Delete this course", fontNext, RED);
     Button updateCourseBtn(990, 96, 240, 40, "Update information", fontNext, RED);
-    Button importScoreBtn(1280, 723, 257, 50, "Import Scoreboard", fontNext, RED);
+    Button importScoreBtn(718, 723, 265, 50, "Import Scoreboard", fontNext, RED);
     Button addStudentBtn(13, 724, 179, 50, "Add student", fontNext, RED);
     Button importStudentListBtn(205, 724, 257, 50, "Import student list", fontNext, RED);
-    Button removeStudentBtn(476, 724, 257, 50, "Remove student", fontNext, RED);
+    Button removeStudentBtn(476, 724, 229, 50, "Remove student", fontNext, RED);
+    Button exportStudentListBtn(995, 724, 267, 50, "Export Student List", fontNext, RED);
+    Button exportScoreBoardBtn(1276, 724, 267, 50, "Export Scoreboard", fontNext, RED);
 
 
     while (windowNext.isOpen()) {
@@ -763,33 +765,43 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                     courseNameTxt.setString("Course Name: " + course.getName());
                     teacherNameTxt.setString("Teacher: " + course.getTeacher());
                     sessionTxt.setString("Session: " + course.getSession());
-                    creditTxt.setString("Credits: " + course.getCredit());
-                    maxStudentTxt.setString("Max students: " + course.getMaxStu());
-                    curStudentTxt.setString("Current students: " + course.getCurStu());
+                    creditTxt.setString("Credits: " + std::to_string(course.getCredit()));
+                    maxStudentTxt.setString("Max students: " + std::to_string(course.getMaxStu()));
+                    curStudentTxt.setString("Current students: " + std::to_string(course.getCurStu()));
                     dayTxt.setString("Day: " + course.getDay());
                 }
 
                 if (importScoreBtn.isClicked(mousePos)) {
                     importScoreCourseStaff(semester, course);
-                    curStudentTxt.setString("Current students: " + course.getCredit());
+                    curStudentTxt.setString("Current students: " + std::to_string(course.getCurStu()));
                     break;
                 }
 
                 if (addStudentBtn.isClicked(mousePos)) {
                     addStudentToCourse(course);
-                    curStudentTxt.setString("Current students: " + course.getCurStu());
+                    curStudentTxt.setString("Current students: " + std::to_string(course.getCurStu()));
                     break;
                 }
 
                 if (removeStudentBtn.isClicked(mousePos)) {
                     removeStudentFromCourse(course);
-                    curStudentTxt.setString("Current students: " + course.getCurStu());
+                    curStudentTxt.setString("Current students: " + std::to_string(course.getCurStu()));
                     break;
                 }
 
                 if (importStudentListBtn.isClicked(mousePos)) {
                     importStudentList(course);
-                    curStudentTxt.setString("Current students: " + course.getCurStu());
+                    curStudentTxt.setString("Current students: " + std::to_string(course.getCurStu()));
+                    break;
+                }
+
+                if (exportStudentListBtn.isClicked(mousePos)) {
+                    exportStudentList(course);
+                    break;
+                }
+
+                if (exportScoreBoardBtn.isClicked(mousePos)) {
+                    exportScoreBoard(course);
                     break;
                 }
             }
@@ -804,6 +816,8 @@ void Activity2::courseInformation(Semester& semester, Course& course)
         importStudentListBtn.draw(windowNext);
         removeStudentBtn.draw(windowNext);
         importScoreBtn.draw(windowNext);
+        exportStudentListBtn.draw(windowNext);
+        exportScoreBoardBtn.draw(windowNext);
 
         courseIdTxt.draw(windowNext);
         courseNameTxt.draw(windowNext);
@@ -920,7 +934,7 @@ void Activity2::importStudentList(Course& course) {
 
     sf::Texture textureNext;
     if (!textureNext.loadFromFile("Assets/importFile.png"))
-        std::cout << "Could not load the Course information image" << std::endl;
+        std::cout << "Could not load the File Selection image" << std::endl;
     std::cout << "Generate The Import List File sucess" << std::endl;
     sf::Sprite background(textureNext);
 
@@ -994,7 +1008,7 @@ void Activity2::removeStudentFromCourse(Course& course) {
 
     sf::Texture textureNext;
     if (!textureNext.loadFromFile("Assets/FindStudentID.png"))
-        std::cout << "Could not load the Course information image" << std::endl;
+        std::cout << "Could not load the Find Student image" << std::endl;
     std::cout << "Generate The Enter Student ID sucess" << std::endl;
     sf::Sprite background(textureNext);
 
@@ -1050,6 +1064,146 @@ void Activity2::removeStudentFromCourse(Course& course) {
         windowNext.draw(background);
 
         studentIdInput.draw(windowNext);
+        submitBtn.draw(windowNext);
+
+        windowNext.display();
+    }
+}
+
+void Activity2::exportStudentList(Course& course) {
+    sf::RenderWindow windowNext(sf::VideoMode(865, 392), "Export student list", sf::Style::Close | sf::Style::Titlebar);
+
+    sf::Font fontNext;
+    if (!fontNext.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    sf::Texture textureNext;
+    if (!textureNext.loadFromFile("Assets/chooseFolder.png"))
+        std::cout << "Could not load the File Browse image" << std::endl;
+    std::cout << "Generate The Export List File sucess" << std::endl;
+    sf::Sprite background(textureNext);
+
+    InputField pathInput(151, 98, 695, 39, fontNext);
+    Button browseBtn(151, 148, 150, 39, "Browse", fontNext, RED);
+    InputField fileNameInput(151, 196, 406, 39, fontNext);
+    Button submitBtn(151, 248, 150, 39, "Submit", fontNext, RED);
+
+    pathInput.setSelected(true);
+
+    while (windowNext.isOpen()) {
+        sf::Event event;
+        if (pathInput.isSelected()) pathInput.textCursor(pathInput.getInput());
+        if (fileNameInput.isSelected()) fileNameInput.textCursor(fileNameInput.getInput());
+        while (windowNext.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                windowNext.close();
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+                pathInput.handleMouseClick(mousePos);
+                fileNameInput.handleMouseClick(mousePos);
+                if (submitBtn.isClicked(mousePos)) {
+                    if (!pathInput.getInput().empty() && !fileNameInput.getInput().empty()) {
+                        std::string path;
+                        path = pathInput.getInput() + "/" + fileNameInput.getInput();
+                        if (fsys::exists(path)) {
+                            if (!confirm("File already exists.\nReplace the file?")) {
+                                break;
+                            }
+                        }
+                        fsys::path fPath(path);
+                        if (course.exportStudentList(fPath))
+                            popup("Student list exported");
+                        else popup("Error processing export student list file");
+                        return;
+                    }
+                }
+                if (browseBtn.isClicked(mousePos)) {
+                    std::string path(tinyfd_selectFolderDialog(0, 0));
+                    std::cout << path << std::endl;
+                    pathInput.input = path;
+                    continue;
+                }
+            }
+            pathInput.processInput(event);
+            fileNameInput.processInput(event);
+        }
+
+        windowNext.clear(sf::Color::White);
+        windowNext.draw(background);
+
+        pathInput.draw(windowNext);
+        browseBtn.draw(windowNext);
+        fileNameInput.draw(windowNext);
+        submitBtn.draw(windowNext);
+
+        windowNext.display();
+    }
+}
+
+void Activity2::exportScoreBoard(Course& course) {
+    sf::RenderWindow windowNext(sf::VideoMode(865, 392), "Export scoreboard", sf::Style::Close | sf::Style::Titlebar);
+
+    sf::Font fontNext;
+    if (!fontNext.loadFromFile("TextFont/arial.ttf"))
+        std::cout << "Could not load the font" << std::endl;
+
+    sf::Texture textureNext;
+    if (!textureNext.loadFromFile("Assets/chooseFolder.png"))
+        std::cout << "Could not load the File Browse image" << std::endl;
+    std::cout << "Generate The Export Scoreboard File sucess" << std::endl;
+    sf::Sprite background(textureNext);
+
+    InputField pathInput(151, 98, 695, 39, fontNext);
+    Button browseBtn(151, 148, 150, 39, "Browse", fontNext, RED);
+    InputField fileNameInput(151, 196, 406, 39, fontNext);
+    Button submitBtn(151, 248, 150, 39, "Submit", fontNext, RED);
+
+    pathInput.setSelected(true);
+
+    while (windowNext.isOpen()) {
+        sf::Event event;
+        if (pathInput.isSelected()) pathInput.textCursor(pathInput.getInput());
+        if (fileNameInput.isSelected()) fileNameInput.textCursor(fileNameInput.getInput());
+        while (windowNext.pollEvent(event)) {
+            if (event.type == sf::Event::Closed)
+                windowNext.close();
+            else if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
+                pathInput.handleMouseClick(mousePos);
+                fileNameInput.handleMouseClick(mousePos);
+                if (submitBtn.isClicked(mousePos)) {
+                    if (!pathInput.getInput().empty() && !fileNameInput.getInput().empty()) {
+                        std::string path;
+                        path = pathInput.getInput() + "/" + fileNameInput.getInput();
+                        if (fsys::exists(path)) {
+                            if (!confirm("File already exists.\nReplace the file?")) {
+                                break;
+                            }
+                        }
+                        fsys::path fPath(path);
+                        if (course.exportScoreBoard(fPath))
+                            popup("Scoreboard exported");
+                        else popup("Error processing export scoreboard");
+                        return;
+                    }
+                }
+                if (browseBtn.isClicked(mousePos)) {
+                    std::string path(tinyfd_selectFolderDialog(0, 0));
+                    std::cout << path << std::endl;
+                    pathInput.input = path;
+                    continue;
+                }
+            }
+            pathInput.processInput(event);
+            fileNameInput.processInput(event);
+        }
+
+        windowNext.clear(sf::Color::White);
+        windowNext.draw(background);
+
+        pathInput.draw(windowNext);
+        browseBtn.draw(windowNext);
+        fileNameInput.draw(windowNext);
         submitBtn.draw(windowNext);
 
         windowNext.display();
@@ -1389,6 +1543,8 @@ void Activity2::viewOneClass(Class& oneclass)
                         listOfStudent.push_back(text);
                     }
                 }
+
+
 
                /* if (exportListBtn.isClicked(mousePos)) {
 
@@ -1894,7 +2050,7 @@ void Activity2::importScoreCourseStaff(Semester& semester, Course& course)
                     std::string path(tinyfd_openFileDialog(0, 0, 0, 0, 0, 0));
                     if (course.importScoreBoard(path))
                         popup("Scoreboard imported");
-                    else popup("Error processing import scoreboard file (may be due to wrong input file)"); 
+                    else popup("Error processing import scoreboard file"); 
                     return;
                 }
             }
