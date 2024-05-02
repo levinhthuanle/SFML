@@ -2268,31 +2268,40 @@ void Activity2::scoreBoardOfClassStaff(Class& oneclass)
 
 
         float gpa = 0, totalGpa = 0;
-        int numOfCredit = 0;
+        float numOfCredit = 0;
         // gpa += stoi(temp.listOfUnfinCourse[j].aveScore) * temp.listOfUnfinCourse[j].credits;
         //numOfCredit += temp.listOfUnfinCourse[j].credits;
 
         for (int j = 0; j < temp.listOfUnfinCourse.size(); j++) {
-            gpa += stoi(temp.listOfUnfinCourse[j].aveScore) * temp.listOfUnfinCourse[j].credits;
-            
+            if (temp.listOfUnfinCourse[j].aveScore == "-1")
+                continue;
+
+            gpa += (float) (stof(temp.listOfUnfinCourse[j].aveScore) * temp.listOfUnfinCourse[j].credits);
+
             numOfCredit += temp.listOfUnfinCourse[j].credits;
         }
         
         if (numOfCredit == 0)
             numOfCredit = 1;
+        
 
-        Text gpaTmp(1345, (float)174 + 32 * (i % 15), std::to_string( max(0.f, gpa / numOfCredit)), fontNext, RED, 26);
+        Text gpaTmp(1345, (float)174 + 32 * (i % 15), std::to_string(max(0.f, (float)(gpa / numOfCredit))), fontNext, RED, 26);
         gpaTxt.push_back(gpaTmp);
         
         for (int j = 0; j < temp.listOfFinCourse.size(); j++) {
-            gpa += stoi(temp.listOfFinCourse[j].aveScore) * temp.listOfFinCourse[j].credits;
+            if (temp.listOfFinCourse[j].aveScore == "-1")
+                continue;
+
+            gpa += (float)(stoi(temp.listOfFinCourse[j].aveScore) * temp.listOfFinCourse[j].credits);
+
             
             numOfCredit += temp.listOfFinCourse[j].credits;
         }
 
 
-
-        Text gpaTotalTmp(1489, (float)174 + 32 * (i % 15), std::to_string(max(0.f, gpa / numOfCredit)), fontNext, RED, 26);
+        
+        std::cout << "Gpa: " << gpa << " Num of credit: " << numOfCredit << std::endl;
+        Text gpaTotalTmp(1489, (float)174 + 32 * (i % 15), std::to_string(max(0.f, (float)gpa / numOfCredit)), fontNext, RED, 26);
         totalGpaTxt.push_back(gpaTotalTmp);
 
     }
