@@ -2096,12 +2096,10 @@ void Activity2::scoreBoardOfClassStaff(Class& oneclass)
     vector<vector<Text>> scoreTxt;
     for (int i = 0; i < oneclass.students.size(); i++) {
         Text notmp(13,(float) 174 + 32*(i % 15), std::to_string(i + 1), fontNext, BLACK, 26);
-        noText.push_back(notmp);
-
         Text idtmp(80, (float)174 + 32 * (i % 15), oneclass.students[i].getID(), fontNext, BLACK, 26);
-        studentIdTxt.push_back(idtmp);
-
         Text fullnametmp(260, (float)174 + 32 * (i % 15), oneclass.students[i].getFullname(), fontNext, BLACK, 26);
+        noText.push_back(notmp);        
+        studentIdTxt.push_back(idtmp);
         fullnameTxt.push_back(fullnametmp);
 
 
@@ -2110,11 +2108,6 @@ void Activity2::scoreBoardOfClassStaff(Class& oneclass)
         fsys::path tempPath = temp.url / "subject.csv";
         getSubjectData(temp, tempPath);
 
-
-        float gpa = 0, totalGpa = 0;
-        Text gpaTmp(1345, (float)174 + 32 * (i % 15), std::to_string(gpa / temp.listOfUnfinCourse.size()), fontNext, RED, 26);
-        gpaTxt.push_back(gpaTmp);
-
         vector<Text> scoreTmp;
         for (int j = 0; j < min(temp.listOfUnfinCourse.size(),(long long) 7); j++) {
             Text scoreTempTxt((float)567 + 136*(j % 6), (float)174 + 32 * (i % 15), temp.listOfUnfinCourse[j].aveScore, fontNext, BLACK, 26);
@@ -2122,8 +2115,34 @@ void Activity2::scoreBoardOfClassStaff(Class& oneclass)
         }
         scoreTxt.push_back(scoreTmp);
 
-        Text gpaTotalTmp(1489, (float)174 + 32 * (i % 15), std::to_string(max(0.f,totalGpa / (temp.listOfUnfinCourse.size() + temp.listOfFinCourse.size()))), fontNext, RED, 26);
-        totalGpaTxt.push_back(gpaTmp);
+
+        float gpa = 0, totalGpa = 0;
+        int numOfCredit = 0;
+        // gpa += stoi(temp.listOfUnfinCourse[j].aveScore) * temp.listOfUnfinCourse[j].credits;
+        //numOfCredit += temp.listOfUnfinCourse[j].credits;
+
+        for (int j = 0; j < temp.listOfUnfinCourse.size(); j++) {
+            gpa += stoi(temp.listOfUnfinCourse[j].aveScore) * temp.listOfUnfinCourse[j].credits;
+            
+            numOfCredit += temp.listOfUnfinCourse[j].credits;
+        }
+        
+        if (numOfCredit == 0)
+            numOfCredit = 1;
+
+        Text gpaTmp(1345, (float)174 + 32 * (i % 15), std::to_string( max(0.f, gpa / numOfCredit)), fontNext, RED, 26);
+        gpaTxt.push_back(gpaTmp);
+        
+        for (int j = 0; j < temp.listOfFinCourse.size(); j++) {
+            gpa += stoi(temp.listOfFinCourse[j].aveScore) * temp.listOfFinCourse[j].credits;
+            
+            numOfCredit += temp.listOfFinCourse[j].credits;
+        }
+
+
+
+        Text gpaTotalTmp(1489, (float)174 + 32 * (i % 15), std::to_string(max(0.f, gpa / numOfCredit)), fontNext, RED, 26);
+        totalGpaTxt.push_back(gpaTotalTmp);
 
     }
 

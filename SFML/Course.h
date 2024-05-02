@@ -206,7 +206,7 @@ public:
 		subject.sessions = static_cast<int>(this->getSession()[1]);
 		subject.days = this->getDay();
 		subject.time = "Time";
-		subject.midScore = subject.practiceScore = subject.plusScore = subject.otherScore = subject.finalScore = subject.aveScore = -1;
+		subject.midScore = subject.practiceScore = subject.plusScore = subject.otherScore = subject.finalScore = subject.aveScore = "-1";
 
 		subject.id = user.getUsername();
 	}

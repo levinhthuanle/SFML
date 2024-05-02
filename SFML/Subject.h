@@ -8,8 +8,8 @@ class Subject
 public:
 	std::string id;
 	std::string name = "";
-	std::string midScore = "-1", finalScore = "-1";
-	std::string plusScore = "- 1", practiceScore = "- 1", aveScore = "-1", otherScore = "- 1";
+	std::string midScore, finalScore;
+	std::string plusScore = "0", practiceScore = "0", aveScore = "0", otherScore = "0";
 	std::string courseId = "", courseName = "", teacherName = "", days = "", time = "";
 	int credits = 0, numOfStudents = 0, sessions = 0;
 	bool completed = false;
