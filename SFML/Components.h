@@ -64,6 +64,8 @@ public:
         if (this == &rhs) return *this;
         this->shape = rhs.shape;
         this->text = rhs.text;
+
+        return *this;
     }
 };
 

@@ -749,25 +749,6 @@ void Activity2::courseInformation(Semester& semester, Course& course)
     Button nextPageBtn(1586.f, 736.f, 92.f, 62.f, "Next", fontNext, sf::Color(218, 110, 50));
     Button prevPageBtn(1586.f, 813.f, 92.f, 62.f, "Prev", fontNext, sf::Color(218, 110, 50));
        
-    Button horizontalLine(22, 273, 1545, 0, "", fontNext, BLACK);
-    Button verticalLine1(82, 239, 0, 452, "", fontNext, BLACK);
-    Button verticalLine2(309, 239, 0, 452, "", fontNext, BLACK);
-    Button verticalLine3(519, 239, 0, 452, "", fontNext, BLACK);
-    Button verticalLine4(859, 239, 0, 452, "", fontNext, BLACK);
-    Button verticalLine5(1000, 239, 0, 452, "", fontNext, BLACK);
-    Button verticalLine6(1159, 239, 0, 452, "", fontNext, BLACK);
-    Button verticalLine7(1266, 239, 0, 452, "", fontNext, BLACK);
-    Button verticalLine8(1372, 239, 0, 452, "", fontNext, BLACK);
-
-    Text noTxt(29, 232, "No", fontNext, GREEN, 32);
-    Text studentNameTxt(103, 232, "Student's ID", fontNext, GREEN, 32);
-    Text studentIdTxt(316, 232, "Class", fontNext, GREEN, 32);
-    Text midtermTxt(529, 232, "Fullname", fontNext, GREEN, 32);
-    Text finalTxt(862, 232, "Practice", fontNext, GREEN, 32);
-    Text extraTxt(1002, 232, "Midterm", fontNext, GREEN, 32);
-    Text overallTxt(1167, 232, "Final", fontNext, GREEN, 32);
-    Text exTxt(1287, 232, "Plus", fontNext, GREEN, 32);
-    Text ex1Txt(1420, 232, "Overall", fontNext, GREEN, 32);
 
     vector<Text> studentInformation;
     vector<Button> studentInforListBtn;
@@ -782,7 +763,8 @@ void Activity2::courseInformation(Semester& semester, Course& course)
         Text midTxt(1037, (float)280 + 36 * ((i - 1) % 10), course.score[i][4], fontNext, BLACK, 32);
         Text finTxt(1185, (float)280 + 36 * ((i - 1) % 10), course.score[i][5], fontNext, BLACK, 32);
         Text plusTxt(1291, (float)280 + 36 * ((i - 1) % 10), course.score[i][6], fontNext, BLACK, 32);
-        Text overTxt(1437, (float)280 + 36 * ((i - 1) % 10), course.score[i][7], fontNext, RED, 32);
+        Text otherTxt(1406, (float)280 + 36 * ((i - 1) % 10), course.score[i][7], fontNext, BLACK, 32);
+        Text overTxt(1541, (float)280 + 36 * ((i - 1) % 10), course.score[i][8], fontNext, RED, 32);
 
         studentInformation.push_back(numTxt);
         studentInformation.push_back(sIdTxt);
@@ -793,6 +775,7 @@ void Activity2::courseInformation(Semester& semester, Course& course)
         studentInformation.push_back(finTxt);
         studentInformation.push_back(plusTxt);
         studentInformation.push_back(overTxt);
+        studentInformation.push_back(otherTxt);
 
         Button tmpBtn(105, (float)(280 + 36 * ((i - 1) % 10)), 1600, 32, "23125019", fontNext, BLACK);
         studentInforListBtn.push_back(tmpBtn);
@@ -802,7 +785,7 @@ void Activity2::courseInformation(Semester& semester, Course& course)
 
     while (windowNext.isOpen()) {
         sf::Event event;
-        long long displayLimit = (displayFrom + 10) > studentInformation.size()/9 ? studentInformation.size()/9 : (displayFrom + 10);
+        long long displayLimit = (displayFrom + 10) > studentInformation.size()/10 ? studentInformation.size()/10 : (displayFrom + 10);
         while (windowNext.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 windowNext.close();
@@ -874,7 +857,7 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                     addStudentToCourse(course);
                     curStudentTxt.setString("Current students: " + course.getCurStu());
 
-                    int i = course.score.size() - 1;
+                    long long i = course.score.size() - 1;
                     std::string noStr = (i < 10) ? ('0' + std::to_string(i)) : (std::to_string(i));
 
                     Text numTxt(37, (float)280 + 36 * ((i - 1) % 10), noStr, fontNext, GREEN, 32);
@@ -886,7 +869,8 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                     Text midTxt(1037, (float)280 + 36 * ((i - 1) % 10), course.score[i][4], fontNext, BLACK, 32);
                     Text finTxt(1185, (float)280 + 36 * ((i - 1) % 10), course.score[i][5], fontNext, BLACK, 32);
                     Text plusTxt(1291, (float)280 + 36 * ((i - 1) % 10), course.score[i][6], fontNext, BLACK, 32);
-                    Text overTxt(1437, (float)280 + 36 * ((i - 1) % 10), course.score[i][7], fontNext, RED, 32);
+                    Text otherTxt(1406, (float)280 + 36 * ((i - 1) % 10), course.score[i][7], fontNext, BLACK, 32);
+                    Text overTxt(1541, (float)280 + 36 * ((i - 1) % 10), course.score[i][8], fontNext, RED, 32);
 
                     studentInformation.push_back(numTxt);
                     studentInformation.push_back(sIdTxt);
@@ -897,6 +881,7 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                     studentInformation.push_back(finTxt);
                     studentInformation.push_back(plusTxt);
                     studentInformation.push_back(overTxt);
+                    studentInformation.push_back(otherTxt);
 
                     Button tmpBtn(105, (float)(280 + 36 * ((i - 1) % 10)), 180, 32, "23125019", fontNext, BLACK);
                     studentInforListBtn.push_back(tmpBtn);
@@ -958,7 +943,8 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                         Text midTxt(1037, (float)280 + 36 * ((i - 1) % 10), course.score[i][4], fontNext, BLACK, 32);
                         Text finTxt(1185, (float)280 + 36 * ((i - 1) % 10), course.score[i][5], fontNext, BLACK, 32);
                         Text plusTxt(1291, (float)280 + 36 * ((i - 1) % 10), course.score[i][6], fontNext, BLACK, 32);
-                        Text overTxt(1437, (float)280 + 36 * ((i - 1) % 10), course.score[i][7], fontNext, RED, 32);
+                        Text otherTxt(1406, (float)280 + 36 * ((i - 1) % 10), course.score[i][7], fontNext, BLACK, 32);
+                        Text overTxt(1541, (float)280 + 36 * ((i - 1) % 10), course.score[i][8], fontNext, RED, 32);
 
                         studentInformation.push_back(numTxt);
                         studentInformation.push_back(sIdTxt);
@@ -969,6 +955,7 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                         studentInformation.push_back(finTxt);
                         studentInformation.push_back(plusTxt);
                         studentInformation.push_back(overTxt);
+                        studentInformation.push_back(otherTxt);
 
                         Button tmpBtn(105, (float)(280 + 36 * ((i - 1) % 10)), 180, 32, "23125019", fontNext, BLACK);
                         studentInforListBtn.push_back(tmpBtn);
@@ -1009,6 +996,7 @@ void Activity2::courseInformation(Semester& semester, Course& course)
 
                             Text numTxt(37, (float)280 + 36 * ((i - 1) % 10), noStr, fontNext, GREEN, 32);
 
+                            //Stu ID,       Class,      Name,       Practice Score, Midterm Score,      Final Score,    Plus Score, Other Score,    Average Score,
                             Text sIdTxt(105, (float)(280 + 36 * ((i - 1) % 10)), course.score[i][0], fontNext, RED, 32);
                             Text sCTxt(323, (float)280 + 36 * ((i - 1) % 10), course.score[i][1], fontNext, BLACK, 32);
                             Text sFTxt(525, (float)280 + 36 * ((i - 1) % 10), course.score[i][2], fontNext, BLACK, 32);
@@ -1016,7 +1004,8 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                             Text midTxt(1037, (float)280 + 36 * ((i - 1) % 10), course.score[i][4], fontNext, BLACK, 32);
                             Text finTxt(1185, (float)280 + 36 * ((i - 1) % 10), course.score[i][5], fontNext, BLACK, 32);
                             Text plusTxt(1291, (float)280 + 36 * ((i - 1) % 10), course.score[i][6], fontNext, BLACK, 32);
-                            Text overTxt(1437, (float)280 + 36 * ((i - 1) % 10), course.score[i][7], fontNext, RED, 32);
+                            Text otherTxt(1406, (float)280 + 36 * ((i - 1) % 10), course.score[i][7], fontNext, BLACK, 32);
+                            Text overTxt(1541, (float)280 + 36 * ((i - 1) % 10), course.score[i][8], fontNext, RED, 32);
 
                             studentInformation.push_back(numTxt);
                             studentInformation.push_back(sIdTxt);
@@ -1027,6 +1016,7 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                             studentInformation.push_back(finTxt);
                             studentInformation.push_back(plusTxt);
                             studentInformation.push_back(overTxt);
+                            studentInformation.push_back(otherTxt);
 
                             Button tmpBtn(105, (float)(280 + 36 * ((i - 1) % 10)), 180, 32, "23125019", fontNext, BLACK);
                             studentInforListBtn.push_back(tmpBtn);
@@ -1056,27 +1046,8 @@ void Activity2::courseInformation(Semester& semester, Course& course)
         maxStudentTxt.draw(windowNext);
         curStudentTxt.draw(windowNext);
         dayTxt.draw(windowNext);
-        horizontalLine.draw(windowNext);
-        verticalLine1.draw(windowNext);
-        verticalLine2.draw(windowNext);
-        verticalLine3.draw(windowNext);
-        verticalLine4.draw(windowNext);
-        verticalLine5.draw(windowNext);
-        verticalLine6.draw(windowNext);
-        verticalLine7.draw(windowNext);
-        verticalLine8.draw(windowNext);
 
-        noTxt.draw(windowNext);
-        studentNameTxt.draw(windowNext);
-        studentIdTxt.draw(windowNext);
-        midtermTxt.draw(windowNext);
-        finalTxt.draw(windowNext);
-        extraTxt.draw(windowNext);
-        overallTxt.draw(windowNext);
-        exTxt.draw(windowNext);
-        ex1Txt.draw(windowNext);
-
-        for (int i = displayFrom * 9; i < displayLimit * 9; i++)
+        for (int i = displayFrom * 10; i < displayLimit * 10; i++)
             studentInformation[i].draw(windowNext);
         
 
