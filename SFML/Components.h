@@ -8,6 +8,7 @@ class InputField {
 private:
     sf::RectangleShape shape;
     sf::Text text;
+    sf::Text cursor;
     bool selected;
     
     sf::Clock clock;
@@ -39,6 +40,10 @@ public:
     void setText(std::string content);
 
     void textCursor(std::string input);
+
+    sf::Vector2f getCursorPos() {
+        return text.findCharacterPos(input.length());
+    }
 };
 
 class Button {
