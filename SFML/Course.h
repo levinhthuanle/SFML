@@ -358,7 +358,7 @@ public:
 				if (unFinSub[j].courseId == this->getID()) {
 					unFinSub[j].updateScore(this->score[i + 1]);
 					user.updateSubjectData();
-					return true;
+					break;
 				}
 			}
 			vector<Subject>& finSub = user.listOfFinCourse;
@@ -366,7 +366,7 @@ public:
 				if (finSub[j].courseId == this->getID()) {
 					finSub[j].updateScore(this->score[i + 1]);
 					user.updateSubjectData();
-					return true;
+					break;
 				}
 			}
 		}

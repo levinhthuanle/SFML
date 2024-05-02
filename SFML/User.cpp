@@ -46,32 +46,34 @@ void User::updateSubjectData() {
 		return;
 	}
 
-	for (Subject i : this->listOfUnfinCourse) {
-		sub << i.courseId << '\n'
-			<< i.courseName << '\n'
-			<< i.teacherName << '\n'
-			<< i.credits << '\n'
-			<< i.numOfStudents << '\n'
-			<< i.sessions << '\n'
-			<< i.days << '\n'
-			<< i.time << '\n';
-		if (i.completed) sub << "1 ";
+	for (int i = 0; i < this->listOfUnfinCourse.size(); ++i) {
+		sub << this->listOfUnfinCourse[i].courseId << '\n'
+			<< this->listOfUnfinCourse[i].courseName << '\n'
+			<< this->listOfUnfinCourse[i].teacherName << '\n'
+			<< this->listOfUnfinCourse[i].credits << '\n'
+			<< this->listOfUnfinCourse[i].numOfStudents << '\n'
+			<< this->listOfUnfinCourse[i].sessions << '\n'
+			<< this->listOfUnfinCourse[i].days << '\n'
+			<< this->listOfUnfinCourse[i].time << '\n';
+		if (this->listOfUnfinCourse[i].completed) sub << "1 ";
 		else sub << "-1 ";
-		sub << i.midScore << " " << i.practiceScore << " " << i.plusScore << " " << i.otherScore << " " << i.finalScore << " " << i.aveScore << '\n';
+		sub << this->listOfUnfinCourse[i].midScore << " " << this->listOfUnfinCourse[i].practiceScore << " " << this->listOfUnfinCourse[i].plusScore << " " << 
+			this->listOfUnfinCourse[i].otherScore << " " << this->listOfUnfinCourse[i].finalScore << " " << this->listOfUnfinCourse[i].aveScore << '\n';
 	}
 
-	for (Subject i : this->listOfFinCourse) {
-		sub << i.courseId << '\n'
-			<< i.courseName << '\n'
-			<< i.teacherName << '\n'
-			<< i.credits << '\n'
-			<< i.numOfStudents << '\n'
-			<< i.sessions << '\n'
-			<< i.days << '\n'
-			<< i.time << '\n';
-		if (i.completed) sub << "1 ";
+	for (int i = 0; i < this->listOfFinCourse.size(); ++i) {
+		sub << this->listOfFinCourse[i].courseId << '\n'
+			<< this->listOfFinCourse[i].courseName << '\n'
+			<< this->listOfFinCourse[i].teacherName << '\n'
+			<< this->listOfFinCourse[i].credits << '\n'
+			<< this->listOfFinCourse[i].numOfStudents << '\n'
+			<< this->listOfFinCourse[i].sessions << '\n'
+			<< this->listOfFinCourse[i].days << '\n'
+			<< this->listOfFinCourse[i].time << '\n';
+		if (this->listOfFinCourse[i].completed) sub << "1 ";
 		else sub << "-1 ";
-		sub << i.midScore << " " << i.practiceScore << " " << i.plusScore << " " << i.otherScore << " " << i.finalScore << " " << i.aveScore;
+		sub << this->listOfFinCourse[i].midScore << " " << this->listOfFinCourse[i].practiceScore << " " << this->listOfFinCourse[i].plusScore << " " << 
+			this->listOfFinCourse[i].otherScore << " " << this->listOfFinCourse[i].finalScore << " " << this->listOfFinCourse[i].aveScore;
 	}
 
 	sub.close();

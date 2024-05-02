@@ -199,7 +199,7 @@ void Activity2::courseInformationStudent(Subject& subject)
     Text courseId(110, 132, "Course Id: " + subject.courseId, fontNext, BLACK, textSize);
     Text courseName(110, 182, "Course name: " + subject.courseName, fontNext, BLACK, textSize);
     Text teacherName(110, 232, "Teacher name: " + subject.teacherName, fontNext, BLACK, textSize);
-    Text credits(110, 282, "Number of credits: " + subject.credits, fontNext, BLACK, textSize);
+    Text credits(110, 282, "Number of credits: " + std::to_string(subject.credits), fontNext, BLACK, textSize);
     Text time(110, 332, "Time: " + subject.days + " - " + subject.time, fontNext, BLACK, textSize);
     Button goBackBtn(686, 766, 245, 66, "Go back", fontNext, ORANGE);
     
@@ -841,7 +841,6 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                 }
 
                 if (addStudentBtn.isClicked(mousePos)) {
-                    std::cout << course.score[0][0] << course.score[1][0];
                     addStudentToCourse(course);
                     curStudentTxt.setString("Current students: " + course.getCurStu());
                     return;
@@ -963,13 +962,16 @@ void Activity2::addStudentToCourse(Course& course) {
                 studentIdInput.handleMouseClick(mousePos);
                 if (submitBtn.isClicked(mousePos)) {
                     if (!studentIdInput.getInput().empty()) {
-                        std::string ID = studentIdInput.getInput();
+                        std::string ID;
+                        ID = studentIdInput.getInput();
                         if (ID.size() != 9) {
                             popup("Student not found");
                             continue;
                         }
                         for (int i = 0; i < course.score.size(); ++i) {
-                            if (course.score[i][0] == ID) {
+                            std::string s;
+                            s = course.score[i][0];
+                            if (s == ID || isSame(s, ID)) {
                                 popup("Student already in course");
                                 continue;
                             }
@@ -1337,8 +1339,8 @@ void Activity2::updateCourseInformation(Course& course)
     InputField courseNameInput(411, 202, 385, 47, fontNext); courseNameInput.input = course.getName();
     InputField teacherNameInput(411, 275, 385, 47, fontNext); teacherNameInput.input = course.getTeacher();
     InputField sessionInput(411, 348, 385, 47, fontNext); sessionInput.input = course.getSession();
-    InputField numberCreditInput(1189, 202, 385, 47, fontNext); numberCreditInput.input = course.getCredit();
-    InputField maxStudentInput(1189, 275, 385, 47, fontNext); maxStudentInput.input = course.getMaxStu();
+    InputField numberCreditInput(1189, 202, 385, 47, fontNext); numberCreditInput.input = std::to_string(course.getCredit());
+    InputField maxStudentInput(1189, 275, 385, 47, fontNext); maxStudentInput.input = std::to_string(course.getMaxStu());
     InputField dayInput(1189, 348, 385, 47, fontNext); dayInput.input = course.getDay();
 
     while (windowNext.isOpen()) {
@@ -2472,11 +2474,11 @@ void Activity2::changeStudentScore(vector<std::string>& studentInfor)
     }
 }
 
-bool Activity2::isSame(std::string& a, std::string& b) {
-    if (a.length() != b.length()) return false;
-    for (int i = 0; i < a.length(); ++i)
+bool isSame(std::string a, std::string b) {
+    if (a.size() != b.size()) return false;
+    for (int i = 0; i < a.size(); ++i) {
         if (tolower(a[i]) != tolower(b[i])) return false;
+    }
     return true;
 }
-
 
