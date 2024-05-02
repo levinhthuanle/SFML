@@ -8,6 +8,7 @@ class InputField {
 private:
     sf::RectangleShape shape;
     sf::Text text;
+    sf::Text cursor;
     bool selected;
     
     sf::Clock clock;
@@ -39,6 +40,10 @@ public:
     void setText(std::string content);
 
     void textCursor(std::string input);
+
+    sf::Vector2f getCursorPos() {
+        return text.findCharacterPos(input.length());
+    }
 };
 
 class Button {
@@ -54,6 +59,12 @@ public:
     void draw(sf::RenderWindow& window);
 
     bool isClicked(const sf::Vector2i& mousePos);
+
+    Button& operator=(const Button& rhs) {
+        if (this == &rhs) return *this;
+        this->shape = rhs.shape;
+        this->text = rhs.text;
+    }
 };
 
 class Circle {
@@ -91,6 +102,13 @@ public:
     void setSize(unsigned int size);
 
     void draw(sf::RenderWindow& window);
+
+    Text& operator=(const Text& rhs) {
+        if (this == &rhs) return *this;
+        this->text = rhs.text;
+        this->font = rhs.font;
+        return *this;
+    }
 };
 
 class Calendar {

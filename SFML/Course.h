@@ -421,4 +421,37 @@ public:
 		}
 		return studiedStudent; 
 	}
+
+	//Change student score
+	bool updateStudentScore(Student& stu, std::string pra, std::string mid, std::string fin, std::string plu, std::string oth, std::string ovr) {
+		User user(stu);
+		getSubjectData(user, user.url / "subject.csv");
+
+		vector<Subject>& unFinSub = user.listOfUnfinCourse;
+		for (int j = 0; j < unFinSub.size(); ++j) {
+			if (unFinSub[j].courseId == this->getID()) {
+				unFinSub[j].practiceScore = pra;
+				unFinSub[j].midScore = mid;
+				unFinSub[j].finalScore = fin;
+				unFinSub[j].plusScore = plu;
+				unFinSub[j].otherScore = oth;
+				unFinSub[j].aveScore = ovr;
+				user.updateSubjectData();
+				return true;
+			}
+		}
+		vector<Subject>& finSub = user.listOfFinCourse;
+		for (int j = 0; j < finSub.size(); ++j) {
+			if (finSub[j].courseId == this->getID()) {
+				unFinSub[j].practiceScore = pra;
+				unFinSub[j].midScore = mid;
+				unFinSub[j].finalScore = fin;
+				unFinSub[j].plusScore = plu;
+				unFinSub[j].otherScore = oth;
+				unFinSub[j].aveScore = ovr;
+				user.updateSubjectData();
+				return true;
+			}
+		}
+	}
 };

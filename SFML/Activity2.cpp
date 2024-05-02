@@ -794,7 +794,7 @@ void Activity2::courseInformation(Semester& semester, Course& course)
         studentInformation.push_back(plusTxt);
         studentInformation.push_back(overTxt);
 
-        Button tmpBtn(105, (float)(280 + 36 * ((i - 1) % 10)), 180, 32, "23125019", fontNext, BLACK);
+        Button tmpBtn(105, (float)(280 + 36 * ((i - 1) % 10)), 1600, 32, "23125019", fontNext, BLACK);
         studentInforListBtn.push_back(tmpBtn);
     }
 
@@ -837,25 +837,143 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                 if (importScoreBtn.isClicked(mousePos)) {
                     importScoreCourseStaff(semester, course);
                     curStudentTxt.setString("Current students: " + std::to_string(course.getCurStu()));
-                    break;
+
+                    studentInformation.clear();
+                    studentInforListBtn.clear();
+
+                    for (int i = 1; i < course.score.size(); i++) {
+                        std::string noStr = (i < 10) ? ('0' + std::to_string(i)) : (std::to_string(i));
+
+                        Text numTxt(37, (float)280 + 36 * ((i - 1) % 10), noStr, fontNext, GREEN, 32);
+
+                        Text sIdTxt(105, (float)(280 + 36 * ((i - 1) % 10)), course.score[i][0], fontNext, RED, 32);
+                        Text sCTxt(323, (float)280 + 36 * ((i - 1) % 10), course.score[i][1], fontNext, BLACK, 32);
+                        Text sFTxt(525, (float)280 + 36 * ((i - 1) % 10), course.score[i][2], fontNext, BLACK, 32);
+                        Text pracTxt(888, (float)280 + 36 * ((i - 1) % 10), course.score[i][3], fontNext, BLACK, 32);
+                        Text midTxt(1037, (float)280 + 36 * ((i - 1) % 10), course.score[i][4], fontNext, BLACK, 32);
+                        Text finTxt(1185, (float)280 + 36 * ((i - 1) % 10), course.score[i][5], fontNext, BLACK, 32);
+                        Text plusTxt(1291, (float)280 + 36 * ((i - 1) % 10), course.score[i][6], fontNext, BLACK, 32);
+                        Text overTxt(1437, (float)280 + 36 * ((i - 1) % 10), course.score[i][7], fontNext, RED, 32);
+
+                        studentInformation.push_back(numTxt);
+                        studentInformation.push_back(sIdTxt);
+                        studentInformation.push_back(sCTxt);
+                        studentInformation.push_back(sFTxt);
+                        studentInformation.push_back(pracTxt);
+                        studentInformation.push_back(midTxt);
+                        studentInformation.push_back(finTxt);
+                        studentInformation.push_back(plusTxt);
+                        studentInformation.push_back(overTxt);
+
+                        Button tmpBtn(105, (float)(280 + 36 * ((i - 1) % 10)), 180, 32, "23125019", fontNext, BLACK);
+                        studentInforListBtn.push_back(tmpBtn);
+                    }
                 }
 
                 if (addStudentBtn.isClicked(mousePos)) {
                     addStudentToCourse(course);
                     curStudentTxt.setString("Current students: " + course.getCurStu());
-                    return;
+
+                    int i = course.score.size() - 1;
+                    std::string noStr = (i < 10) ? ('0' + std::to_string(i)) : (std::to_string(i));
+
+                    Text numTxt(37, (float)280 + 36 * ((i - 1) % 10), noStr, fontNext, GREEN, 32);
+
+                    Text sIdTxt(105, (float)(280 + 36 * ((i - 1) % 10)), course.score[i][0], fontNext, RED, 32);
+                    Text sCTxt(323, (float)280 + 36 * ((i - 1) % 10), course.score[i][1], fontNext, BLACK, 32);
+                    Text sFTxt(525, (float)280 + 36 * ((i - 1) % 10), course.score[i][2], fontNext, BLACK, 32);
+                    Text pracTxt(888, (float)280 + 36 * ((i - 1) % 10), course.score[i][3], fontNext, BLACK, 32);
+                    Text midTxt(1037, (float)280 + 36 * ((i - 1) % 10), course.score[i][4], fontNext, BLACK, 32);
+                    Text finTxt(1185, (float)280 + 36 * ((i - 1) % 10), course.score[i][5], fontNext, BLACK, 32);
+                    Text plusTxt(1291, (float)280 + 36 * ((i - 1) % 10), course.score[i][6], fontNext, BLACK, 32);
+                    Text overTxt(1437, (float)280 + 36 * ((i - 1) % 10), course.score[i][7], fontNext, RED, 32);
+
+                    studentInformation.push_back(numTxt);
+                    studentInformation.push_back(sIdTxt);
+                    studentInformation.push_back(sCTxt);
+                    studentInformation.push_back(sFTxt);
+                    studentInformation.push_back(pracTxt);
+                    studentInformation.push_back(midTxt);
+                    studentInformation.push_back(finTxt);
+                    studentInformation.push_back(plusTxt);
+                    studentInformation.push_back(overTxt);
+
+                    Button tmpBtn(105, (float)(280 + 36 * ((i - 1) % 10)), 180, 32, "23125019", fontNext, BLACK);
+                    studentInforListBtn.push_back(tmpBtn);
                 }
 
                 if (removeStudentBtn.isClicked(mousePos)) {
                     removeStudentFromCourse(course);
                     curStudentTxt.setString("Current students: " + course.getCurStu());
-                    return;
+
+                    studentInformation.clear();
+                    studentInforListBtn.clear();
+
+                    for (int i = 1; i < course.score.size(); i++) {
+                        std::string noStr = (i < 10) ? ('0' + std::to_string(i)) : (std::to_string(i));
+
+                        Text numTxt(37, (float)280 + 36 * ((i - 1) % 10), noStr, fontNext, GREEN, 32);
+
+                        Text sIdTxt(105, (float)(280 + 36 * ((i - 1) % 10)), course.score[i][0], fontNext, RED, 32);
+                        Text sCTxt(323, (float)280 + 36 * ((i - 1) % 10), course.score[i][1], fontNext, BLACK, 32);
+                        Text sFTxt(525, (float)280 + 36 * ((i - 1) % 10), course.score[i][2], fontNext, BLACK, 32);
+                        Text pracTxt(888, (float)280 + 36 * ((i - 1) % 10), course.score[i][3], fontNext, BLACK, 32);
+                        Text midTxt(1037, (float)280 + 36 * ((i - 1) % 10), course.score[i][4], fontNext, BLACK, 32);
+                        Text finTxt(1185, (float)280 + 36 * ((i - 1) % 10), course.score[i][5], fontNext, BLACK, 32);
+                        Text plusTxt(1291, (float)280 + 36 * ((i - 1) % 10), course.score[i][6], fontNext, BLACK, 32);
+                        Text overTxt(1437, (float)280 + 36 * ((i - 1) % 10), course.score[i][7], fontNext, RED, 32);
+
+                        studentInformation.push_back(numTxt);
+                        studentInformation.push_back(sIdTxt);
+                        studentInformation.push_back(sCTxt);
+                        studentInformation.push_back(sFTxt);
+                        studentInformation.push_back(pracTxt);
+                        studentInformation.push_back(midTxt);
+                        studentInformation.push_back(finTxt);
+                        studentInformation.push_back(plusTxt);
+                        studentInformation.push_back(overTxt);
+
+                        Button tmpBtn(105, (float)(280 + 36 * ((i - 1) % 10)), 180, 32, "23125019", fontNext, BLACK);
+                        studentInforListBtn.push_back(tmpBtn);
+                    }
+
                 }
 
                 if (importStudentListBtn.isClicked(mousePos)) {
                     importStudentList(course);
                     curStudentTxt.setString("Current students: " + course.getCurStu());
-                    return;
+
+                    studentInformation.clear();
+                    studentInforListBtn.clear();
+
+                    for (int i = 1; i < course.score.size(); i++) {
+                        std::string noStr = (i < 10) ? ('0' + std::to_string(i)) : (std::to_string(i));
+
+                        Text numTxt(37, (float)280 + 36 * ((i - 1) % 10), noStr, fontNext, GREEN, 32);
+
+                        Text sIdTxt(105, (float)(280 + 36 * ((i - 1) % 10)), course.score[i][0], fontNext, RED, 32);
+                        Text sCTxt(323, (float)280 + 36 * ((i - 1) % 10), course.score[i][1], fontNext, BLACK, 32);
+                        Text sFTxt(525, (float)280 + 36 * ((i - 1) % 10), course.score[i][2], fontNext, BLACK, 32);
+                        Text pracTxt(888, (float)280 + 36 * ((i - 1) % 10), course.score[i][3], fontNext, BLACK, 32);
+                        Text midTxt(1037, (float)280 + 36 * ((i - 1) % 10), course.score[i][4], fontNext, BLACK, 32);
+                        Text finTxt(1185, (float)280 + 36 * ((i - 1) % 10), course.score[i][5], fontNext, BLACK, 32);
+                        Text plusTxt(1291, (float)280 + 36 * ((i - 1) % 10), course.score[i][6], fontNext, BLACK, 32);
+                        Text overTxt(1437, (float)280 + 36 * ((i - 1) % 10), course.score[i][7], fontNext, RED, 32);
+
+                        studentInformation.push_back(numTxt);
+                        studentInformation.push_back(sIdTxt);
+                        studentInformation.push_back(sCTxt);
+                        studentInformation.push_back(sFTxt);
+                        studentInformation.push_back(pracTxt);
+                        studentInformation.push_back(midTxt);
+                        studentInformation.push_back(finTxt);
+                        studentInformation.push_back(plusTxt);
+                        studentInformation.push_back(overTxt);
+
+                        Button tmpBtn(105, (float)(280 + 36 * ((i - 1) % 10)), 180, 32, "23125019", fontNext, BLACK);
+                        studentInforListBtn.push_back(tmpBtn);
+                    }
+
                 }
 
                 if (exportStudentListBtn.isClicked(mousePos)) {
@@ -878,9 +996,42 @@ void Activity2::courseInformation(Semester& semester, Course& course)
                         displayFrom -= 10;
                 }
 
-                for (int i = displayFrom; i < displayLimit; i++) 
-                    if (studentInforListBtn[i].isClicked(mousePos)){
-                        changeStudentScore(course.score[i + 1]);
+                for (int i = displayFrom; i < displayLimit; i++) {
+                    if (studentInforListBtn[i].isClicked(mousePos)) {
+                        ++i;
+                        changeStudentScore(course, course.score[i]);
+
+                        studentInformation.clear();
+                        studentInforListBtn.clear();
+
+                        for (int i = 1; i < course.score.size(); i++) {
+                            std::string noStr = (i < 10) ? ('0' + std::to_string(i)) : (std::to_string(i));
+
+                            Text numTxt(37, (float)280 + 36 * ((i - 1) % 10), noStr, fontNext, GREEN, 32);
+
+                            Text sIdTxt(105, (float)(280 + 36 * ((i - 1) % 10)), course.score[i][0], fontNext, RED, 32);
+                            Text sCTxt(323, (float)280 + 36 * ((i - 1) % 10), course.score[i][1], fontNext, BLACK, 32);
+                            Text sFTxt(525, (float)280 + 36 * ((i - 1) % 10), course.score[i][2], fontNext, BLACK, 32);
+                            Text pracTxt(888, (float)280 + 36 * ((i - 1) % 10), course.score[i][3], fontNext, BLACK, 32);
+                            Text midTxt(1037, (float)280 + 36 * ((i - 1) % 10), course.score[i][4], fontNext, BLACK, 32);
+                            Text finTxt(1185, (float)280 + 36 * ((i - 1) % 10), course.score[i][5], fontNext, BLACK, 32);
+                            Text plusTxt(1291, (float)280 + 36 * ((i - 1) % 10), course.score[i][6], fontNext, BLACK, 32);
+                            Text overTxt(1437, (float)280 + 36 * ((i - 1) % 10), course.score[i][7], fontNext, RED, 32);
+
+                            studentInformation.push_back(numTxt);
+                            studentInformation.push_back(sIdTxt);
+                            studentInformation.push_back(sCTxt);
+                            studentInformation.push_back(sFTxt);
+                            studentInformation.push_back(pracTxt);
+                            studentInformation.push_back(midTxt);
+                            studentInformation.push_back(finTxt);
+                            studentInformation.push_back(plusTxt);
+                            studentInformation.push_back(overTxt);
+
+                            Button tmpBtn(105, (float)(280 + 36 * ((i - 1) % 10)), 180, 32, "23125019", fontNext, BLACK);
+                            studentInforListBtn.push_back(tmpBtn);
+                        }
+                    }
                 }
             }
         }
@@ -2375,7 +2526,7 @@ void Activity2::viewScoreboardStudent(vector<Subject>& listOfUnfinCourse)
     }
 }
 
-void Activity2::changeStudentScore(vector<std::string>& studentInfor)
+void Activity2::changeStudentScore(Course& course, vector<std::string>& studentInfor)
 {
     sf::RenderWindow windowNext(sf::VideoMode(1700, 950), "Update student's R�ult", sf::Style::Close | sf::Style::Titlebar);
 
@@ -2398,7 +2549,8 @@ void Activity2::changeStudentScore(vector<std::string>& studentInfor)
     Text sMid(909, 248, "Midterm: ", fontNext, BLACK, 32);
     Text sPlus(909, 334, "Plus: ", fontNext, BLACK, 32);
     Text sFinal(909, 423, "Final: ", fontNext, BLACK, 32);
-    Text sOveral(909, 506, "Overall: ", fontNext, BLACK, 32);
+    Text sOther(909, 506, "Other: ", fontNext, BLACK, 32);
+    Text sOveral(909, 589, "Overall: ", fontNext, BLACK, 32);
 
     InputField sIdInput(364, 162, 381, 50, fontNext); 
     InputField sNameInput(364, 251, 381, 50, fontNext);
@@ -2407,7 +2559,8 @@ void Activity2::changeStudentScore(vector<std::string>& studentInfor)
     InputField sMidInput(1111, 248, 381, 50, fontNext);
     InputField sPlusInput(1111, 334, 381, 50, fontNext);
     InputField sFinalInput(1111, 420, 381, 50, fontNext);
-    InputField sOveralInput(1111, 506, 381, 50, fontNext);
+    InputField sOtherInput(1111, 506, 381, 50, fontNext);
+    InputField sOveralInput(1111, 589, 381, 50, fontNext);
     
     //Stu ID,       Class,      Name,       Practice Score, Midterm Score,      Final Score,    Plus Score, Other Score,    Average Score,
     sIdInput.input = studentInfor[0];
@@ -2417,18 +2570,17 @@ void Activity2::changeStudentScore(vector<std::string>& studentInfor)
     sMidInput.input = studentInfor[4];
     sPlusInput.input = studentInfor[6];
     sFinalInput.input = studentInfor[5];
-    sOveralInput.input = studentInfor[7];
+    sOtherInput.input = studentInfor[7];
+    sOveralInput.input = studentInfor[8];
 
 
     while (windowNext.isOpen()) {
         sf::Event event;
-        if (sIdInput.isSelected()) sIdInput.textCursor(sIdInput.getInput());
-        if (sNameInput.isSelected()) sNameInput.textCursor(sNameInput.getInput());
-        if (sClassInput.isSelected()) sClassInput.textCursor(sClassInput.getInput());
         if (sPracticeInput.isSelected()) sPracticeInput.textCursor(sPracticeInput.getInput());
         if (sMidInput.isSelected()) sMidInput.textCursor(sMidInput.getInput());
         if (sPlusInput.isSelected()) sPlusInput.textCursor(sPlusInput.getInput());
         if (sFinalInput.isSelected()) sFinalInput.textCursor(sFinalInput.getInput());
+        if (sOtherInput.isSelected()) sOtherInput.textCursor(sOtherInput.getInput());
         if (sOveralInput.isSelected()) sOveralInput.textCursor(sOveralInput.getInput());
 
         while (windowNext.pollEvent(event)) {
@@ -2436,13 +2588,11 @@ void Activity2::changeStudentScore(vector<std::string>& studentInfor)
                 windowNext.close();
             else if (event.type == sf::Event::MouseButtonPressed) {
                 sf::Vector2i mousePos = sf::Mouse::getPosition(windowNext);
-                sIdInput.handleMouseClick(mousePos);
-                sNameInput.handleMouseClick(mousePos);
-                sClassInput.handleMouseClick(mousePos);
                 sPracticeInput.handleMouseClick(mousePos);
                 sPlusInput.handleMouseClick(mousePos);
                 sMidInput.handleMouseClick(mousePos);
                 sFinalInput.handleMouseClick(mousePos);
+                sOtherInput.handleMouseClick(mousePos);
                 sOveralInput.handleMouseClick(mousePos);
 
 
@@ -2450,13 +2600,24 @@ void Activity2::changeStudentScore(vector<std::string>& studentInfor)
                     windowNext.close();
 
                 if (acceptBtn.isClicked(mousePos)) {
-                    // Solve the update student result
+                    studentInfor[3] = sPracticeInput.getInput();
+                    studentInfor[4] = sMidInput.getInput();
+                    studentInfor[5] = sFinalInput.getInput();
+                    studentInfor[6] = sPlusInput.getInput();
+                    studentInfor[7] = sOtherInput.getInput();
+                    studentInfor[8] = sOveralInput.getInput();
+                    course.scoreFile.writeFile();
+
+                    Student stu(studentInfor[0]);
+                    course.updateStudentScore(stu, sPracticeInput.getInput(), sMidInput.getInput(), sFinalInput.getInput(), sPlusInput.getInput(), sOtherInput.getInput(), sOveralInput.getInput());
+                    windowNext.close();
+                    break;
                 }
 
             }
             sIdInput.processInput(event);
-            sNameInput.processInput(event);
             sClassInput.processInput(event);
+            sNameInput.processInput(event);
             sPracticeInput.processInput(event);
             sPlusInput.processInput(event);
             sMidInput.processInput(event);
@@ -2478,6 +2639,7 @@ void Activity2::changeStudentScore(vector<std::string>& studentInfor)
         sMid.draw(windowNext);
         sPlus.draw(windowNext);
         sFinal.draw(windowNext);
+        sOther.draw(windowNext);
         sOveral.draw(windowNext);
 
         sIdInput.draw(windowNext);
@@ -2487,6 +2649,7 @@ void Activity2::changeStudentScore(vector<std::string>& studentInfor)
         sMidInput.draw(windowNext);
         sPlusInput.draw(windowNext);
         sFinalInput.draw(windowNext);
+        sOtherInput.draw(windowNext);
         sOveralInput.draw(windowNext);
 
         windowNext.display();

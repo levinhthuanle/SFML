@@ -13,6 +13,10 @@ InputField::InputField(float x, float y, float width, float height, sf::Font& fo
     text.setFillColor(sf::Color::Black);
     text.setPosition(x + 5.f, y + 5.f);
 
+    cursor.setFont(font);
+    cursor.setCharacterSize(int(height * 0.7));
+    cursor.setFillColor(sf::Color::Black);
+
     nextField = false;
     showCursor = false;
     selected = false;
@@ -30,6 +34,10 @@ InputField::InputField(float x, float y, float width, float height, sf::Font& fo
     text.setCharacterSize(int(height * 0.7));
     text.setFillColor(sf::Color::Black);
     text.setPosition(x + 5.f, y + 5.f);
+
+    cursor.setFont(font);
+    cursor.setCharacterSize(int(height * 0.7));
+    cursor.setFillColor(sf::Color::Black);
 
     //set default text
     input = defaultText;
@@ -103,6 +111,7 @@ void InputField::handleMouseClick(const sf::Vector2i& mousePos){
 void InputField::draw(sf::RenderWindow& window){
     window.draw(shape);
     window.draw(text);
+    window.draw(cursor);
 }
 
 void InputField::setText(std::string content){
@@ -110,16 +119,18 @@ void InputField::setText(std::string content){
 }
 
 void InputField::textCursor(std::string input){
+    text.setString(input);
+    cursor.setPosition(getCursorPos());
     if (!showCursor) {
         if (clock.getElapsedTime().asSeconds() >= 0.4f) {
-            text.setString(input + "|");
+            cursor.setString("|");
             clock.restart();
             showCursor = true;
         }
     }
     else {
         if (clock.getElapsedTime().asSeconds() >= 0.4f) {
-            text.setString(input);
+            cursor.setString("");
             clock.restart();
             showCursor = false;
         }
