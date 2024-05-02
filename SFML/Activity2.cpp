@@ -2284,8 +2284,9 @@ void Activity2::scoreBoardOfClassStaff(Class& oneclass)
         if (numOfCredit == 0)
             numOfCredit = 1;
         
-
-        Text gpaTmp(1345, (float)174 + 32 * (i % 15), std::to_string(max(0.f, (float)(gpa / numOfCredit))), fontNext, RED, 26);
+        std::string gpaStr = std::to_string(max(0.f, (float)(gpa / numOfCredit)));
+        gpaStr = gpaStr.substr(0, gpaStr.find('.') + 3);
+        Text gpaTmp(1345, (float)174 + 32 * (i % 15), gpaStr , fontNext, RED, 26);
         gpaTxt.push_back(gpaTmp);
         
         for (int j = 0; j < temp.listOfFinCourse.size(); j++) {
@@ -2300,8 +2301,9 @@ void Activity2::scoreBoardOfClassStaff(Class& oneclass)
 
 
         
-        std::cout << "Gpa: " << gpa << " Num of credit: " << numOfCredit << std::endl;
-        Text gpaTotalTmp(1489, (float)174 + 32 * (i % 15), std::to_string(max(0.f, (float)gpa / numOfCredit)), fontNext, RED, 26);
+        gpaStr = std::to_string(max(0.f, (float)gpa / numOfCredit));
+        gpaStr = gpaStr.substr(0, gpaStr.find('.') + 3);
+        Text gpaTotalTmp(1489, (float)174 + 32 * (i % 15), gpaStr, fontNext, RED, 26);
         totalGpaTxt.push_back(gpaTotalTmp);
 
     }
