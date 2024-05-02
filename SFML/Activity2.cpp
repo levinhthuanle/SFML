@@ -2285,7 +2285,8 @@ void Activity2::viewScoreboardStudent(vector<Subject>& listOfUnfinCourse)
 
     vector<Text> scoreboard;
     for (int i = 0; i < listOfUnfinCourse.size(); i++) {
-        std::string noStr = (i < 10) ? ('0' + std::to_string(i)) : (std::to_string(i));
+        
+        std::string noStr = (i < 10) ? ('0' + std::to_string(i == 0 ? 1 : i)) : (std::to_string(i));
         Text numTxt(54, (float)160 + 36 * ((i) % 10), noStr, fontNext, BLACK, 26);
 
         Text sIdTxt(115, (float)(160 + 36 * ((i) % 10)), listOfUnfinCourse[i].courseId, fontNext, BLACK, 26);
@@ -2295,6 +2296,8 @@ void Activity2::viewScoreboardStudent(vector<Subject>& listOfUnfinCourse)
         Text finTxt(1131, (float)160 + 36 * ((i) % 10), listOfUnfinCourse[i].finalScore, fontNext, BLACK, 26);
         Text plusTxt(1280, (float)160 + 36 * ((i) % 10), listOfUnfinCourse[i].plusScore, fontNext, BLACK, 26);
         Text overTxt(1407, (float)160 + 36 * ((i) % 10), listOfUnfinCourse[i].aveScore, fontNext, RED, 26);
+
+        std::cout << listOfUnfinCourse[i].practiceScore << " " << listOfUnfinCourse[i].finalScore << std::endl;
 
         scoreboard.push_back(numTxt);
         scoreboard.push_back(sIdTxt);
@@ -2343,7 +2346,7 @@ void Activity2::viewScoreboardStudent(vector<Subject>& listOfUnfinCourse)
         exTxt.draw(windowNext);
         ex1Txt.draw(windowNext);
 
-        for (int i = 0; i < scoreboard  .size(); i++)
+        for (int i = 0; i < scoreboard.size(); i++)
             scoreboard[i].draw(windowNext);
 
         goBackBtn.draw(windowNext);
