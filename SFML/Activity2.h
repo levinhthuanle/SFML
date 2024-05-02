@@ -63,7 +63,7 @@ public:
 
 	static void viewScoreboardStudent(vector<Subject>& listOfUnfinCourse);
 
-	static void changeStudentScore(vector<std::string>& studentInfor);
+	static void changeStudentScore(Course& course, vector<std::string>& studentInfor);
 };
 
 bool isSame(std::string a, std::string b);
