@@ -121,15 +121,16 @@ void InputField::setText(std::string content){
 void InputField::textCursor(std::string input){
     text.setString(input);
     cursor.setPosition(getCursorPos());
+
     if (!showCursor) {
-        if (clock.getElapsedTime().asSeconds() >= 0.4f) {
+        if (clock.getElapsedTime().asSeconds() >= 0.7f) {
             cursor.setString("|");
             clock.restart();
             showCursor = true;
         }
     }
     else {
-        if (clock.getElapsedTime().asSeconds() >= 0.4f) {
+        if (clock.getElapsedTime().asSeconds() >= 0.7f) {
             cursor.setString("");
             clock.restart();
             showCursor = false;
