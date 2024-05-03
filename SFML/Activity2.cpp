@@ -2093,23 +2093,27 @@ void Activity2::addStudent(Class& oneclass)
                 if (byhandBtn.isClicked(mousePos)) {
                     vector<std::string> temp_basic_info; 
 
-                    temp_basic_info.push_back(oneclass.classID);
                     
+                    temp_basic_info.push_back(oneclass.classID);
+
                     if (studentIdInput.getInput().size() == 3) 
                         temp_basic_info.push_back(oneclass.classID + studentIdInput.getInput());
+
                     if (studentFirstNameInput.getInput().size() != 0 && studentLastNameInput.getInput().size() != 0)
                         temp_basic_info.push_back(studentFirstNameInput.getInput() + " " + studentLastNameInput.getInput());
+
                     std::string gender = studentGenderInput.getInput();
-                    std::transform(gender.begin(), gender.begin(), gender.end(),
-                        [](unsigned char c) {return std::tolower(c); }); 
+                    for (auto& c : gender) c = tolower(c);
                     if( gender == "male" || gender == "female") 
                         temp_basic_info.push_back(gender);
+
                     Date dob(studentDobInput.getInput());
                     if (dob.is_valid()) 
                         temp_basic_info.push_back(studentDobInput.getInput());
+
                     temp_basic_info.push_back(studentSocialInput.getInput());
                     
-                    if (temp_basic_info.size() != 5)
+                    if (temp_basic_info.size() != 6)
                         popup("Wrong input or missing element.");
                     else
                     {
